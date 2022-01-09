@@ -6,7 +6,8 @@ Eingesetzte Techniken: Vue.js 3, Vue CLI, TypeScript, Moment.js
 
 # Was ist MiracleList?
 <img align="right" src="/public/img/MiracleListLogo.jpg">
- <h4>MiracleList ist eine Beispielanwendung für eine Cross-Platform-Anwendung auf Basis einer Single-Page-Webapplication (SPA). MiracleList dient der Aufgabenverwaltung. Es gibt ein Backend und verschiedene Implementierung des Clients.</h4>
+ <h4>Die Aufgabenverwaltung "MiracleList" ist ein praxisnahes Fallbeispiel für eine Cross-Platform-Anwendung auf Basis einer Single-Page-Webapplication (SPA). MiracleList dient Test- und Weiterbildungszwecken, d.h. MiracleList wird sowohl in den <a href="https://www.IT-Visons.de/Schulungen">Schulungen</a> als auch in den <a href="https://www.IT-Visons.de/Verlag">Fachbüchern</a> von <a href="https://www.IT-Visons.de">www.IT-Visions.de</a> behandelt. 
+ Es gibt ein Backend und verschiedene Implementierung des Clients.</h4>
             <h5>Live-Systeme in der Cloud:</h5>
             <ul>
                 <li>Backend: <a href="https://miraclelistbackend.azurewebsites.net">https://miraclelistbackend.azurewebsites.net</a></li>
