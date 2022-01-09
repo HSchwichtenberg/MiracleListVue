@@ -1,6 +1,6 @@
 <template>
   <h5 v-if="Username">
-    Zeit: {{moment().format('HH:mm:ss')}} <br>
+    <!-- Zeit: {{moment().format('HH:mm:ss')}} <br> -->
     Benutzer: {{C_Username}}<br>
     <router-link to='/Logout'>Logout</router-link>
    </h5>

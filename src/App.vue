@@ -62,10 +62,8 @@
   <router-view />
 
   <div>
-    MiracleList Vue.js Tutorial v{{ appversion }} running on Vue.js {{ vueVersion }}
-    <br />Author: Dr. Holger Schwichtenberg,
-    <a href="http://www.IT-Visions.de">www.IT-Visions.de</a>
-    , 2021-{{ moment().year() }}
+    MiracleListVue {{ appversion }} running on Vue.js {{ vueVersion }}<br />
+    Author: Dr. Holger Schwichtenberg, <a href="http://www.IT-Visions.de">www.IT-Visions.de</a>, 2021-{{ moment().year() }}
   </div>
   <!-- Alternative Anzeige dieses Blocks unten auf kleinen Displays -->
   <div class="row">
