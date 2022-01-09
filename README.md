@@ -1,3 +1,7 @@
+# ACHTUNG
+
+Der Branch ist noch leer. Inhalte folgen bis Ende Januar!
+
 # MiracleListVue: Vue.js Web Client für das MiracleList Backend
 Autor: Dr. Holger Schwichtenberg, <a href="http://www.IT-Visions.de">www.IT-Visions.de</a></div>
 Diese Webanwendung läuft zu Test- und Schulungszwecken live hier: <a href="http://miraclelist-vue.azurewebsites.net">http://miraclelist-vue.azurewebsites.net</a>
