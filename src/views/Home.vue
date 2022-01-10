@@ -16,9 +16,11 @@
   <ConfirmDialog ref="confirmDialog"></ConfirmDialog>
   <div>
     <!-- ##################################### Spalte 1: Kategorien-->
-    <div v-if="categorySet" 
-    class="MLPanel "
-    :class="task ? 'hidden-xs hidden-sm col-md-3 col-lg-2' : 'col-xs-4 col-sm-4 col-md-3 col-lg-2'">
+    <div
+      v-if="categorySet"
+      class="MLPanel"
+      :class="task ? 'hidden-xs hidden-sm col-md-3 col-lg-2' : 'col-xs-4 col-sm-4 col-md-3 col-lg-2'"
+    >
       <!-- ---------- Überschrift Spalte 1-->
       <h4>
         {{ categorySet.length }}
@@ -106,7 +108,7 @@
           >{{ Importance[t.importance] }}</span>
           <span
             id="Remove"
-            :title="`Remove Task #${t.taskID}`"          
+            :title="`Remove Task #${t.taskID}`"
             class="close"
             @click.stop="RemoveTask(t)"
           >&times;</span>
@@ -114,7 +116,7 @@
 
         <div
           v-if="t.due"
-          :class="{ 'text-danger': IsPast(t.due) , 'text-warning': IsToday(t.due), 'text-success': IsFuture(t.due) }"
+          :class="{ 'text-danger': IsPast(t.due), 'text-warning': IsToday(t.due), 'text-success': IsFuture(t.due) }"
           :title="'due ' + moment(t.due.toString()).toLocaleString()"
         >due {{ (IsToday(t.due) ? "today" : moment(t.due).fromNow()) }}</div>
       </li>
@@ -122,10 +124,10 @@
   </div>
 
   <!-- <transition name="fade"> -->
-    <!-- ### Spalte 3: Aufgabendetails-->
-    <div v-if="task" class="MLPanel col-xs-12 col-sm-6 col-md-4 col-lg-4">
-      <TaskEdit v-model:task="task" @TaskEditDone="TaskEditDone"></TaskEdit>
-    </div>
+  <!-- ### Spalte 3: Aufgabendetails-->
+  <div v-if="task" class="MLPanel col-xs-12 col-sm-6 col-md-4 col-lg-4">
+    <TaskEdit v-model:task="task" @TaskEditDone="TaskEditDone"></TaskEdit>
+  </div>
   <!-- </transition> -->
 </template>
 
@@ -227,17 +229,20 @@ async function createCategory() {
 async function createTask() {
   if (!newTaskTitle.value || !category.value) return;
   console.log("createTask");
-  let t = new Task();
-  t.taskID = 0; // notwendig für Server, da der die ID vergibt
-  t.title = newTaskTitle.value;
-  t.categoryID = category.value.categoryID;
-  t.importance = Importance.B;
-  t.created = new Date();
-  t.due = undefined;
-  t.order = 0;
-  t.note = "";
-  t.done = false;
-  var newTask = await proxy.createTask(AppState.Token, t);
+  let newTask = new Task({
+    taskID: 0, // notwendig für Server, da der die ID vergibt
+    title: newTaskTitle.value,
+    categoryID: category.value.categoryID,
+    importance: Importance.B,
+    created: new Date(),
+    due: undefined,
+    order: 0,
+    note: "",
+    done: false,
+  });
+
+  newTask = await proxy.createTask(AppState.Token, newTask);
+  console.log("Home.createTask", newTask);
   await ShowTaskSet(category.value);
   newTaskTitle.value = "";
 }
