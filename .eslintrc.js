@@ -4,7 +4,7 @@ module.exports = {
     node: true
   },
   globals: {
-    // Workaround für Linter-Problem mit Compiler-Makros https://stackoverflow.com/questions/69796772/what-is-causing-error-eslintrc-js-environment-key-vue-setup-compiler-macros
+    // Workaround für Linter-Problem mit Vue.js Compiler-Makros https://stackoverflow.com/questions/69796772/what-is-causing-error-eslintrc-js-environment-key-vue-setup-compiler-macros
     defineProps: "readonly",
     defineEmits: "readonly",
     defineExpose: "readonly"
