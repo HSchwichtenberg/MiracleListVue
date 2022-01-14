@@ -249,7 +249,7 @@ async function createTask() {
 
 async function ChangeTaskDone(event, t: Task) {
   console.log("Task ÄNDERN", t);
-  var x = await proxy.changeTaskDone(t.taskID, event.target.checked, AppState.Token);
+  t = await proxy.changeTaskDone(t.taskID, event.target.checked, AppState.Token);
   console.log("Task GEÄNDERT", t)
 }
 
