@@ -205,6 +205,15 @@ async function RemoveCategory(c: Category) {
   // if (!confirm(text)) return;
 }
 
+async function RemoveCategor_Alt(c: Category) {
+  if (c == null || !c.categoryID) return;
+  var text = `Do you want to remove category #${c.categoryID} ${c.name} and all related tasks?`;
+  if (!confirm(text)) return;
+  await proxy.deleteCategory(c.categoryID as number, AppState.Token);
+  await ShowCategorySet();
+  category.value = null;
+}
+
 async function RemoveTask(t: Task) {
   if (t == null || !t.taskID) return;
   var text = `Do you want to remove Task #${t.taskID} <b>${t.title}</b>?`;

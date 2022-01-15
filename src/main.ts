@@ -1,4 +1,4 @@
-import { createApp, inject } from 'vue'
+import { createApp, inject, version as vueVersion } from 'vue'
 import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
@@ -10,20 +10,19 @@ import { AppState } from './services/AppState'
 // import Vue from 'vue'
 // console.log(Vue);
 
-console.log("main.ts");
+console.log(`main.ts: Starting Vue.js ${vueVersion} App ${process.env.VERSION}, released ${process.env.RELEASEDATE}`);
 // Einstellung für Moment.js
 moment.locale(window.navigator.language); // oder z.B. moment.locale("de-de");
 
-const BACKEND = "https://miraclelistbackend.azurewebsites.net/"
-AppState.Backend = BACKEND;
-
+AppState.Backend = process.env.BACKEND;
+console.log("Backend",AppState.Backend )
 const app = createApp(App)
 
 //app.provide('x',123 )
 //console.log(inject('x')); // inject() can only be used inside setup() or functional components.
 // DI
-app.provide('MiracleListProxy', new MiracleListProxy(BACKEND))
-app.provide('AuthenticationManager', new AuthenticationManager(BACKEND))
+app.provide('MiracleListProxy', new MiracleListProxy(AppState.Backend))
+app.provide('AuthenticationManager', new AuthenticationManager(AppState.Backend))
 
 // Start der Vue.js-Anwendung
-app.use(router).mount('#app')
+app.use(router).mount('#app');

@@ -62,7 +62,8 @@
   <router-view />
 
   <div>
-    MiracleListVue {{ appversion }} running on Vue.js {{ vueVersion }}<br />
+    MiracleListVue {{ appVersion }} running on Vue.js {{ vueVersion }} - released {{releaseDate}}<br />
+    Backend: {{AppState.Backend}}<br/>
     Author: Dr. Holger Schwichtenberg, <a href="http://www.IT-Visions.de">www.IT-Visions.de</a>, 2021-{{ moment().year() }}
   </div>
   <!-- Alternative Anzeige dieses Blocks unten auf kleinen Displays -->
@@ -81,7 +82,7 @@ import router from './router'
 import UserStatus from './components/UserStatus.vue';
 import { AppState } from './services/AppState';
 import { version as vueVersion } from 'vue';
-import { version as appversion } from '../package.json'
+import { version as appVersion, releaseDate } from '../package.json'
 
 let Username = ref(AppState.Username || "");
 
