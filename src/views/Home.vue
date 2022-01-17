@@ -196,7 +196,7 @@ function ShowTaskDetail(t: Task) {
   data.task = t;
 }
 
-async function RemoveCategory(c: Category) {
+async function RemoveCategory(c: Category) { // ab Sprint 5
   if (c == null || !c.categoryID) return;
   var text = `Do you want to remove category #${c.categoryID} <b>${c.name}</b> and all related tasks?`;
   async function RemoveInternal() {
@@ -205,11 +205,9 @@ async function RemoveCategory(c: Category) {
     data.category = null;
   }
   if (confirmDialog.value) { confirmDialog.value.Show(c.categoryID, text, RemoveInternal, null); }
-  // oder:
-  // if (!confirm(text)) return;
 }
 
-async function RemoveCategor_Alt(c: Category) {
+async function RemoveCategor_Alt(c: Category) { // Sprint 2 bis 4
   if (c == null || !c.categoryID) return;
   var text = `Do you want to remove category #${c.categoryID} ${c.name} and all related tasks?`;
   if (!confirm(text)) return;
@@ -218,7 +216,7 @@ async function RemoveCategor_Alt(c: Category) {
   data.category = null;
 }
 
-async function RemoveTask(t: Task) {
+async function RemoveTask(t: Task) { // ab Sprint 5
   if (t == null || !t.taskID) return;
   var text = `Do you want to remove Task #${t.taskID} <b>${t.title}</b>?`;
   async function RemoveInternal() {
@@ -227,8 +225,16 @@ async function RemoveTask(t: Task) {
     data.task = null;
   }
   if (confirmDialog.value) { confirmDialog.value.Show(t.taskID, text, RemoveInternal, null); }
-  // oder:
-  // if (!confirm(text)) return;
+
+}
+
+async function RemoveTask_alt(t: Task) { // Sprint 2 bis 4
+ if (t == null || !t.taskID) return;
+ var text = `Do you want to remove Task #${t.taskID} <b>${t.title}</b>?`;
+ if (!confirm(text)) return;
+ await proxy.deleteTask(t.taskID, AppState.Token);
+ await ShowTaskSet(data.category);
+ data.task = null;
 }
 
 async function createCategory() {
