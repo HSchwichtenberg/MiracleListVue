@@ -68,6 +68,7 @@ export class AuthenticationManager {
       AppState.CurrentLoginInfo = await new MiracleListProxy(this.Backend).login(l);
       if (AppState.CurrentLoginInfo == null || !AppState.CurrentLoginInfo.token) { // Token ungültig!
         console.log(`AuthenticationManager: Token not valid: ${AppState.CurrentLoginInfo.message}!`);
+        localStorage.removeItem(this.STORAGE_KEY);
         AppState.CurrentLoginInfo = null;
       }
       else { // Token gültig!
