@@ -58,7 +58,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, defineProps, defineEmits, defineExpose, watch, inject } from 'vue';
+import { ref, onMounted, inject } from 'vue';
 import { useRoute } from 'vue-router'
 import router from '@/router';
 
@@ -83,14 +83,14 @@ onMounted(async () => {
   // logout?
   if (useRoute().path.includes("/Logout")) am.Logout();
   // vorhandenes Token?
-  if (await am.CheckLocalTokenValid()) router.push("/Home")
+  if (await am.CheckLocalTokenValid()) router.push("/")
 });
 
 // Benutzerinteraktion
 async function Login() {
   if (!Username.value || !Password.value) { Message.value = "Username and Password required!"; return; }
   let r = await am.Login(Username.value, Password.value);
-  if (r) router.push("/Home")
+  if (r) router.push("Home") 
   else Message.value = "Login Error!";
 }
 </script>

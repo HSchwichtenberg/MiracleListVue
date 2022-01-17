@@ -27,7 +27,7 @@
               <router-link to="/About">About this App</router-link>
             </li>
             <li>
-              <router-link to="/Home">Home</router-link>
+              <router-link to="/">Home</router-link>
             </li>
             <li>
               <router-link to="/Login">Login</router-link>
