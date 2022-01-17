@@ -93,7 +93,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref,  defineProps, defineEmits, watch, computed } from 'vue';
+import { defineProps, defineEmits, computed } from 'vue';
 import { Task, Importance } from '@/services/MiracleListProxyV2'
 import SubTaskList from '@/components/SubTaskList.vue';
 //#region Öffentliche Schnittstelle der Komponente
@@ -112,7 +112,6 @@ const t = computed(() =>  props.task);
 // watch(() => props.task, (newValue, oldValue) => {
 //   t.value = newValue
 // });
-
 
 // Wrapper für due -> Workaround für Datumsformatproblem
 const taskDue = computed({ 
