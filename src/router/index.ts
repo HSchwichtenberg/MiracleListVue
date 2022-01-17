@@ -23,7 +23,9 @@ const routes: Array<RouteRecordRaw> = [
     path: '/about',
     name: 'About',
     //component: About
-    component: () => import(/* webpackPrefetch: 0, webpackChunkName: "about" */ '@/views/About.vue')
+    component: () => import( 
+     /* webpackChunkName: "About" */
+    /* webpackPrefetch: false */ '@/views/About.vue')
   }
 ]
 

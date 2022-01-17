@@ -7,7 +7,11 @@ module.exports = {
       devtool: 'source-map',
     },
     chainWebpack: config => {
-      config
+     // config.plugins.delete('preload-index')
+     // config.plugins.delete('preload-login')
+     // config.plugins.delete('preload-home')
+     // config.plugins.delete('preload-about')
+     config
           .plugin('define')
           .tap(args => {
              // Daten aus package.json' für main.ts in process.env speichern
