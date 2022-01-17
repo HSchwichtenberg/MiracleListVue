@@ -8,7 +8,7 @@ export class AuthenticationManager {
   Backend = "";
 
   constructor(backend: string) {
-    console.warn("AuthenticationManager.CTOR", backend);
+    console.info("AuthenticationManager.CTOR", backend);
     this.Backend = backend;
   }
 
@@ -26,7 +26,7 @@ export class AuthenticationManager {
     l.username = username;
     l.password = password;
 
-    console.log("AuthenticationManager: Login OK!", l)
+    console.info("AuthenticationManager: Login OK!", l)
     const c = new MiracleListProxy(this.Backend);
     // TODO: inject("proxy"); // geht hier nicht :-(
     await c.login(l)
@@ -34,7 +34,7 @@ export class AuthenticationManager {
         if (!r.message) {
           AppState.CurrentLoginInfo = r;
           localStorage.setItem(this.STORAGE_KEY, r.token!.toString());
-          console.log("AuthenticationManager: Login OK!", r)
+          console.info("AuthenticationManager: Login OK!", r)
           result = true;
         }
         else {
@@ -61,23 +61,23 @@ export class AuthenticationManager {
     const token: string | null = localStorage.getItem(this.STORAGE_KEY);
     if (token) {
       // Es gibt ein Token im Local Storage. Nachfrage beim Server, ob noch gültig.
-      console.log(`AuthenticationManager: Checking local token ${token}...`);
+      console.info(`AuthenticationManager: Checking local token ${token}...`);
       const l = new LoginInfo()
       l.token = token;
       l.clientID = this.ClientID;
       AppState.CurrentLoginInfo = await new MiracleListProxy(this.Backend).login(l);
       if (AppState.CurrentLoginInfo == null || !AppState.CurrentLoginInfo.token) { // Token ungültig!
-        console.log(`AuthenticationManager: Token not valid: ${AppState.CurrentLoginInfo.message}!`);
+        console.warn(`AuthenticationManager: Token not valid: ${AppState.CurrentLoginInfo.message}!`);
         localStorage.removeItem(this.STORAGE_KEY);
         AppState.CurrentLoginInfo = null;
       }
       else { // Token gültig!
-        console.log(`AuthenticationManager: Found valid Token: ${AppState.CurrentLoginInfo!.token} for User: ${AppState.CurrentLoginInfo!.username}`);
+        console.info(`AuthenticationManager: Found valid Token: ${AppState.CurrentLoginInfo!.token} for User: ${AppState.CurrentLoginInfo!.username}`);
         result = true;
       }
     }
     else {
-      console.log(`AuthenticationManager: No local token!`);
+      console.warn(`AuthenticationManager: No local token!`);
     }
     AppState.DispatchStateHasChanged();
     return result;
