@@ -17,13 +17,13 @@
   <div>
     <!-- ##################################### Spalte 1: Kategorien-->
     <div
-      v-if="categorySet"
+      v-if="data.categorySet"
       class="MLPanel"
-      :class="task ? 'hidden-xs hidden-sm col-md-3 col-lg-2' : 'col-xs-4 col-sm-4 col-md-3 col-lg-2'"
+      :class="data.task ? 'hidden-xs hidden-sm col-md-3 col-lg-2' : 'col-xs-4 col-sm-4 col-md-3 col-lg-2'"
     >
       <!-- ---------- Überschrift Spalte 1-->
       <h4>
-        {{ categorySet.length }}
+        {{ data.categorySet.length }}
         <span>Categories</span>
       </h4>
       <!-- ---------- neue Kategorie eingeben-->
@@ -31,7 +31,7 @@
         name="newCategoryName"
         type="text"
         class="form-control"
-        v-model="newCategoryName"
+        v-model="data.newCategoryName"
         @change="createCategory"
         placeholder="new Category..."
       />
@@ -39,11 +39,11 @@
       <ol class="list-group scroll">
         <li
           class="list-group-item"
-          v-for="c in categorySet"
+          v-for="c in data.categorySet"
           :key="c.categoryID"
           @click="ShowTaskSet(c)"
           :title="'Task Category #' + c.categoryID"
-          :style="{ backgroundColor: category && c.categoryID == category?.categoryID ? '#E0EEFA' : 'white' }"
+          :style="{ backgroundColor: data.category && c.categoryID == data.category?.categoryID ? '#E0EEFA' : 'white' }"
         >
           {{ c.name }}
           <span
@@ -61,35 +61,35 @@
   <!-- ##################################### Spalte 2: Aufgaben-->
 
   <div
-    v-if="category && taskSet"
+    v-if="data.category && data.taskSet"
     class="MLPanel"
-    :class="task ? 'hidden-xs col-sm-6 col-md-5 col-lg-6' : 'col-xs-8 col-sm-8 col-md-9 col-lg-10'"
+    :class="data.task ? 'hidden-xs col-sm-6 col-md-5 col-lg-6' : 'col-xs-8 col-sm-8 col-md-9 col-lg-10'"
   >
     <!-- ---------- Überschrift Spalte 1-->
     <h4>
-      {{ taskSet.length }}
+      {{ data.taskSet.length }}
       <span>Tasks in</span>
-      {{ category.name }}
+      {{ data.category.name }}
     </h4>
     <!-- ---------- neue Aufgabe eingeben-->
     <input
       name="newTaskTitle"
       type="text"
       class="form-control"
-      :disabled="(category == null)"
-      v-model="newTaskTitle"
+      :disabled="(data.category == null)"
+      v-model="data.newTaskTitle"
       @change="createTask"
       placeholder="new Task..."
     />
     <!-- ---------- Aufgabenliste ausgeben-->
     <ol class="list-group scroll">
       <li
-        v-for="t in taskSet"
+        v-for="t in data.taskSet"
         :key="t.taskID"
         @click="ShowTaskDetail(t)"
         class="list-group-item"
         :title="'Task #' + t.taskID + ' Created: ' + t.created"
-        :style="{ backgroundColor: task && t.taskID == task?.taskID ? '#E0EEFA' : 'white' }"
+        :style="{ backgroundColor: data.task && t.taskID == data.task?.taskID ? '#E0EEFA' : 'white' }"
       >
         <input
           type="checkbox"
@@ -125,15 +125,15 @@
 
   <!-- <transition name="fade"> -->
   <!-- ### Spalte 3: Aufgabendetails-->
-  <div v-if="task" class="MLPanel col-xs-12 col-sm-6 col-md-4 col-lg-4">
-    <TaskEdit v-model:task="task" @TaskEditDone="TaskEditDone"></TaskEdit>
+  <div v-if="data.task" class="MLPanel col-xs-12 col-sm-6 col-md-4 col-lg-4">
+    <TaskEdit v-model:task="data.task" @TaskEditDone="TaskEditDone"></TaskEdit>
   </div>
   <!-- </transition> -->
 </template>
 
 <script setup lang="ts">
 
-import { ref, onMounted, inject } from 'vue';
+import { ref, reactive, onMounted, inject } from 'vue';
 import { MiracleListProxy, Category, Task, Importance } from '@/services/MiracleListProxyV2'
 // import { AuthenticationManager } from '@/services/AuthenticationManager' // Sprint 4
 import moment from 'moment'
@@ -141,13 +141,15 @@ import ConfirmDialog from '@/components/ConfirmDialog.vue';
 import TaskEdit from '@/components/TaskEdit.vue';
 import { AppState } from '@/services/AppState';
 
-//#region Properties zur Datenbindung
-let categorySet = ref<Array<Category>>();
-let taskSet = ref<Array<Task>>();
-let category = ref<Category | null>();
-let task = ref<Task | null>();
-let newCategoryName = ref<string>();
-let newTaskTitle = ref<string>();
+//#region Properties zur Datenbindung inr reaktivem Objekt
+const data = reactive({
+ categorySet : ref<Array<Category>>(),
+ taskSet : ref<Array<Task>>(),
+ category : ref<Category | null>(),
+ task : ref<Task | null>(),
+ newCategoryName : ref<string>(),
+newTaskTitle : ref<string>()
+});
 //#endregion
 
 // Backend
@@ -173,23 +175,25 @@ onMounted(async () => { // This hook is not called during server-side rendering.
 });
 
 async function ShowCategorySet() {
-  categorySet.value = await proxy.categorySet(AppState.Token);
-  console.log("API v2CategorySetGet OK!", categorySet.value)
-  if (categorySet.value.length > 0) { ShowTaskSet(categorySet.value[0]); }
+ console.log("API v2CategorySetGet OK!", data.categorySet)
+  data.categorySet = await proxy.categorySet(AppState.Token);
+
+  console.log("API v2CategorySetGet OK!", data.categorySet)
+  if (data.categorySet.length > 0) { ShowTaskSet(data.categorySet[0]); }
 }
 
 async function ShowTaskSet(c: Category | null | undefined) {
   console.log("ShowTaskSet", c);
-  category.value = c;
+  data.category = c;
   if (c && c.categoryID) {
-    taskSet.value = await proxy.taskSet(c.categoryID, AppState.Token);
-    console.log("API v2TaskSetByIdGet OK!", taskSet.value)
-    task.value = null;
+    data.taskSet = await proxy.taskSet(c.categoryID, AppState.Token);
+    console.log("API v2TaskSetByIdGet OK!", data.taskSet)
+    data.task = null;
   }
 }
 
 function ShowTaskDetail(t: Task) {
-  task.value = t;
+  data.task = t;
 }
 
 async function RemoveCategory(c: Category) {
@@ -198,7 +202,7 @@ async function RemoveCategory(c: Category) {
   async function RemoveInternal() {
     await proxy.deleteCategory(c.categoryID as number, AppState.Token);
     await ShowCategorySet();
-    category.value = null;
+    data.category = null;
   }
   if (confirmDialog.value) { confirmDialog.value.Show(c.categoryID, text, RemoveInternal, null); }
   // oder:
@@ -211,7 +215,7 @@ async function RemoveCategor_Alt(c: Category) {
   if (!confirm(text)) return;
   await proxy.deleteCategory(c.categoryID as number, AppState.Token);
   await ShowCategorySet();
-  category.value = null;
+  data.category = null;
 }
 
 async function RemoveTask(t: Task) {
@@ -219,8 +223,8 @@ async function RemoveTask(t: Task) {
   var text = `Do you want to remove Task #${t.taskID} <b>${t.title}</b>?`;
   async function RemoveInternal() {
     if (t.taskID) await proxy.deleteTask(t.taskID, AppState.Token);
-    await ShowTaskSet(category.value);
-    task.value = null;
+    await ShowTaskSet(data.category);
+    data.task = null;
   }
   if (confirmDialog.value) { confirmDialog.value.Show(t.taskID, text, RemoveInternal, null); }
   // oder:
@@ -228,20 +232,20 @@ async function RemoveTask(t: Task) {
 }
 
 async function createCategory() {
-  if (!newCategoryName.value) return;
-  var newcategory = await proxy.createCategory(newCategoryName.value, AppState.Token);
+  if (!data.newCategoryName) return;
+  var newcategory = await proxy.createCategory(data.newCategoryName, AppState.Token);
   await ShowCategorySet();
   await ShowTaskSet(newcategory);
-  newCategoryName.value = "";
+  data.newCategoryName = "";
 }
 
 async function createTask() {
-  if (!newTaskTitle.value || !category.value) return;
+  if (!data.newTaskTitle || !data.category) return;
   console.log("createTask");
   let newTask = new Task({
     taskID: 0, // notwendig für Server, da der die ID vergibt
-    title: newTaskTitle.value,
-    categoryID: category.value.categoryID,
+    title: data.newTaskTitle,
+    categoryID: data.category.categoryID,
     importance: Importance.B,
     created: new Date(),
     due: undefined,
@@ -252,8 +256,8 @@ async function createTask() {
 
   newTask = await proxy.createTask(AppState.Token, newTask);
   console.log("Home.createTask", newTask);
-  await ShowTaskSet(category.value);
-  newTaskTitle.value = "";
+  await ShowTaskSet(data.category);
+  data.newTaskTitle = "";
 }
 
 async function ChangeTaskDone(event, t: Task) {
@@ -263,10 +267,10 @@ async function ChangeTaskDone(event, t: Task) {
 }
 
 async function TaskEditDone(changed: boolean) {
-  console.log("TaskEditDone", changed, task.value);
-  if (changed && task.value) await proxy.changeTask(AppState.Token, task.value);
-  else await ShowTaskSet(category.value); // Bei Cancel: Neuladen als Undo!
+  console.log("TaskEditDone", changed, data.task);
+  if (changed && data.task) await proxy.changeTask(AppState.Token, data.task);
+  else await ShowTaskSet(data.category); // Bei Cancel: Neuladen als Undo!
   // Nun keine aktuelle Aufgabe mehr!
-  task.value = null;
+  data.task = null;
 }
 </script>
