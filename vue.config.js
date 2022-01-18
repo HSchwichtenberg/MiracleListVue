@@ -7,10 +7,7 @@ module.exports = {
       devtool: 'source-map',
     },
     chainWebpack: config => {
-     // config.plugins.delete('preload-index')
-     // config.plugins.delete('preload-login')
-     // config.plugins.delete('preload-home')
-     // config.plugins.delete('preload-about')
+     config.plugins.delete('prefetch') // für echtes Lazy Loading der Chunks https://github.com/vuejs/vue-cli/issues/5562
      config
           .plugin('define')
           .tap(args => {
