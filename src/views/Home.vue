@@ -81,45 +81,52 @@
       @change="createTask"
       placeholder="new Task..."
     />
+    
     <!-- ---------- Aufgabenliste ausgeben-->
     <ol class="list-group scroll">
+        <draggable
+        v-model="data.taskSet"
+        item-key="taskID"
+        class="list-group"
+        @end="Moved"
+      >
+  <template #item="{ element }">
       <li
-        v-for="t in data.taskSet"
-        :key="t.taskID"
-        @click="ShowTaskDetail(t)"
+        @click="ShowTaskDetail(element)"
         class="list-group-item"
-        :title="'Task #' + t.taskID + ' Created: ' + t.created"
-        :style="{ backgroundColor: data.task && t.taskID == data.task?.taskID ? '#E0EEFA' : 'white' }"
+        :title="'Task #' + element.taskID + ' Created: ' + element.created"
+        :style="{ backgroundColor: data.task && element.taskID == data.task?.taskID ? '#E0EEFA' : 'white' }"
       >
         <input
           type="checkbox"
-          :name="'done' + t.taskID"
-          :id="'done' + t.taskID"
-          :checked="t.done"
+          :name="'done' + element.taskID"
+          :id="'done' + element.taskID"
+          :checked="element.done"
           class="MLcheckbox"
-          @change="ChangeTaskDone($event, t)"
+          @change="ChangeTaskDone($event, element)"
         />
-        {{ t.title }}
+        {{ element.title }} {{element.order}} {{element.taskID}}
         <span style="float:right;margin-right:10px">
           <span
             class="badge badge-important"
             style="margin-right:10px"
-            :title="'Importance: ' + Importance[t.importance] + ' (' + t.importance + ')'"
-          >{{ Importance[t.importance] }}</span>
+            :title="'Importance: ' + Importance[element.importance] + ' (' + element.importance + ')'"
+          >{{ Importance[element.importance] }}</span>
           <span
             id="Remove"
-            :title="`Remove Task #${t.taskID}`"
+            :title="`Remove Task #${element.taskID}`"
             class="close"
-            @click.stop="RemoveTask(t)"
+            @click.stop="RemoveTask(element)"
           >&times;</span>
         </span>
 
         <div
-          v-if="t.due"
-          :class="{ 'text-danger': IsPast(t.due), 'text-warning': IsToday(t.due), 'text-success': IsFuture(t.due) }"
-          :title="'due ' + moment(t.due.toString()).toLocaleString()"
-        >due {{ (IsToday(t.due) ? "today" : moment(t.due).fromNow()) }}</div>
-      </li>
+          v-if="element.due"
+          :class="{ 'text-danger': IsPast(element.due), 'text-warning': IsToday(element.due), 'text-success': IsFuture(element.due) }"
+          :title="'due ' + moment(element.due.toString()).toLocaleString()"
+        >due {{ (IsToday(element.due) ? "today" : moment(element.due).fromNow()) }}</div> 
+        
+        </li></template></draggable>
     </ol>
   </div>
 
@@ -140,6 +147,18 @@ import moment from 'moment'
 import ConfirmDialog from '@/components/ConfirmDialog.vue';
 import TaskEdit from '@/components/TaskEdit.vue';
 import { AppState } from '@/services/AppState';
+import draggable from 'vuedraggable'
+
+function Moved(evt, originalEvent){
+  console.log("MOVE:", evt, originalEvent);
+  let i = 0;
+  data.taskSet!.forEach(   async t => {
+      console.log("vorher",t.order,t.taskID);
+      t.order = ++i;
+      await proxy.changeTask(AppState.Token, t);
+      console.log("nachher",t.order,t.taskID);
+    });
+}
 
 //#region Properties zur Datenbindung inr reaktivem Objekt
 const data = reactive({
@@ -151,7 +170,7 @@ const data = reactive({
 newTaskTitle : ref<string>()
 });
 //#endregion
-
+let taskSet : ref<Array<Task>>;
 // Backend
 // let proxy = new MiracleListProxy("https://miraclelistbackend.azurewebsites.net/");
 let proxy: MiracleListProxy = inject("MiracleListProxy") || new MiracleListProxy(""); // Sprint 4
@@ -187,6 +206,7 @@ async function ShowTaskSet(c: Category | null | undefined) {
   data.category = c;
   if (c && c.categoryID) {
     data.taskSet = await proxy.taskSet(c.categoryID, AppState.Token);
+data.taskSet = data.taskSet.sort((x,y)=>(x.order-y.order));
     console.log("API v2TaskSetByIdGet OK!", data.taskSet)
     data.task = null;
   }
