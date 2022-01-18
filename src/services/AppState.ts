@@ -1,4 +1,4 @@
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { LoginInfo } from "./MiracleListProxyV2";
 
 /**
@@ -8,20 +8,16 @@ import { LoginInfo } from "./MiracleListProxyV2";
 export class AppState {
  public static Backend;
 
+ // Reactive Properties
  public static CurrentLoginInfo = ref<LoginInfo | null>();
-
- public static get Username(): string {
-  return AppState.CurrentLoginInfo.value?.username ?? "";
- }
+ public static Username = computed(()=> AppState.CurrentLoginInfo.value?.username ?? "");
  
+ // Normale Properties
  public static get Token(): string {
   return AppState.CurrentLoginInfo.value?.token ?? "";
  }
-
  public static get Authenticated(): boolean {
   return AppState.Token != "";
  }
 
- public static StateHasChanged = new Event('StateHasChanged');
- public static DispatchStateHasChanged = () => window.dispatchEvent(AppState.StateHasChanged);
 }
