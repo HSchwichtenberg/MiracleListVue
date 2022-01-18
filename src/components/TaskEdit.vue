@@ -93,7 +93,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, defineEmits, computed } from 'vue';
+import { defineEmits, computed } from 'vue';
 import { Task, Importance } from '@/services/MiracleListProxyV2'
 import SubTaskList from '@/components/SubTaskList.vue';
 //#region Öffentliche Schnittstelle der Komponente

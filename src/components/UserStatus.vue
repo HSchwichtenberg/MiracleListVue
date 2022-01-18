@@ -10,13 +10,11 @@
 </template>
 
 <script setup lang="ts">
-import moment from 'moment'
-import { defineProps, computed } from 'vue';
+import { computed } from 'vue';
 
 const props = defineProps({
   Username: String
 })
 
 let C_Username = computed(() => props.Username);
-
 </script>

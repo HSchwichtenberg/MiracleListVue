@@ -76,13 +76,13 @@
 
 <script setup lang="ts">
 import moment from 'moment';
-import { ref, computed, onMounted, watch } from 'vue';
+import { onMounted } from 'vue';
 import { useRoute } from 'vue-router'
 import router from './router'
-import UserStatus from './components/UserStatus.vue';
-import { AppState } from './services/AppState';
 import { version as vueVersion } from 'vue';
 import { version as appVersion, releaseDate } from '../package.json'
+import UserStatus from './components/UserStatus.vue';
+import { AppState } from './services/AppState';
 
 const route = useRoute();
 function ShowAbout() {
@@ -93,5 +93,4 @@ function ShowAbout() {
 onMounted(() => {
   console.log("App.vue:OnMounted");
  });
-
 </script>

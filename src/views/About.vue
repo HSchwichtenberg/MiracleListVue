@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps, onMounted, inject } from 'vue';
+import { ref, onMounted, inject } from 'vue';
 import { MiracleListProxy } from '@/services/MiracleListProxyV2'
 import { version as vueVersion } from 'vue';
 import { version as appversion } from '../../package.json';
