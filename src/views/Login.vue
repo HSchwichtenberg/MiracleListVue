@@ -59,7 +59,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, inject } from 'vue';
-import { useRoute } from 'vue-router'
+import { useRoute } from 'vue-router';
 import router from '@/router';
 
 import { version as vueVersion } from 'vue';
