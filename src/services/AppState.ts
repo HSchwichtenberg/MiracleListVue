@@ -13,6 +13,7 @@ export class AppState {
  public static get Username(): string {
   return AppState.CurrentLoginInfo.value?.username ?? "";
  }
+ 
  public static get Token(): string {
   return AppState.CurrentLoginInfo.value?.token ?? "";
  }
