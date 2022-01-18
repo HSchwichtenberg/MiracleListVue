@@ -41,7 +41,7 @@ const router = createRouter({
 
 // Abfangen aller Abfragen
 router.beforeEach((to, from, next) => {
- console.log("router.beforeEach", from, to, (AppState.Authenticated ? "Authenticated" : "NOT Authenticated"), inject("MiracleListProxy"));
+ console.info("--> router.beforeEach", (AppState.Authenticated ? "Authenticated" : "NOT AUTHENTICATED"), from, to, inject("AuthenticationManager"));
  if (to.matched.some(record => record.meta.requiresAuth)) {
   if (AppState.Authenticated) {
    next()

@@ -75,7 +75,7 @@ export class AuthenticationManager {
       }
     }
     else {
-      console.warn(`AuthenticationManager: No local token!`);
+      console.info(`AuthenticationManager: No local token!`);
     }
     return result;
   }
