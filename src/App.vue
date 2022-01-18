@@ -12,7 +12,7 @@
       class="col-xs-6 col-lg-9 col-sm-7 col-md-8 hidden-xs"
       style="vertical-align: middle;margin-top:10px"
     >
-      <UserStatus :Username="Username"></UserStatus>
+      <UserStatus :Username="AppState.Username.value"></UserStatus>
     </span>
 
     <span class="col-xs-1">
@@ -69,7 +69,7 @@
   <!-- Alternative Anzeige dieses Blocks unten auf kleinen Displays -->
   <div class="row">
     <span class="col-xs-12 hidden-sm hidden-md hidden-lg">
-      <UserStatus :Username="Username"></UserStatus>
+      <UserStatus :Username="AppState.Username.value"></UserStatus>
     </span>
   </div>
 </template>
@@ -84,8 +84,6 @@ import { AppState } from './services/AppState';
 import { version as vueVersion } from 'vue';
 import { version as appVersion, releaseDate } from '../package.json'
 
-let Username = ref(AppState.Username || "");
-
 const route = useRoute();
 function ShowAbout() {
   if (route.path.includes("/About")) router.replace("/");
@@ -94,16 +92,6 @@ function ShowAbout() {
 
 onMounted(() => {
   console.log("App.vue:OnMounted");
-  // Reaktion auf globale Zustandsänderung
-  // window.addEventListener('StateHasChanged', (e) => SetStatus(), false);
+ });
 
-watch(() => AppState.Username, 
-            (neu, alt) => { SetStatus(); });
-
-});
-
-function SetStatus() {
-  if (AppState.Authenticated) Username.value = AppState.Username || "";
-  else Username.value = "";
-}
 </script>

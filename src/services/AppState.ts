@@ -19,5 +19,4 @@ export class AppState {
  public static get Authenticated(): boolean {
   return AppState.Token != "";
  }
-
 }
