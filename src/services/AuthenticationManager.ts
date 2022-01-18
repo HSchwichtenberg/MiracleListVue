@@ -32,16 +32,15 @@ export class AuthenticationManager {
     await c.login(l)
       .then(r => {
         if (!r.message) {
-          AppState.CurrentLoginInfo = r;
+          AppState.CurrentLoginInfo.value = r;
           localStorage.setItem(this.STORAGE_KEY, r.token!.toString());
           console.info("AuthenticationManager: Login OK!", r)
           result = true;
         }
         else {
-          AppState.CurrentLoginInfo = null;
+          AppState.CurrentLoginInfo.value = null;
           localStorage.removeItem(this.STORAGE_KEY);
         }
-        AppState.DispatchStateHasChanged();
       })
       .catch(err => { console.error(err); });
 
@@ -50,9 +49,8 @@ export class AuthenticationManager {
 
   // Neu in Teil 4
   public Logout() {
-    AppState.CurrentLoginInfo = null;
+    AppState.CurrentLoginInfo.value = null;
     localStorage.removeItem(this.STORAGE_KEY);
-    AppState.DispatchStateHasChanged();
   }
 
   // Neu in Teil 4
@@ -65,21 +63,20 @@ export class AuthenticationManager {
       const l = new LoginInfo()
       l.token = token;
       l.clientID = this.ClientID;
-      AppState.CurrentLoginInfo = await new MiracleListProxy(this.Backend).login(l);
-      if (AppState.CurrentLoginInfo == null || !AppState.CurrentLoginInfo.token) { // Token ungültig!
-        console.warn(`AuthenticationManager: Token not valid: ${AppState.CurrentLoginInfo.message}!`);
+      AppState.CurrentLoginInfo.value = await new MiracleListProxy(this.Backend).login(l);
+      if (AppState.CurrentLoginInfo == null || !AppState.CurrentLoginInfo.value.token) { // Token ungültig!
+        console.warn(`AuthenticationManager: Token not valid: ${AppState.CurrentLoginInfo.value.message}!`);
         localStorage.removeItem(this.STORAGE_KEY);
-        AppState.CurrentLoginInfo = null;
+        AppState.CurrentLoginInfo.value = null;
       }
       else { // Token gültig!
-        console.info(`AuthenticationManager: Found valid Token: ${AppState.CurrentLoginInfo!.token} for User: ${AppState.CurrentLoginInfo!.username}`);
+        console.info(`AuthenticationManager: Found valid Token: ${AppState.CurrentLoginInfo.value.token} for User: ${AppState.CurrentLoginInfo.value.username}`);
         result = true;
       }
     }
     else {
       console.warn(`AuthenticationManager: No local token!`);
     }
-    AppState.DispatchStateHasChanged();
     return result;
   }
 }

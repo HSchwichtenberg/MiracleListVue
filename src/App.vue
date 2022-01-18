@@ -76,7 +76,7 @@
 
 <script setup lang="ts">
 import moment from 'moment';
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router'
 import router from './router'
 import UserStatus from './components/UserStatus.vue';
@@ -95,7 +95,11 @@ function ShowAbout() {
 onMounted(() => {
   console.log("App.vue:OnMounted");
   // Reaktion auf globale Zustandsänderung
-  window.addEventListener('StateHasChanged', (e) => SetStatus(), false);
+  // window.addEventListener('StateHasChanged', (e) => SetStatus(), false);
+
+watch(() => AppState.Username, 
+            (neu, alt) => { SetStatus(); });
+
 });
 
 function SetStatus() {
