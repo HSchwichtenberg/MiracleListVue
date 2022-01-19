@@ -1,8 +1,8 @@
 {
   "name": "miraclelist-client",
-  "version": "0.4.0",
-  "releaseDate": "15.01.2022",
-  "backend": "http://localhost:8889",
+  "version": "0.5.0",
+  "releaseDate": "19.01.2022",
+  "backend": "http://miraclelistbackend.azurewebsites.net/",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
