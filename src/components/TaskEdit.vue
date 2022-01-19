@@ -76,7 +76,7 @@
                 type="date"
                 v-model="taskDue"
                 class="form-control"
-              />
+              /> 
             </div>
           </span>
         </div>        <!--Ende row-->

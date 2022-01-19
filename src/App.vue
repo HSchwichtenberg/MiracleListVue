@@ -62,8 +62,9 @@
   <router-view />
 
   <div>
+   {{be}}
     MiracleListVue {{ appVersion }} running on Vue.js {{ vueVersion }} - released {{releaseDate}}<br />
-    Backend: {{AppState.Backend}}<br/>
+    Backend: {{backend}}<br/>
     Author: Dr. Holger Schwichtenberg, <a href="http://www.IT-Visions.de">www.IT-Visions.de</a>, 2021-{{ moment().year() }}
   </div>
   <!-- Alternative Anzeige dieses Blocks unten auf kleinen Displays -->
@@ -76,7 +77,7 @@
 
 <script setup lang="ts">
 import moment from 'moment';
-import { onMounted } from 'vue';
+import { onMounted, readonly } from 'vue';
 import { useRoute } from 'vue-router'
 import router from './router'
 import { version as vueVersion } from 'vue';
@@ -89,6 +90,8 @@ function ShowAbout() {
   if (route.path.includes("/About")) router.replace("/");
   else router.replace("/About");
 }
+
+let backend = readonly(process.env.VUE_APP_ENV_Backend);
 
 onMounted(() => {
   console.log("App.vue:OnMounted");

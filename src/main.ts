@@ -14,15 +14,14 @@ console.log(`main.ts: Starting Vue.js ${vueVersion} App ${process.env.VERSION}, 
 // Einstellung für Moment.js
 moment.locale(window.navigator.language); // oder z.B. moment.locale("de-de");
 
-AppState.Backend = process.env.BACKEND;
-console.log("Backend",AppState.Backend )
+console.log("Backend",process.env.VUE_APP_ENV_Backend,process.env.VUE_APP_ENV_ClientID )
 const app = createApp(App)
 
 //app.provide('x',123 )
 //console.log(inject('x')); // inject() can only be used inside setup() or functional components.
 // DI
-app.provide('MiracleListProxy', new MiracleListProxy(AppState.Backend))
-app.provide('AuthenticationManager', new AuthenticationManager(AppState.Backend))
+app.provide('MiracleListProxy', new MiracleListProxy(process.env.VUE_APP_ENV_Backend))
+app.provide('AuthenticationManager', new AuthenticationManager())
 
 // Start der Vue.js-Anwendung
 app.use(router).mount('#app');

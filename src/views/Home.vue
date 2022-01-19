@@ -15,6 +15,8 @@
 <template>
  <ConfirmDialog ref="confirmDialog"></ConfirmDialog>
  <div>
+ 
+
   <!-- ##################################### Spalte 1: Kategorien-->
   <div
    v-if="data.categorySet"
@@ -91,43 +93,42 @@
    @end="ChangeTaskOrder"
    tag="ol"
   >
-   <template #item="{ element }">
+   <template #item="{ element: t }">
     <li
-     @click="ShowTaskDetail(element)"
+     @click="ShowTaskDetail(t)"
      class="list-group-item"
-     :title="'Task #' + element.taskID + ' Created: ' + element.created"
-     :style="{ backgroundColor: data.task && element.taskID == data.task?.taskID ? '#E0EEFA' : 'white' }"
+     :title="'Task #' + t.taskID + ' Created: ' + t.created"
+     :style="{ backgroundColor: data.task && t.taskID == data.task?.taskID ? '#E0EEFA' : 'white' }"
     >
      <input
       type="checkbox"
-      :name="'done' + element.taskID"
-      :id="'done' + element.taskID"
-      :checked="element.done"
+      :name="'done' + t.taskID"
+      :id="'done' + t.taskID"
+      :checked="t.done"
       class="MLcheckbox"
-      @change="ChangeTaskDone($event, element)"
+      @click.stop
+      @change.stop="ChangeTaskDone($event, t)"
      />
-     {{ element.title }} 
-     <span
-      style="float:right;margin-right:10px"
-     >
+     {{ t.title }}
+     <span style="float:right;margin-right:10px">
       <span
        class="badge badge-important"
        style="margin-right:10px"
-       :title="'Importance: ' + Importance[element.importance] + ' (' + element.importance + ')'"
-      >{{ Importance[element.importance] }}</span>
+       :title="'Importance: ' + Importance[t.importance] + ' (' + t.importance + ')'"
+      >{{ Importance[t.importance] }}</span>
       <span
        id="Remove"
-       :title="`Remove Task #${element.taskID}`"
+       :title="`Remove Task #${t.taskID}`"
        class="close"
-       @click.stop="RemoveTask(element)"
+       @click.stop="RemoveTask(t)"
       >&times;</span>
      </span>
 
      <div
-      v-if="element.due"
-      :class="{ 'text-danger': IsPast(element.due), 'text-warning': IsToday(element.due), 'text-success': IsFuture(element.due) }"
-      :title="'due ' + moment(element.due.toString()).toLocaleString()"
-     >due {{ (IsToday(element.due) ? "today" : moment(element.due).fromNow()) }}</div>
+      v-if="t.due"
+      :class="{ 'text-danger': IsPast(t.due), 'text-warning': IsToday(t.due), 'text-success': IsFuture(t.due) }"
+      :title="'due ' + moment(t.due.toString()).toLocaleString()"
+     >due {{ (IsToday(t.due) ? "today" : moment(t.due).fromNow()) }}</div>
     </li>
    </template>
   </draggable>
@@ -140,11 +141,13 @@
   <TaskEdit v-model:task="data.task" @TaskEditDone="TaskEditDone"></TaskEdit>
  </div>
  <!-- </transition> -->
+
+ <div :title="hubConnection?.connectionId">SignalR: {{hubConnection?.baseUrl}} {{hubConnection?.state}} </div>
 </template>
 
 <script setup lang="ts">
 
-import { ref, reactive, onMounted, inject } from 'vue';
+import { ref, reactive, onMounted, inject, computed } from 'vue';
 import { MiracleListProxy, Category, Task, Importance } from '@/services/MiracleListProxyV2'
 // import { AuthenticationManager } from '@/services/AuthenticationManager' // Sprint 4
 import moment from 'moment'
@@ -152,6 +155,8 @@ import ConfirmDialog from '@/components/ConfirmDialog.vue';
 import TaskEdit from '@/components/TaskEdit.vue';
 import { AppState } from '@/services/AppState';
 import draggable from 'vuedraggable'
+import * as signalR from "@microsoft/signalr";
+import { HubConnectionState } from '@microsoft/signalr';
 
 async function ChangeTaskOrder(evt, originalEvent) {
  console.log("MOVE:", evt, originalEvent);
@@ -196,6 +201,8 @@ let IsFuture = (d: Date) => moment(d).startOf('day') > moment().startOf('day')
 // Verweise auf Elemente
 const confirmDialog = ref<typeof ConfirmDialog>();
 
+let hubConnection =ref<signalR.HubConnection | null>();
+
 onMounted(async () => { // This hook is not called during server-side rendering.
  console.log("Home:OnMounted");
  // Sprint 2+3: zunächst statischer Login. Wird später ausgelagert!
@@ -206,6 +213,27 @@ onMounted(async () => { // This hook is not called during server-side rendering.
  console.log("Token", AppState.Token, AppState.CurrentLoginInfo);
  // if (AppState.Token) 
  await ShowCategorySet();
+
+ //#region  SignalR (Spring 5)
+ // ASP.NET Core SignalR-Verbindung konfigurieren
+ hubConnection.value = new signalR.HubConnectionBuilder()
+  .withUrl(process.env.VUE_APP_ENV_Backend + "/MLHub")
+  .build();
+ // --- eingehende Nachricht
+ hubConnection.value!.on("SendTaskListUpdate", async (sender: string, categoryID: number) => {
+  console.log(`*** SignalR-TaskListUpdate von ${sender}: ${categoryID}`);
+  if (categoryID == data.category!.categoryID) { await ShowTaskSet(data.category); }
+ });
+ // Verbindung zum SignalR-Hub starten
+ hubConnection.value!.start().then(
+  () => {
+   console.log(`*** SignalR-Connection OK (${hubConnection.value!.state})`);
+   hubConnection.value!.send("Register", AppState.Token);
+  }).catch(err => console.error(err));
+
+ // Registrieren für Events
+
+ //#endregion
 });
 
 async function ShowCategorySet() {
@@ -228,7 +256,7 @@ async function ShowTaskSet(c: Category | null | undefined) {
 }
 
 function ShowTaskDetail(t: Task) {
- console.info("ShowTaskDetail",t);
+ console.info("ShowTaskDetail", t);
  data.task = t;
 }
 
@@ -289,8 +317,8 @@ async function createTask() {
   title: data.newTaskTitle,
   categoryID: data.category.categoryID,
   importance: Importance.B,
-  created: moment().toDate(),
-  due: moment().toDate(),
+  created: new Date(),
+  due: new Date(),
   order: 0,
   note: "",
   done: false,
@@ -306,6 +334,7 @@ async function ChangeTaskDone(event, t: Task) {
  console.log("Task ÄNDERN", t);
  t = await proxy.changeTaskDone(t.taskID, event.target.checked, AppState.Token);
  console.log("Task GEÄNDERT", t)
+ SendTaskListUpdate();
 }
 
 async function TaskEditDone(changed: boolean) {
@@ -314,5 +343,15 @@ async function TaskEditDone(changed: boolean) {
  else await ShowTaskSet(data.category); // Bei Cancel: Neuladen als Undo!
  // Nun keine aktuelle Aufgabe mehr!
  data.task = null;
+
+}
+
+let hubConnected = computed(()=> (hubConnection.value != null && hubConnection.value!.state == HubConnectionState.Connected));
+
+async function SendTaskListUpdate() {
+ console.info("SignalR.SendTaskListUpdate", hubConnection.value!.state);
+ if (hubConnection && hubConnection.value!.state == HubConnectionState.Connected) await hubConnection.value!.send("SendTaskListUpdate", AppState.Token, data.category!.categoryID);
+ else console.warn("SignalR.connection: not connected!", "");
+
 }
 </script>

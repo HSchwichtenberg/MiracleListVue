@@ -2,18 +2,13 @@ import { MiracleListProxy, LoginInfo } from '@/services/MiracleListProxyV2'
 import { AppState } from './AppState';
 
 export class AuthenticationManager {
-  DebugUser = "ihre@email.de";
-  DebugPassword = "geheim"; // :-)
-  ClientID = "11111111-1111-1111-1111-111111111111"; // TODO: Hier Ihre persönliche Client-ID eintragen! http://miraclelistbackend.azurewebsites.net/clientid/WD
-  Backend = "";
 
-  constructor(backend: string) {
-    console.info("AuthenticationManager.CTOR", backend);
-    this.Backend = backend;
+  constructor() {
+    console.info("AuthenticationManager.CTOR");
   }
 
   public async LoginDebug(): Promise<boolean> {
-    return await this.Login(this.DebugUser, this.DebugPassword);
+    return await this.Login(process.env.VUE_APP_ENV_DebugUser, process.env.VUE_APP_ENV_DebugPassword);
   }
 
   STORAGE_KEY = 'Token';
@@ -22,12 +17,12 @@ export class AuthenticationManager {
     let result = false;
 
     const l = new LoginInfo();
-    l.clientID = this.ClientID;
+    l.clientID = process.env.VUE_APP_ENV_ClientID;
     l.username = username;
     l.password = password;
 
-    console.info("AuthenticationManager: Login OK!", l)
-    const c = new MiracleListProxy(this.Backend);
+    console.info("AuthenticationManager: Login...", l)
+    const c = new MiracleListProxy(process.env.VUE_APP_ENV_Backend);
     // TODO: inject("proxy"); // geht hier nicht :-(
     await c.login(l)
       .then(r => {
@@ -38,12 +33,14 @@ export class AuthenticationManager {
           result = true;
         }
         else {
+         console.warn("AuthenticationManager: Login NOT OK!", r)
           AppState.CurrentLoginInfo.value = null;
           localStorage.removeItem(this.STORAGE_KEY);
         }
       })
-      .catch(err => { console.error(err); });
+      .catch(err => { console.error("AuthenticationManager: Login ERROR", err); });
 
+      console.log(result);
     return result;
   }
 
@@ -62,8 +59,8 @@ export class AuthenticationManager {
       console.info(`AuthenticationManager: Checking local token ${token}...`);
       const l = new LoginInfo()
       l.token = token;
-      l.clientID = this.ClientID;
-      AppState.CurrentLoginInfo.value = await new MiracleListProxy(this.Backend).login(l);
+      l.clientID = process.env.VUE_APP_ENV_ClientID;
+      AppState.CurrentLoginInfo.value = await new MiracleListProxy(process.env.VUE_APP_ENV_Backend).login(l);
       if (AppState.CurrentLoginInfo == null || !AppState.CurrentLoginInfo.value.token) { // Token ungültig!
         console.warn(`AuthenticationManager: Token not valid: ${AppState.CurrentLoginInfo.value.message}!`);
         localStorage.removeItem(this.STORAGE_KEY);

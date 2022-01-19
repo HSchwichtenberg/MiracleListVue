@@ -12,11 +12,11 @@ module.exports = {
           .plugin('define')
           .tap(args => {
              // Daten aus package.json' für main.ts in process.env speichern
-              let pj = require('./package.json'); 
-              args[0]['process.env']['VERSION'] = JSON.stringify(pj.version)
-              args[0]['process.env']['RELEASEDATE'] = JSON.stringify(pj.releaseDate)
-              args[0]['process.env']['BACKEND'] = JSON.stringify(pj.backend)
-              return args
+             let pj = require('./package.json'); 
+             args[0]['process.env']['VERSION'] = JSON.stringify(pj.version)
+             args[0]['process.env']['RELEASEDATE'] = JSON.stringify(pj.releaseDate)
+             args[0]['process.env']['BACKEND'] = JSON.stringify(pj.backend)
+             return args
           })
   }
 }

@@ -6,7 +6,6 @@ import { LoginInfo } from "./MiracleListProxyV2";
  * Alternative Flux via Vuex4 für Vue.js 3.x https://next.vuex.vuejs.org/
  */
 export class AppState {
- public static Backend;
 
  // Reactive Properties
  public static CurrentLoginInfo = ref<LoginInfo | null>();

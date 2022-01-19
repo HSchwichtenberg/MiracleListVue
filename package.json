@@ -2,7 +2,7 @@
   "name": "miraclelist-client",
   "version": "0.5.0",
   "releaseDate": "19.01.2022",
-  "backend": "http://miraclelistbackend.azurewebsites.net/",
+  "backend": "http://miraclelistbackend.azurewebsites.net",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
@@ -12,6 +12,8 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@microsoft/signalr": "^6.0.1",
+    "@types/node": "^17.0.7",
     "core-js": "^3.6.5",
     "moment": "^2.29.1",
     "register-service-worker": "^1.7.1",

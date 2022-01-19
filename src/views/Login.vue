@@ -65,6 +65,7 @@ import router from '@/router';
 import { version as vueVersion } from 'vue';
 import { version as appversion } from '../../package.json'
 import { AuthenticationManager } from '@/services/AuthenticationManager';
+import { ConsoleLogger } from '@microsoft/signalr/dist/esm/Utils';
 
 // DI
 let am: AuthenticationManager = inject("AuthenticationManager") as AuthenticationManager;
