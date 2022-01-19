@@ -115,7 +115,7 @@ const t = computed(() =>  props.task);
 
 // Wrapper für due -> Workaround für Datumsformatproblem
 const taskDue = computed({ 
-  get: () =>  t.value!.due!.toISOString().substring(0,10) , 
+  get: () => t.value!.due ?  t.value!.due!.toISOString().substring(0,10) : null , 
   set: (event) =>  t.value!.due = new Date(event as string) 
 })
 

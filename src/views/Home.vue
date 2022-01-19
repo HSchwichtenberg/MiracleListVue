@@ -185,7 +185,7 @@ const data = reactive({
  newTaskTitle: ref<string>()
 });
 //#endregion
-let taskSet: ref<Array<Task>>;
+
 // Backend
 // let proxy = new MiracleListProxy("https://miraclelistbackend.azurewebsites.net/");
 let proxy: MiracleListProxy = inject("MiracleListProxy") || new MiracleListProxy(""); // Sprint 4
@@ -221,13 +221,14 @@ async function ShowTaskSet(c: Category | null | undefined) {
  data.category = c;
  if (c && c.categoryID) {
   data.taskSet = await proxy.taskSet(c.categoryID, AppState.Token);
-  data.taskSet = data.taskSet.sort((x, y) => (x.order - y.order));
+  data.taskSet = data.taskSet.sort((x, y) => ((x.order as number) - (y.order as number)));
   console.log("API v2TaskSetByIdGet OK!", data.taskSet)
   data.task = null;
  }
 }
 
 function ShowTaskDetail(t: Task) {
+ console.info("ShowTaskDetail",t);
  data.task = t;
 }
 
@@ -288,8 +289,8 @@ async function createTask() {
   title: data.newTaskTitle,
   categoryID: data.category.categoryID,
   importance: Importance.B,
-  created: new Date(),
-  due: undefined,
+  created: moment().toDate(),
+  due: moment().toDate(),
   order: 0,
   note: "",
   done: false,
