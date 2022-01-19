@@ -560,6 +560,57 @@ export class MiracleListProxy {
     }
 
     /**
+     * Change a task to be submitted in body in JSON format (including subtasks)
+     * @param categoryID (optional) 
+     * @param mL_AuthToken (optional) 
+     * @param body (optional) 
+     * @return Success
+     */
+    changeTaskOrder(categoryID: number | undefined, mL_AuthToken: any | undefined, body: number[] | undefined): Promise<number> {
+        let url_ = this.baseUrl + "/v2/ChangeTaskOrder?";
+        if (categoryID === null)
+            throw new Error("The parameter 'categoryID' cannot be null.");
+        else if (categoryID !== undefined)
+            url_ += "categoryID=" + encodeURIComponent("" + categoryID) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+console.warn(categoryID, mL_AuthToken, body);
+        let options_ = <RequestInit>{
+            body: content_,
+            method: "PUT",
+            headers: {
+                "ML-AuthToken": mL_AuthToken !== undefined && mL_AuthToken !== null ? "" + mL_AuthToken : "",
+                "Content-Type": "application/json-patch+json",
+                "Accept": "text/plain"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processChangeTaskOrder(_response);
+        });
+    }
+
+    protected processChangeTaskOrder(response: Response): Promise<number> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+                result200 = resultData200 !== undefined ? resultData200 : <any>null;
+    
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<number>(<any>null);
+    }
+
+    /**
      * Set a task to "done"
      * @param id (optional) 
      * @param done (optional) 

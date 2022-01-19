@@ -17,7 +17,8 @@
     "register-service-worker": "^1.7.1",
     "vue": "^3.0.0",
     "vue-class-component": "^8.0.0-0",
-    "vue-router": "^4.0.0-0"
+    "vue-router": "^4.0.0-0",
+    "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
     "@types/jest": "^24.0.19",
