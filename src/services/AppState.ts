@@ -1,5 +1,7 @@
 import { computed, ref } from "vue";
 import { LoginInfo } from "./MiracleListProxyV2";
+import * as signalR from "@microsoft/signalr";
+import { HubConnectionState } from '@microsoft/signalr';
 
 /**
  * Globaler Anwendungszustand mit statischen Mitgliedern
@@ -18,4 +20,9 @@ export class AppState {
  public static get Authenticated(): boolean {
   return AppState.Token != "";
  }
+
+ // Sprint 5: SignalR
+ public static HubConnection = ref<signalR.HubConnection | null>();
+ public static HubConnected = computed(()=> (AppState.HubConnection.value != null && AppState.HubConnection.value!.state == HubConnectionState.Connected));
+
 }

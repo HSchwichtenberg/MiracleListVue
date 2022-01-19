@@ -10,9 +10,9 @@
     <!--  Anzeige dieses Blocks oben nur auf großen Displays -->
     <span
       class="col-xs-6 col-lg-9 col-sm-7 col-md-8 hidden-xs"
-      style="vertical-align: middle;margin-top:10px"
+      style="vertical-align: middle;margin-top:25px"
     >
-      <UserStatus :Username="AppState.Username.value"></UserStatus>
+      <UserStatus :Username="AppState.Username.value" ></UserStatus>
     </span>
 
     <span class="col-xs-1">
@@ -59,20 +59,25 @@
       </ul>
     </span>
   </div>
-  <router-view />
 
-  <div>
-   {{be}}
-    MiracleListVue {{ appVersion }} running on Vue.js {{ vueVersion }} - released {{releaseDate}}<br />
-    Backend: {{backend}}<br/>
-    Author: Dr. Holger Schwichtenberg, <a href="http://www.IT-Visions.de">www.IT-Visions.de</a>, 2021-{{ moment().year() }}
-  </div>
-  <!-- Alternative Anzeige dieses Blocks unten auf kleinen Displays -->
+   <div class="row">
+  <router-view />
+</div>
   <div class="row">
-    <span class="col-xs-12 hidden-sm hidden-md hidden-lg">
-      <UserStatus :Username="AppState.Username.value"></UserStatus>
-    </span>
-  </div>
+<span class="col-xs-12">
+   <div> MiracleListVue {{ appVersion }} running on Vue.js {{ vueVersion }} - released {{releaseDate}}</div> 
+      <div>  Author: Dr. Holger Schwichtenberg, <a href="http://www.IT-Visions.de">www.IT-Visions.de</a>, 2021-{{ moment().year() }}</div> 
+
+<div>Backend: {{backend}} 
+   <span :title="AppState.HubConnection.value?.connectionId ?? 'no connection!'"> SignalR: {{AppState.HubConnection.value?.baseUrl}} 
+ <span :style="AppState.HubConnected ? 'color:green' : 'color:red'"> {{AppState.HubConnection.value?.state }}</span> </span></div> 
+
+
+  <!-- Alternative Anzeige dieses Blocks unten auf kleinen Displays -->
+
+  <UserStatus :Username="AppState.Username.value"></UserStatus>
+  
+ </span> </div>
 </template>
 
 <script setup lang="ts">

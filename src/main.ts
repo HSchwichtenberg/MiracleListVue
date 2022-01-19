@@ -5,7 +5,9 @@ import router from './router'
 import moment from 'moment'
 import { MiracleListProxy } from './services/MiracleListProxyV2'
 import { AuthenticationManager } from './services/AuthenticationManager'
-import { AppState } from './services/AppState'
+import Toast, { PluginOptions } from "vue-toastification";
+// Import the CSS or use your own!
+import "vue-toastification/dist/index.css";
 
 // import Vue from 'vue'
 // console.log(Vue);
@@ -22,6 +24,14 @@ const app = createApp(App)
 // DI
 app.provide('MiracleListProxy', new MiracleListProxy(process.env.VUE_APP_ENV_Backend))
 app.provide('AuthenticationManager', new AuthenticationManager())
+
+// Sprint 5: Für Toasts
+const options: PluginOptions = {
+ transition: "Vue-Toastification__bounce",
+ maxToasts: 20,
+ newestOnTop: true
+};
+app.use(Toast, options);
 
 // Start der Vue.js-Anwendung
 app.use(router).mount('#app');

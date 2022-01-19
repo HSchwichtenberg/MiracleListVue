@@ -1,12 +1,12 @@
 <template>
-  <h5 v-if="Username">
+  <div v-if="Username">
     <!-- Zeit: {{moment().format('HH:mm:ss')}} <br> -->
-    Benutzer: {{C_Username}}<br>
+    Benutzer: {{C_Username}}
     <router-link to='/Logout'>Logout</router-link>
-   </h5>
- <h5 v-else>
+   </div>
+ <div v-else>
     You're not signed in!
- </h5>
+ </div>
 </template>
 
 <script setup lang="ts">
