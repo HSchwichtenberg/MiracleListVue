@@ -13,18 +13,16 @@
      <span class="hidden-xs" i18n>Cancel</span>
     </button>
     <!--Titel-->
-    <div class="form-group">
-     <label for="tasktitle">Titel</label>
+    <div class="form-group" :class="{'has-error': v$.title.$error}">
+     <label for="tasktitle" class="control-label">Titel</label> <span style="color: red" v-if="v$.title.$error">*</span>
      <input id="tasktitle" name="tasktitle" type="text" v-model="t.title" required class="form-control" />
-
-    <!-- Dirty {{v$.title.$dirty}} -->
-     <div style="color:red" v-if="v$.title.$error">Required and at least 3 letters!</div>
+     <div class="text-danger" v-if="v$.title.$error">Required and at least 3 letters!</div>
     </div>
     <div class="row">
      <!--Wichtigkeit-->
      <span class="col-xs-3" style="padding-right: 2px">
       <div class="form-group">
-       <label for="taskimportance" i18n>Importance</label>
+       <label for="taskimportance" class="control-label">Importance</label>
        <select id="taskimportance" name="taskimportance" v-model="t.importance" class="form-control">
         <option
          v-for="x in Object.keys(Importance).filter((item) => {
@@ -39,15 +37,16 @@
      </span>
      <!--Aufwand-->
      <span class="col-xs-3" style="padding-left: 2px; padding-right: 2px">
-      <label for="taskeffort" i18n>Effort</label>
+      <label for="taskeffort" class="control-label" >Effort</label>
       <input id="taskeffort" type="number" name="taskeffort" v-model="t.effort" class="form-control" />
      </span>
      <!--Fälligkeit-->
      <span class="col-xs-6" style="padding-left: 2px">
-      <div class="form-group">
-       <label for="taskDue" i18n :title="t.due">Due</label>
+      <div class="form-group" :class="{'has-error': v$.due.$error}">
+       <label for="taskDue" class="control-label"  :title="t.due">Due</label> <span style="color: red" v-if="v$.due.$error">*</span>
        <input id="taskdue" name="taskdue" type="date" v-model="taskDue" class="form-control" />
       </div>
+    
      </span>
     </div>
     <!--Ende row-->
@@ -55,28 +54,30 @@
     <SubTaskList :task="task"></SubTaskList>
     <!--Notiz-->
     <div class="form-group">
-     <label for="tasknote" i18n>Note</label>
+     <label for="tasknote" class="control-label" >Note</label>
      <textarea id="tasknote" name="tasknote " rows="5" v-model="t.note" class="form-control"></textarea>
     </div>
    </form>
   </div>
 
- <div v-if="v$.$error" class="alert alert-danger">
-  <h4 class="alert-heading">There are validation errors:</h4>
-  <li v-for="error of v$.$errors" :key="error.$uid">
-   <span>{{ error.$property }}: {{ error.$validator }} ({{ error.$message }} {{ error.$pending}})</span>
-  </li></div>
+  <div v-if="v$.$error" class="alert alert-danger">
+   <h4 class="alert-heading">There are validation errors in this form</h4>
+   <li v-for="error of v$.$errors" :key="error.$uid">
+    <span>{{ error.$property }}: {{ error.$validator }} ({{ error.$message }})</span>
+   </li>
+  </div>
  </div>
 </template>
 
 <script setup lang="ts">
-import { defineEmits, computed } from "vue";
+import { defineEmits, computed, watch } from "vue";
 import { Task, Importance } from "@/services/MiracleListProxyV2";
 import SubTaskList from "@/components/SubTaskList.vue";
 
 // Sprint 5
 import useVuelidate from "@vuelidate/core";
 import { required, minLength, helpers } from "@vuelidate/validators";
+import moment from "moment";
 
 //#region Öffentliche Schnittstelle der Komponente
 // === Parameter
@@ -95,6 +96,10 @@ const t = computed(() => props.task);
 //   t.value = newValue
 // });
 
+watch(() => props.task, (newValue, oldValue) => {
+v$.value.$reset();
+});
+
 // Wrapper für due -> Workaround für Datumsformatproblem
 const taskDue = computed({
  get: () => (t.value!.due ? t.value!.due!.toISOString().substring(0, 10) : null),
@@ -104,13 +109,22 @@ const taskDue = computed({
 //#region Sprint 5 Validation
 
 // Custom Validator
-const future = (value) => value >= new Date();
+const future = (value) => value >= moment().startOf('day');
 
+// Regeln
 const rules = {
-title: { required: helpers.withMessage('Title field cannot be empty!', required),
- minLength: helpers.withMessage('Title must be at least 3 chars long!', minLength(3))  },
-due: { required, future  }
+ title: {
+  required,
+  minLength: helpers.withMessage("Title must be at least 3 chars long!", minLength(3)),
+$autoDirty: true
+ },
+ due: {
+  required,
+  future: helpers.withMessage("Due date must be in the future!", future),
+$autoDirty: true
+ },
 };
+
 
 const v$ = useVuelidate(rules, props.task!);
 //#endregion
@@ -118,10 +132,9 @@ const v$ = useVuelidate(rules, props.task!);
 //#region Benutzeraktionen
 async function Save() {
  var ok = await v$.value.$validate();
- if (ok)
- {
- console.log("Save");
- emit("TaskEditDone", true);
+ if (ok) {
+  console.log("Save");
+  emit("TaskEditDone", true);
  }
 }
 
