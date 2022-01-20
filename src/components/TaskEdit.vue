@@ -14,7 +14,7 @@
     </button>
     <!--Titel-->
     <div class="form-group" :class="{'has-error': v$.title.$error}">
-     <label for="tasktitle" class="control-label">Titel</label> <span style="color: red" v-if="v$.title.$error">*</span>
+     <label for="tasktitle" class="control-label">Title</label> <span style="color: red" v-if="v$.title.$error">*</span>
      <input id="tasktitle" name="tasktitle" type="text" v-model="t.title" required class="form-control" />
      <div class="text-danger" v-if="v$.title.$error">Required and at least 3 letters!</div>
     </div>

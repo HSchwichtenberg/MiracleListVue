@@ -2,8 +2,7 @@
   "name": "miraclelist-client",
   "version": "0.5.0",
   "releaseDate": "19.01.2022",
-  "backend": "http://miraclelistbackend.azurewebsites.net",
-  "private": true,
+npm run se  "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -40,7 +39,7 @@
     "@vue/compiler-sfc": "^3.0.0",
     "@vue/eslint-config-typescript": "^7.0.0",
     "@vue/test-utils": "^2.0.0-0",
-    "chromedriver": "94",
+    "chromedriver": "97",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^7.0.0",
     "geckodriver": "^1.20.0",

@@ -27,7 +27,7 @@ app.provide('AuthenticationManager', new AuthenticationManager())
 
 // Für Vue-Toastification (Sprint 5)
 const options: PluginOptions = {
- position: POSITION.TOP_LEFT,
+ position: POSITION.BOTTOM_RIGHT,
  newestOnTop: true,
  transition: "Vue-Toastification__bounce",
  timeout: 5000,

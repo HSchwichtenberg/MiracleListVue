@@ -59,8 +59,8 @@
   <!-- ---------- Überschrift Spalte 1-->
   <h4>
    {{ data.taskSet.length }}
-   <span>Tasks in</span>
-   {{ data.category.name }}
+   <span>Tasks in</span> <span style="font-weight:600"> {{ data.category.name }}</span>
+
   </h4>
   <!-- ---------- neue Aufgabe eingeben-->
   <input
