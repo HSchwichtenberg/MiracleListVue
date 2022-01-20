@@ -44,6 +44,8 @@
      v-for="c in data.categorySet"
      :key="c.categoryID"
      @click="ShowTaskSet(c)"
+     @dragover.prevent
+     @drop="DropTaskToCategory($event, c)"
      :title="'Task Category #' + c.categoryID"
      :style="{
       backgroundColor:
@@ -99,9 +101,13 @@
    class="list-group scroll"
    @end="ChangeTaskOrder"
    tag="ol">
+   <!-- v-for="t in data.taskSet"    
+    :key="t.taskID" -->
    <template #item="{ element: t }">
     <li
      @click="ShowTaskDetail(t)"
+     draggable="true"
+     @dragstart="DragTask($event, t)"
      class="list-group-item"
      :title="'Task #' + t.taskID + ' Created: ' + t.created"
      :style="{
@@ -160,7 +166,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted, inject, computed, onUnmounted } from "vue";
+import {
+ ref,
+ reactive,
+ onMounted,
+ inject,
+ computed,
+ onUnmounted,
+ callWithAsyncErrorHandling,
+} from "vue";
 import {
  MiracleListProxy,
  Category,
@@ -179,21 +193,19 @@ import { useToast } from "vue-toastification"; // Sprint 5
 const toast = useToast();
 
 async function ChangeTaskOrder(evt, originalEvent) {
- console.log("MOVE:", evt, originalEvent);
- // besser:
  let orderedTaskIDSet: Array<number> = [];
-
+ // Liste der Aufgaben in der nun gewünschten Reihenfolge
  data.taskSet!.forEach(async (t) => {
   orderedTaskIDSet.push(t.taskID as number);
  });
-
+ // Aufruf des Backeneds
  let erfolgreiche = await proxy.changeTaskOrder(
   data.category?.categoryID,
   AppState.Token,
   orderedTaskIDSet
  );
  console.info(
-  `Umsortieren erfolgreich bei ${erfolgreiche} von ${data.taskSet?.length}!`
+  `ChangeTaskOrder Done: ${erfolgreiche} of ${data.taskSet?.length}!`
  );
 
  // Ungünstige Möglichkeit
@@ -308,10 +320,11 @@ async function ShowTaskSet(c: Category | null | undefined) {
  data.category = c;
  if (c && c.categoryID) {
   data.taskSet = await proxy.taskSet(c.categoryID, AppState.Token);
+  // Sortierreihenfolge beachten!
   data.taskSet = data.taskSet.sort(
    (x, y) => (x.order as number) - (y.order as number)
   );
-  console.log("API v2TaskSetByIdGet OK!", data.taskSet);
+  console.log("ShowTaskSet", data.taskSet);
   data.task = null;
  }
 }
@@ -448,5 +461,19 @@ async function SendTaskListUpdate() {
    data.category!.categoryID
   );
  else console.warn("SignalR.connection: not connected!", "");
+}
+
+// Sprint 5
+function DragTask(ev, task: Task) {
+ ev.dataTransfer.setData("task", JSON.stringify(task));
+}
+
+// Sprint 5
+async function DropTaskToCategory(ev, category: Category) {
+ const task = JSON.parse(ev.dataTransfer.getData("task")) as Task;
+ console.info("Drop", task.taskID, task.categoryID, category.categoryID);
+ task.categoryID = category.categoryID;
+ await proxy.changeTask(AppState.Token, task);
+ await ShowTaskSet(data.category);
 }
 </script>
