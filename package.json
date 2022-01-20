@@ -2,7 +2,7 @@
   "name": "miraclelist-client",
   "version": "0.5.0",
   "releaseDate": "19.01.2022",
-npm run se  "private": true,
+  "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
