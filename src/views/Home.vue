@@ -241,11 +241,6 @@ let IsFuture = (d: Date) => moment(d).startOf("day") > moment().startOf("day");
 // Verweise auf Elemente
 const confirmDialog = ref<typeof ConfirmDialog>();
 
-onUnmounted(async () => {
- console.log("Home:onUnmounted");
- AppState.HubConnection.value?.stop();
-});
-
 onMounted(async () => {
  console.log("Home:OnMounted");
  // Sprint 2+3: zunächst statischer Login. Wird später ausgelagert!
@@ -304,6 +299,13 @@ onMounted(async () => {
   .catch((err) => console.error(err));
  //#endregion
 });
+
+
+onUnmounted(async () => {
+ console.log("Home:onUnmounted");
+ AppState.HubConnection.value?.stop();
+});
+
 
 async function ShowCategorySet() {
  console.log("API v2CategorySetGet OK!", data.categorySet);
