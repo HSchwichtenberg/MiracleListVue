@@ -1,4 +1,6 @@
 {
  "tabWidth": 1,
- "bracketSameLine": true
+ "bracketSameLine": true,
+ "proseWrap": "never",
+ "printWidth": 150
 }
