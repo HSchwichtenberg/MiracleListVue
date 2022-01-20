@@ -1,6 +1,6 @@
 <template>
   <div class="panel panel-primary">
-    <div class="panel-heading">
+    <div class="panel-heading" id="headline">
       <h2>User Login</h2>
     </div>
     <div class="panel-body">
@@ -18,9 +18,9 @@
         <div class="col-xs-12 form-group">
           <label for="name">Email Address</label>
           <input
-            name="name"
+            name="username"
             v-model="Username"
-            id="name"
+            id="username"
             type="text"
             placeholder="Your Email Address"
             class="form-control"

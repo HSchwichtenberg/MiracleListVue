@@ -1,7 +1,7 @@
 <template>
   <div v-if="Username">
     <!-- Zeit: {{moment().format('HH:mm:ss')}} <br> -->
-    Benutzer: {{C_Username}}
+    Benutzer: <span id="C_Username">{{C_Username}}</span>
     <router-link to='/Logout'>Logout</router-link>
    </div>
  <div v-else>

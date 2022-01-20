@@ -14,12 +14,12 @@
 
 <template>
  <ConfirmDialog ref="confirmDialog"></ConfirmDialog>
- <div>
+ <div id="col1">
   <!-- ##################################### Spalte 1: Kategorien-->
   <div v-if="data.categorySet" class="MLPanel" :class="data.task ? 'hidden-xs hidden-sm col-md-3 col-lg-2' : 'col-xs-4 col-sm-4 col-md-3 col-lg-2'">
    <!-- ---------- Überschrift Spalte 1-->
    <h4>
-    {{ data.categorySet.length }}
+   <span id="categoryCount">{{ data.categorySet.length }}</span>
     <span>Categories</span>
    </h4>
    <!-- ---------- neue Kategorie eingeben-->
@@ -31,7 +31,7 @@
     @change="CreateCategory"
     placeholder="new Category..." />
    <!-- ---------- Kategorieliste ausgeben-->
-   <ol class="list-group scroll">
+   <ol class="list-group scroll" id="categoryList">
     <li
      class="list-group-item"
      v-for="c in data.categorySet"
@@ -52,7 +52,7 @@
 
  <!-- ##################################### Spalte 2: Aufgaben-->
 
- <div
+ <div id="col2"
   v-if="data.category && data.taskSet"
   class="MLPanel"
   :class="data.task ? 'hidden-xs col-sm-6 col-md-5 col-lg-6' : 'col-xs-8 col-sm-8 col-md-9 col-lg-10'">
@@ -121,7 +121,7 @@
 
  <!-- <transition name="fade"> -->
  <!-- ### Spalte 3: Aufgabendetails-->
- <div v-if="data.task" class="MLPanel col-xs-12 col-sm-6 col-md-4 col-lg-4">
+ <div id="col3" v-if="data.task" class="MLPanel col-xs-12 col-sm-6 col-md-4 col-lg-4">
   <TaskEdit v-model:task="data.task" @TaskEditDone="TaskEditDone"></TaskEdit>
  </div>
  <!-- </transition> -->
