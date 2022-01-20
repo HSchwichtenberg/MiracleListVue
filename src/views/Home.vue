@@ -174,6 +174,8 @@ import {
  computed,
  onUnmounted,
  callWithAsyncErrorHandling,
+watch,
+watchEffect,
 } from "vue";
 import {
  MiracleListProxy,
@@ -190,6 +192,7 @@ import draggable from "vuedraggable";
 import * as signalR from "@microsoft/signalr";
 
 import { useToast } from "vue-toastification"; // Sprint 5
+import { HubConnectionState } from "@microsoft/signalr";
 const toast = useToast();
 
 async function ChangeTaskOrder(evt, originalEvent) {
@@ -241,6 +244,15 @@ let IsFuture = (d: Date) => moment(d).startOf("day") > moment().startOf("day");
 // Verweise auf Elemente
 const confirmDialog = ref<typeof ConfirmDialog>();
 
+ // Sprint 5: SignalR
+let HubConnection = ref<signalR.HubConnection>();
+let HubConnected = computed(()=> HubConnection.value?.state == HubConnectionState.Connected);
+
+watchEffect(async () => {
+ AppState.HubConnectionInfo.value = "SignalR: <span style='color:" + (HubConnected.value ? "green" : "red") + "'>" + HubConnection.value!.state + "<span>";
+});
+
+
 onMounted(async () => {
  console.log("Home:OnMounted");
  // Sprint 2+3: zunächst statischer Login. Wird später ausgelagert!
@@ -253,13 +265,13 @@ onMounted(async () => {
  await ShowCategorySet();
 
  //#region  SignalR (Spring 5)
- console.log("*** SignalR Init AppState.HubConnection...");
+ console.log("*** SignalR Init HubConnection...");
  // ASP.NET Core SignalR-Verbindung konfigurieren
- AppState.HubConnection.value = new signalR.HubConnectionBuilder()
+ HubConnection.value = new signalR.HubConnectionBuilder()
   .withUrl(process.env.VUE_APP_ENV_Backend + "/MLHub")
   .build();
  // --- eingehende Nachricht
- AppState.HubConnection.value!.on(
+ HubConnection.value!.on(
   "SendCategoryListUpdate",
   async (sender: string, categoryID: number) => {
    console.log(`*** SignalR-CategoryListUpdate von ${sender}: ${categoryID}`);
@@ -268,7 +280,7 @@ onMounted(async () => {
   }
  );
  // --- eingehende Nachricht
- AppState.HubConnection.value!.on(
+ HubConnection.value!.on(
   "SendTaskListUpdate",
   async (sender: string, categoryID: number) => {
    console.log(`*** SignalR-TaskListUpdate von ${sender}: ${categoryID}`);
@@ -285,16 +297,19 @@ onMounted(async () => {
   }
  );
 
+HubConnection.value.onreconnecting = () => console.log("***SignalR onreconnecting");
+HubConnection.value.onclose = () => console.log("***SignalR onclose");
  // Verbindung zum SignalR-Hub starten
- AppState.HubConnection.value!.start()
+ HubConnection.value!.start()
   .then(() => {
    console.log(
-    `*** SignalR-Connection OK (${AppState.HubConnection.value!.state}): ${
-     AppState.HubConnection.value!.connectionId
+    `*** SignalR-Connection OK (${HubConnection.value!.state}): ${
+     HubConnection.value!.connectionId
     } ${AppState.Token}`
    );
+
    // Registrieren für Events
-   AppState.HubConnection.value!.send("Register", AppState.Token);
+   HubConnection.value!.send("Register", AppState.Token);
   })
   .catch((err) => console.error(err));
  //#endregion
@@ -303,7 +318,7 @@ onMounted(async () => {
 
 onUnmounted(async () => {
  console.log("Home:onUnmounted");
- AppState.HubConnection.value?.stop();
+ HubConnection.value?.stop();
 });
 
 
@@ -441,10 +456,10 @@ async function TaskEditDone(changed: boolean) {
 async function SendCategoryListUpdate() {
  console.info(
   "SignalR.SendCategoryListUpdate",
-  AppState.HubConnection.value!.state
+  HubConnection.value!.state
  );
- if (AppState.HubConnected.value)
-  await AppState.HubConnection.value!.send(
+ if (HubConnected.value)
+  await HubConnection.value!.send(
    "SendCategoryListUpdate",
    AppState.Token
   );
@@ -454,10 +469,10 @@ async function SendCategoryListUpdate() {
 async function SendTaskListUpdate() {
  console.info(
   "SignalR.SendTaskListUpdate",
-  AppState.HubConnection.value!.state
+  HubConnection.value!.state
  );
- if (AppState.HubConnected.value)
-  await AppState.HubConnection.value!.send(
+ if (HubConnected.value)
+  await HubConnection.value!.send(
    "SendTaskListUpdate",
    AppState.Token,
    data.category!.categoryID

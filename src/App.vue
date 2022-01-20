@@ -85,14 +85,9 @@
    </div>
 
    <div>
-    Backend: {{ backend }}
-    <span
-     :title="AppState.HubConnection.value?.connectionId ?? 'no connection!'">
-     SignalR: {{ AppState.HubConnection.value?.baseUrl }}
-     <span :style="AppState.HubConnected ? 'color:green' : 'color:red'">
-      {{ AppState.HubConnection.value?.state }}
-     </span>
-    </span>
+    <span>   Backend: {{ backend }}</span>&nbsp; 
+ <span v-html="AppState.HubConnectionInfo.value"></span>
+
    </div>
 
    <!-- Alternative Anzeige dieses Blocks unten auf kleinen Displays -->
