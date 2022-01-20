@@ -77,8 +77,8 @@ let Message = ref("");
 onMounted(async () => { 
   console.log("Login:OnMounted");
   if (process.env.NODE_ENV === 'development') {
-    Username.value = "ihre@email.de";
-    Password.value = "geheim";
+    Username.value = process.env.VUE_APP_ENV_DebugUser;
+    Password.value = process.env.VUE_APP_ENV_DebugPassword;
   }
   // logout?
   if (useRoute().path.includes("/Logout")) am.Logout();
