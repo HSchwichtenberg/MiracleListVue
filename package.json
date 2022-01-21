@@ -39,6 +39,8 @@
     "@vue/compiler-sfc": "^3.0.0",
     "@vue/eslint-config-typescript": "^7.0.0",
     "@vue/test-utils": "^2.0.0-0",
+    "chai": "^4.3.4",
+    "chai-dom": "^1.11.0",
     "chromedriver": "97",
     "eslint": "^6.7.2",
     "eslint-plugin-vue": "^7.0.0",

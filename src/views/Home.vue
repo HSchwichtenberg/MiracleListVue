@@ -44,7 +44,7 @@
       backgroundColor: data.category && c.categoryID == data.category?.categoryID ? '#E0EEFA' : 'white',
      }">
      {{ c.name }}
-     <span id="Remove" style="float: right" class="close" :title="`Remove Category #${c.categoryID}`" @click.stop="RemoveCategory(c)">&times;</span>
+     <span id="remove" style="float: right" class="close" :title="`Remove Category #${c.categoryID}`" @click.stop="RemoveCategory(c)">&times;</span>
     </li>
    </ol>
   </div>
@@ -58,9 +58,8 @@
   :class="data.task ? 'hidden-xs col-sm-6 col-md-5 col-lg-6' : 'col-xs-8 col-sm-8 col-md-9 col-lg-10'">
   <!-- ---------- Überschrift Spalte 1-->
   <h4>
-   {{ data.taskSet.length }}
-   <span>Tasks in</span> <span style="font-weight:600"> {{ data.category.name }}</span>
-
+  <span id="taskCount"> {{ data.taskSet.length }}</span>
+   <span>Tasks in</span> <span id="categoryCurrentName" style="font-weight:600"> {{ data.category.name }}</span>
   </h4>
   <!-- ---------- neue Aufgabe eingeben-->
   <input
@@ -100,7 +99,7 @@
       <span class="badge badge-important" style="margin-right: 10px" :title="'Importance: ' + Importance[t.importance] + ' (' + t.importance + ')'">{{
        Importance[t.importance]
       }}</span>
-      <span id="Remove" :title="`Remove Task #${t.taskID}`" class="close" @click.stop="RemoveTask(t)">&times;</span>
+      <span id="remove" :title="`Remove Task #${t.taskID}`" class="close" @click.stop="RemoveTask(t)">&times;</span>
      </span>
 
      <div
