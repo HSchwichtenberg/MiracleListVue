@@ -1,7 +1,7 @@
 <template>
  <div style="padding: 0">
   <div>
-   <h4>Task #{{ task?.taskID }}</h4>
+   <h4 id="taskheadline">Task #{{ task?.taskID }}</h4>
    <form id="taskForm">
     <!--Schaltflächen-->
     <button id="save" type="button" title="Änderungen speichern" @click="Save" class="btn btn-success" style="margin-right: 5px">
@@ -70,7 +70,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineEmits, computed, watch } from "vue";
+import {  computed, watch } from "vue";
 import { Task, Importance } from "@/services/MiracleListProxyV2";
 import SubTaskList from "@/components/SubTaskList.vue";
 
@@ -96,7 +96,7 @@ const t = computed(() => props.task);
 //   t.value = newValue
 // });
 
-watch(() => props.task, (newValue, oldValue) => {
+watch(() => props.task, () => {
 v$.value.$reset();
 });
 
@@ -109,24 +109,21 @@ const taskDue = computed({
 //#region Sprint 5 Validation
 
 // Custom Validator
-const future = (value) => value >= moment().startOf('day');
+const future = (value: Date) => value >= moment().startOf('day').toDate();
 
 // Regeln
 const rules = {
  title: {
   required,
-  minLength: helpers.withMessage("Title must be at least 3 chars long!", minLength(3)),
-$autoDirty: true
+  minLength: helpers.withMessage("Title must be at least 3 chars long!", minLength(3))
  },
  due: {
   required,
   future: helpers.withMessage("Due date must be in the future!", future),
-$autoDirty: true
- },
+ }
 };
 
-
-const v$ = useVuelidate(rules, props.task!);
+const v$ = useVuelidate(rules, props.task!, { $autoDirty: true });
 //#endregion
 
 //#region Benutzeraktionen
