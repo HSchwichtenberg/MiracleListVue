@@ -6,11 +6,11 @@
     <!--Schaltflächen-->
     <button id="save" type="button" title="Änderungen speichern" @click="Save" class="btn btn-success" style="margin-right: 5px">
      <span class="glyphicon glyphicon-floppy-save"></span>
-     <span class="hidden-xs" i18n>Save</span>
+     <span class="hidden-xs">Save</span>
     </button>
     <button id="cancel" type="button" title="Änderungen verwerfen" @click="Cancel" class="btn btn-warning">
      <span class="glyphicon glyphicon-remove"></span>
-     <span class="hidden-xs" i18n>Cancel</span>
+     <span class="hidden-xs">Cancel</span>
     </button>
     <!--Titel-->
     <div class="form-group" :class="{'has-error': v$.title.$error}">
@@ -129,9 +129,14 @@ const v$ = useVuelidate(rules, props.task!, { $autoDirty: true });
 //#region Benutzeraktionen
 async function Save() {
  var ok = await v$.value.$validate();
+ console.log("Validation",v$.value.$errors)
  if (ok) {
-  console.log("Save");
   emit("TaskEditDone", true);
+  console.log("Save", ok);
+ }
+ else
+ {
+  console.warn("Validation failed!", v$.value.$errors);
  }
 }
 
