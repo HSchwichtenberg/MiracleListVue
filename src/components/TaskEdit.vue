@@ -43,7 +43,7 @@
      <!--Fälligkeit-->
      <span class="col-xs-6" style="padding-left: 2px">
       <div class="form-group" :class="{'has-error': v$.due.$error}">
-       <label for="taskDue" class="control-label"  :title="t.due">Due</label> <span style="color: red" v-if="v$.due.$error">*</span>
+       <label for="taskDue" class="control-label" :title="t.due">Due</label> <span style="color: red" v-if="v$.due.$error">*</span>
        <input id="taskdue" name="taskdue" type="date" v-model="taskDue" class="form-control" />
       </div>
     
@@ -70,7 +70,7 @@
 </template>
 
 <script setup lang="ts">
-import {  computed, watch } from "vue";
+import { computed, watch } from "vue";
 import { Task, Importance } from "@/services/MiracleListProxyV2";
 import SubTaskList from "@/components/SubTaskList.vue";
 
@@ -82,7 +82,7 @@ import moment from "moment";
 //#region Öffentliche Schnittstelle der Komponente
 // === Parameter
 const props = defineProps({
- task: Task,
+ task: Task
 });
 // ===  Events
 const emit = defineEmits(["TaskEditDone"]);
