@@ -59,8 +59,7 @@
 
 <script setup lang="ts">
 import { ref, onMounted, inject } from 'vue';
-import { useRoute } from 'vue-router';
-import router from '@/router';
+import { useRoute, useRouter } from 'vue-router';
 
 import { version as vueVersion } from 'vue';
 import { version as appversion } from '../../package.json'
@@ -68,6 +67,8 @@ import { AuthenticationManager } from '@/services/AuthenticationManager';
 
 // DI
 let am: AuthenticationManager = inject("AuthenticationManager") as AuthenticationManager;
+  const router = useRouter()
+    const route = useRoute()
 
 // Variablen für Datenbindung
 let Username = ref("");
@@ -81,7 +82,7 @@ onMounted(async () => {
     Password.value = process.env.VUE_APP_ENV_DebugPassword;
   }
   // logout?
-  if (useRoute() && useRoute().path.includes("/Logout")) am.Logout();
+  if (route && route.path.includes("/Logout")) am.Logout();
   // vorhandenes Token?
   if (await am.CheckLocalTokenValid()) router.push("/")
 });
