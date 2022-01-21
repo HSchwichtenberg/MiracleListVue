@@ -28,9 +28,11 @@ function generateUUID() {
 function Homepage(browser) {
  browser
   .init()
+   // Prüfe Überschrift
   .waitForElementVisible("#app")
   .assert.elementPresent(".panel-heading")
   .assert.containsText("h2", "User Login")
+  // Prüfe Bild
   .assert.elementCount("img", 1);
  return browser;
 }
