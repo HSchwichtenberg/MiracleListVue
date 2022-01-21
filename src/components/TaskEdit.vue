@@ -129,14 +129,13 @@ const v$ = useVuelidate(rules, props.task!, { $autoDirty: true });
 //#region Benutzeraktionen
 async function Save() {
  var ok = await v$.value.$validate();
- console.log("Validation",v$.value.$errors)
  if (ok) {
+  console.log("Save");
   emit("TaskEditDone", true);
-  console.log("Save", ok);
  }
  else
  {
-  console.warn("Validation failed!", v$.value.$errors);
+  // console.warn("Validation failed!", v$.value.$errors);
  }
 }
 
