@@ -30,9 +30,7 @@ describe("Login test", () => {
    },
   });
 
-  console.log("WRAPPER", wrapper);
   expect(wrapper.get(".panel-heading").text()).toEqual("User Login");
-
   await wrapper.find("input[name=username]").setValue("unittest");
   await wrapper.find("input[name=password]").setValue("unsinn");
   await wrapper.find("button[type=submit]").trigger("click");
@@ -40,7 +38,6 @@ describe("Login test", () => {
  });
 
  it("Login OK", async () => {
-
 
   const wrapper = mount(Login, {
    global: {
@@ -51,12 +48,9 @@ describe("Login test", () => {
    },
   });
 
-  console.log("WRAPPER", wrapper);
   expect(wrapper.get(".panel-heading").text()).toEqual("User Login");
-
   await wrapper.find("input[name=username]").setValue("unittest");
   await wrapper.find("input[name=password]").setValue("unsinn");
   await wrapper.find("button[type=submit]").trigger("click");
-
  });
 });
