@@ -8,19 +8,17 @@
       name="newSubTaskTitle"
       v-model="newSubTaskTitle"
       @change="createSubTask()"
-      i18n-placeholder
       placeholder="new Subtask..."
     />
     <ul class="list-group">
       <li v-for="st in subTasks" class="list-group-item" :key="st.subTaskID">
         <input
-          name="done{{st.taskID}}"
           type="checkbox"
           v-model="st.done"
           class="MLcheckbox"
           style="margin-right:5px;"
         />
-        <span :style="{ 'text-decoration': (st.done ? 'line-through' : 'none') }">{{ st!.title }}</span>
+        <span :style="{ 'text-decoration': (st.done ? 'line-through' : 'none') }">{{ st.title }}</span>
         <a @click="removeSubTask(st)" class="close">&times;</a>
       </li>
     </ul>
@@ -37,7 +35,7 @@ const props = defineProps({
   task: Task
 })
 // notwendig, wenn sich Parameterwert aufgrund der Auswahl ändert
-watch(() => props.task, (newValue, oldValue) => {
+watch(() => props.task, () => {
   subTasks.value = props.task!.subTaskSet;
 });
 //#endregion
@@ -54,7 +52,7 @@ function createSubTask() {
     title: newSubTaskTitle.value,
     created: new Date(),
     done: false,
-    taskID: 0,
+    taskID: 0
   });
   subTasks.value?.push(newSubTask);
   console.log("SubTaskList.createSubTask", newSubTask);
