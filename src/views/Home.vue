@@ -19,8 +19,8 @@
   <div v-if="data.categorySet" class="MLPanel" :class="data.task ? 'hidden-xs hidden-sm col-md-3 col-lg-2' : 'col-xs-4 col-sm-4 col-md-3 col-lg-2'">
    <!-- ---------- Überschrift Spalte 1-->
    <h4>
-   <span id="categoryCount">{{ data.categorySet.length }}</span>&nbsp;
-    <span>Categories</span>
+   <span style="margin-right:5px" id="categoryCount">{{ data.categorySet.length }}</span> 
+   <span>Categories</span>
    </h4>
    <!-- ---------- neue Kategorie eingeben-->
    <input
@@ -58,7 +58,7 @@
   :class="data.task ? 'hidden-xs col-sm-6 col-md-5 col-lg-6' : 'col-xs-8 col-sm-8 col-md-9 col-lg-10'">
   <!-- ---------- Überschrift Spalte 1-->
   <h4>
-  <span id="taskCount"> {{ data.taskSet.length }}</span>&nbsp;
+  <span id="taskCount" style="margin-right:5px"> {{ data.taskSet.length }}</span>
    <span>Tasks in</span> <span id="categoryCurrentName" style="font-weight:600"> {{ data.category.name }}</span>
   </h4>
   <!-- ---------- neue Aufgabe eingeben-->

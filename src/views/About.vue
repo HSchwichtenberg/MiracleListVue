@@ -41,7 +41,7 @@ async function About() {
   ServerFramework.value = r[8];
 
   // oder
-  // var proxy = new MiracleListProxy("https://miraclelistbackend.azurewebsites.net/");
+  // var proxy = new MiracleListProxy(process.env.VUE_APP_ENV_Backend);
   // proxy.about()
   // .then(r => {  result.value = "Ergebnis:" + r; 
   // console.log("About:Antwort vom Server!", r)
