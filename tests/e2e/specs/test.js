@@ -22,6 +22,9 @@ function generateUUID() {
  });
 }
 
+/**
+Öffnet und prüft die Startseite
+ */
 function Homepage(browser) {
  browser
   .init()
@@ -32,7 +35,11 @@ function Homepage(browser) {
  return browser;
 }
 
+/**
+Anmeldung
+ */
 function Login(browser, username, password) {
+ Homepage(browser); // oder mit custom-command: browser.openHomepage()
  browser
   .waitForElementVisible("input[name=username]")
   .setValue("input[name=username]", username)
@@ -42,13 +49,18 @@ function Login(browser, username, password) {
 }
 
 module.exports = {
- // 'open login page': browser => {
- //   Homepage(browser);
- //   browser.end();
- // },
+ 'open login page': browser => {
+   Homepage(browser);
+   browser.end();
+ },
 
- "login and create": (browser) => {
-  Homepage(browser); // oder mit custom-command: browser.openHomepage()
+ "invalid login without password": (browser) => {
+  Login(browser, "nightwatch", "");
+  browser.assert.containsText("#errorMsg", "Username and Password required!");
+  browser.saveScreenshot("t:/nightwatch/LoginInvalid.png");
+ },
+
+ "login, create category with tasks and remove": (browser) => {
   Login(browser, "nightwatch", "nightwatch+init");
   browser.saveScreenshot("t:/nightwatch/LoginBefore.png");
 
