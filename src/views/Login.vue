@@ -49,7 +49,7 @@
         id="Login"
         title="Login using the MiracleList Backend"
         name="Login"
-      >Anmelden</button>
+      >Login</button>
       &nbsp;
       <span id="errorMsg" class="text-danger">{{ Message }}</span>
     </div>
