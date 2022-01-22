@@ -19,5 +19,5 @@ export class AppState {
   return AppState.Token != "";
  }
 
- public static HubConnectionInfo = ref("???");
+ public static HubConnectionInfo = ref("");
 }

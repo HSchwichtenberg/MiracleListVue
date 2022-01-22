@@ -8,9 +8,7 @@
       </router-link>-->
   </span>
   <!--  Anzeige dieses Blocks oben nur auf großen Displays -->
-  <span
-   class="col-xs-6 col-lg-9 col-sm-7 col-md-8 hidden-xs"
-   style="vertical-align: middle; margin-top: 25px">
+  <span class="col-xs-6 col-lg-9 col-sm-7 col-md-8 hidden-xs" style="vertical-align: middle; margin-top: 25px">
    <UserStatus :Username="AppState.Username.value"></UserStatus>
   </span>
 
@@ -18,9 +16,7 @@
    <ul class="nav navbar-nav navbar-right">
     <li class="dropdown">
      <a class="dropdown-toggle" data-toggle="dropdown">
-      <span
-       style="font-size: 2.2em"
-       class="glyphicon glyphicon-menu-hamburger icon-primary"></span>
+      <span style="font-size: 2.2em" class="glyphicon glyphicon-menu-hamburger icon-primary"></span>
      </a>
      <ul class="dropdown-menu">
       <!-- Menüpunkte für MiracleList -->
@@ -38,24 +34,16 @@
       </li>
       <!-- Werbung -->
       <li>
-       <a href="https://www.it-visions.de/miraclelist" target="_blank">
-        www.MiracleList.net
-       </a>
+       <a href="https://www.it-visions.de/miraclelist" target="_blank"> www.MiracleList.net </a>
       </li>
       <li>
-       <a href="https://www.it-visions.de/thema/vue.js" target="_blank">
-        Beratung und Schulung zu Vue.js
-       </a>
+       <a href="https://www.it-visions.de/thema/vue.js" target="_blank"> Beratung und Schulung zu Vue.js </a>
       </li>
       <li>
-       <a href="https://www.it-visions.de/VueJSBuch" target="_blank">
-        Fachbuch zu Vue.js
-       </a>
+       <a href="https://www.it-visions.de/VueJSBuch" target="_blank"> Fachbuch zu Vue.js </a>
       </li>
       <li>
-       <a href="https://www.it-visions.de" target="_blank">
-        www.IT-Visions.de
-       </a>
+       <a href="https://www.it-visions.de" target="_blank"> www.IT-Visions.de </a>
       </li>
       <li>
        <a href="https://www.MAXIMAGO.de" target="_blank">MAXIMAGO</a>
@@ -74,25 +62,25 @@
  <div class="row">
   <span class="col-xs-12">
    <div>
-    <hr>
-    MiracleListVue {{ appVersion }} running on Vue.js {{ vueVersion }} -
-    released {{ releaseDate }}
+    <hr />
+    MiracleListVue {{ appVersion }} running on Vue.js {{ vueVersion }} - released {{ releaseDate }}
    </div>
    <div>
     Author: Dr. Holger Schwichtenberg,
-    <a href="http://www.IT-Visions.de">www.IT-Visions.de</a>
-    , 2021-{{ moment().year() }}
+    <a href="http://www.IT-Visions.de">www.IT-Visions.de</a>, 2021-{{ moment().year() }}
    </div>
 
    <div>
-    <span>   Backend: {{ backend }}</span>&nbsp; 
- <span v-html="AppState.HubConnectionInfo.value"></span>
-
+    <span>
+     Backend: <a href="{{ backend }}">{{ backend }}</a>
+     </span> 
+    <span  style="margin-left:5px" v-html="AppState.HubConnectionInfo.value"></span>
    </div>
 
    <!-- Alternative Anzeige dieses Blocks unten auf kleinen Displays -->
-
-   <UserStatus :Username="AppState.Username.value"></UserStatus>
+   <span class="hidden-sm hidden-md hidden-lg">
+    <UserStatus :Username="AppState.Username.value"></UserStatus>
+   </span>
   </span>
  </div>
 </template>
