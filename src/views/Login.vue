@@ -20,7 +20,7 @@
     <div class="row">
      <div class="col-xs-12 form-group">
       <label for="name">Email Address</label>
-      <input name="username" v-model="Username" id="username" type="text" placeholder="Your Email Address" class="form-control" />
+      <input id="username"  name="username" type="text" v-model="Username" placeholder="Your Email Address" autocomplete="username" class="form-control" />
      </div>
     </div>
 
@@ -28,11 +28,13 @@
      <div class="col-xs-12 form-group">
       <label for="password">Password</label>
       <input
-       name="password"
-       v-model="Password"
        id="password"
-       placeholder="Your Password - Choose a new password the first time you log in"
+       name="password"
        type="password"
+       v-model="Password"
+       autocomplete="current-password"
+       placeholder="Your Password - Choose a new password the first time you log in"
+
        class="form-control" />
      </div>
     </div>
