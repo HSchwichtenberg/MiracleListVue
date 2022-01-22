@@ -7,14 +7,14 @@ export class AuthenticationManager {
     console.info("AuthenticationManager.CTOR");
   }
 
-  public async LoginDebug(): Promise<boolean> {
+  public async LoginDebug(): Promise<string> {
     return await this.Login(process.env.VUE_APP_ENV_DebugUser, process.env.VUE_APP_ENV_DebugPassword);
   }
 
   STORAGE_KEY = 'Token';
 
-  public async Login(username: string, password: string): Promise<boolean> {
-    let result = false;
+  public async Login(username: string, password: string): Promise<string> {
+    let result = "Unknown Login Error";
 
     const l = new LoginInfo();
     l.clientID = process.env.VUE_APP_ENV_ClientID;
@@ -30,12 +30,13 @@ export class AuthenticationManager {
           AppState.CurrentLoginInfo.value = r;
           localStorage.setItem(this.STORAGE_KEY, r.token!.toString());
           console.info("AuthenticationManager: Login OK!", r)
-          result = true;
+          result = "";
         }
         else {
          console.warn("AuthenticationManager: Login NOT OK!", r)
           AppState.CurrentLoginInfo.value = null;
           localStorage.removeItem(this.STORAGE_KEY);
+          result = r.message;
         }
       })
       .catch(err => { console.error("AuthenticationManager: Login ERROR", err); });

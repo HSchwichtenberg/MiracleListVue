@@ -91,7 +91,7 @@ onMounted(async () => {
 async function Login() {
   if (!Username.value || !Password.value) { Message.value = "Username and Password required!"; return; }
   let r = await am.Login(Username.value, Password.value);
-  if (r) router.push("Home") 
-  else Message.value = "Login Error!";
+  if (!r) router.push("Home") 
+  else Message.value = r;
 }
 </script>

@@ -1,7 +1,11 @@
 <style scoped>
-.MLPanel {
+.MLpanel {
  padding-right: 2px;
  padding-left: 2px;
+}
+
+.MLselected {
+ background-color: #E0EEFA !important;
 }
 .fade-enter-active,
 .fade-leave-active {
@@ -16,11 +20,11 @@
  <ConfirmDialog ref="confirmDialog"></ConfirmDialog>
  <div id="col1">
   <!-- ##################################### Spalte 1: Kategorien-->
-  <div v-if="data.categorySet" class="MLPanel" :class="data.task ? 'hidden-xs hidden-sm col-md-3 col-lg-2' : 'col-xs-4 col-sm-4 col-md-3 col-lg-2'">
+  <div v-if="data.categorySet" class="MLpanel" :class="data.task ? 'hidden-xs hidden-sm col-md-3 col-lg-2' : 'col-xs-4 col-sm-4 col-md-3 col-lg-2'">
    <!-- ---------- Überschrift Spalte 1-->
    <h4>
-   <span style="margin-right:5px" id="categoryCount">{{ data.categorySet.length }}</span> 
-   <span>Categories</span>
+    <span style="margin-right: 5px" id="categoryCount">{{ data.categorySet.length }}</span>
+    <span>Categories</span>
    </h4>
    <!-- ---------- neue Kategorie eingeben-->
    <input
@@ -40,9 +44,7 @@
      @dragover.prevent
      @drop="DropTaskToCategory($event, c)"
      :title="'Task Category #' + c.categoryID"
-     :style="{
-      backgroundColor: data.category && c.categoryID == data.category?.categoryID ? '#E0EEFA' : 'white',
-     }">
+     :class="{ 'MLselected' : data.category && c.categoryID == data.category?.categoryID }">
      {{ c.name }}
      <span id="remove" style="float: right" class="close" :title="`Remove Category #${c.categoryID}`" @click.stop="RemoveCategory(c)">&times;</span>
     </li>
@@ -52,14 +54,15 @@
 
  <!-- ##################################### Spalte 2: Aufgaben-->
 
- <div id="col2"
+ <div
+  id="col2"
   v-if="data.category && data.taskSet"
-  class="MLPanel"
+  class="MLpanel"
   :class="data.task ? 'hidden-xs col-sm-6 col-md-5 col-lg-6' : 'col-xs-8 col-sm-8 col-md-9 col-lg-10'">
   <!-- ---------- Überschrift Spalte 1-->
   <h4>
-  <span id="taskCount" style="margin-right:5px"> {{ data.taskSet.length }}</span>
-   <span>Tasks in</span> <span id="categoryCurrentName" style="font-weight:600"> {{ data.category.name }}</span>
+   <span id="taskCount" style="margin-right: 5px"> {{ data.taskSet.length }}</span>
+   <span>Tasks in</span> <span id="categoryCurrentName" style="font-weight: 600"> {{ data.category.name }}</span>
   </h4>
   <!-- ---------- neue Aufgabe eingeben-->
   <input
@@ -83,9 +86,7 @@
      @dragstart="DragTask($event, t)"
      class="list-group-item"
      :title="'Task #' + t.taskID + ' Created: ' + t.created"
-     :style="{
-      backgroundColor: data.task && t.taskID == data.task?.taskID ? '#E0EEFA' : 'white',
-     }">
+     :class="{ 'MLselected' : data.task && t.taskID == data.task?.taskID }">
      <input
       type="checkbox"
       :name="'done' + t.taskID"
@@ -120,7 +121,7 @@
 
  <!-- <transition name="fade"> -->
  <!-- ### Spalte 3: Aufgabendetails-->
- <div id="col3" v-if="data.task" class="MLPanel col-xs-12 col-sm-6 col-md-4 col-lg-4">
+ <div id="col3" v-if="data.task" class="MLpanel col-xs-12 col-sm-6 col-md-4 col-lg-4">
   <TaskEdit v-model:task="data.task" @TaskEditDone="TaskEditDone"></TaskEdit>
  </div>
  <!-- </transition> -->
