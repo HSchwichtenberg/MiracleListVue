@@ -5,7 +5,7 @@
   </span>
   <!--  Anzeige dieses Blocks oben nur auf großen Displays -->
   <span class="col-xs-6 col-lg-9 col-sm-7 col-md-8 hidden-xs" style="vertical-align: middle; margin-top: 25px">
-      <!-- TODO: UserStatus -->
+   <UserStatus :Username="AppState.Username.value"></UserStatus>
   </span>
 
   <span class="col-xs-1">
@@ -70,24 +70,28 @@
     <span>
      Backend: <a href="{{ backend }}">{{ backend }}</a>
      </span> 
-       <!-- TODO: HubConnectionInfo -->
    </div>
 
    <!-- Alternative Anzeige dieses Blocks unten auf kleinen Displays -->
    <span class="hidden-sm hidden-md hidden-lg">
-    <!-- TODO: UserStatus -->
+    <UserStatus :Username="AppState.Username.value"></UserStatus>
    </span>
   </span>
  </div>
 </template>
 
 <script setup lang="ts">
-import moment from "moment";
 import { onMounted } from "vue";
 import { useRoute } from "vue-router";
 import router from "./router";
 import { version as vueVersion } from "vue";
 import { version as appVersion, releaseDate } from "../package.json";
+// Zusatzbibliotheken
+import moment from "moment";
+// Unterkomponenten
+import UserStatus from "./components/UserStatus.vue";
+// Sonstige Klassen
+import { AppState } from "./services/AppState";
 
 const route = useRoute();
 function ShowAbout() {
@@ -95,7 +99,7 @@ function ShowAbout() {
  else router.replace("/About");
 }
 
-let backend = process.env.VUE_APP_ENV_Backend;
+const backend = process.env.VUE_APP_ENV_Backend;
 
 onMounted(() => {
  console.log("App.vue:OnMounted");

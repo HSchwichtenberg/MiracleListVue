@@ -111,14 +111,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted, onUnmounted } from "vue";
+import { ref, reactive, onMounted, onUnmounted, inject } from "vue";
 import { MiracleListProxy, Category, Task, Importance, LoginInfo } from "@/services/MiracleListProxyV2";
 // Libraries
 import moment from "moment";
 // Unterkomponenten
 import TaskEdit from "@/components/TaskEdit.vue";
 // Sonstige Klassen
-import { AuthenticationManager } from "@/services/AuthenticationManager";
+import { AppState } from "@/services/AppState"; // Sprint 4
 
 //#region ------ Properties zur Datenbindung im reaktivem Objekt
 const data = reactive({
@@ -132,9 +132,7 @@ const data = reactive({
 //#endregion
 
 // Backend
-let proxy = new MiracleListProxy("https://miraclelistbackend.azurewebsites.net/");
-// Token merken
-let token: string = "";
+let proxy : MiracleListProxy = inject("MiracleListProxy") || new MiracleListProxy("");
 
 // Hilfsfunktionen für Template
 let IsToday = (d: Date) => moment().startOf("day").isSame(moment(d).startOf("day"));
@@ -143,18 +141,7 @@ let IsFuture = (d: Date) => moment(d).startOf("day") > moment().startOf("day");
 
 onMounted(async () => {
  console.log("Home:onMounted");
- // Sprint 2+3: zunächst statischer Login. Wird später ausgelagert!
- let am = new AuthenticationManager();
- let li: LoginInfo | null = await am.LoginDebug();
- if (li == null) {
-  alert("Login Error - see Browser Console!");
- } else if (li!.message) {
-  alert("Login Error: " + li!.message);
- } else {
-  token = li.token as string;
-  console.log("Loginfo", li);
   await ShowCategorySet();
- }
 });
 
 onUnmounted(async () => {
@@ -163,7 +150,7 @@ onUnmounted(async () => {
 
 async function ShowCategorySet() {
  console.log("ShowCategorySet", data.categorySet);
- data.categorySet = await proxy.categorySet(token);
+ data.categorySet = await proxy.categorySet(AppState.Token);
  console.log("ShowCategorySet", data.categorySet);
  if (data.categorySet.length > 0) {
   ShowTaskSet(data.categorySet[0]);
@@ -174,7 +161,7 @@ async function ShowTaskSet(c: Category | null | undefined) {
  console.log("ShowTaskSet", c);
  data.category = c;
  if (c && c.categoryID) {
-  data.taskSet = await proxy.taskSet(c.categoryID, token);
+  data.taskSet = await proxy.taskSet(c.categoryID, AppState.Token);
   // Sortierreihenfolge beachten!
   data.taskSet = data.taskSet.sort((x, y) => (x.order as number) - (y.order as number));
   console.log("ShowTaskSet", data.taskSet);
@@ -192,7 +179,7 @@ async function RemoveCategory(c: Category) {
  if (c == null || !c.categoryID) return;
  var text = `Do you want to remove category #${c.categoryID} ${c.name} and all related tasks?`;
  if (!confirm(text)) return;
- await proxy.deleteCategory(c.categoryID as number, token);
+ await proxy.deleteCategory(c.categoryID as number, AppState.Token);
  await ShowCategorySet();
  data.category = data.categorySet!.length > 0 ? (data.categorySet![0] as Category) : null;
 }
@@ -203,14 +190,14 @@ async function RemoveTask(t: Task) {
  if (t == null || !t.taskID) return;
  var text = `Do you want to remove Task #${t.taskID} <b>${t.title}</b>?`;
  if (!confirm(text)) return;
- await proxy.deleteTask(t.taskID, token);
+ await proxy.deleteTask(t.taskID, AppState.Token);
  await ShowTaskSet(data.category);
  data.task = null;
 }
 
 async function CreateCategory() {
  if (!data.newCategoryName) return;
- var newcategory = await proxy.createCategory(data.newCategoryName, token);
+ var newcategory = await proxy.createCategory(data.newCategoryName, AppState.Token);
  await ShowCategorySet();
  await ShowTaskSet(newcategory);
  data.newCategoryName = "";
@@ -231,7 +218,7 @@ async function CreateTask() {
   done: false,
  });
 
- newTask = await proxy.createTask(token, newTask);
+ newTask = await proxy.createTask(AppState.Token, newTask);
  console.log("Home.createTask", newTask);
  await ShowTaskSet(data.category);
  data.newTaskTitle = "";
@@ -239,14 +226,14 @@ async function CreateTask() {
 
 async function ChangeTaskDone(event, t: Task) {
  console.log("Task ÄNDERN", t);
- t = await proxy.changeTaskDone(t.taskID, event.target.checked, token);
+ t = await proxy.changeTaskDone(t.taskID, event.target.checked, AppState.Token);
  console.log("Task GEÄNDERT", t);
 }
 
 async function TaskEditDone(changed: boolean) {
  console.log("TaskEditDone", changed, data.task);
  if (changed && data.task) {
-  await proxy.changeTask(token, data.task);
+  await proxy.changeTask(AppState.Token, data.task);
  } else await ShowTaskSet(data.category); // Bei Cancel: Neuladen als Undo!
  // Nun keine aktuelle Aufgabe mehr!
  data.task = null;
