@@ -70,7 +70,7 @@ onMounted(async () => {
   Username.value = process.env.VUE_APP_ENV_DebugUser;
   Password.value = process.env.VUE_APP_ENV_DebugPassword;
  }
- // logout?
+ // Abmeldewunsch?
  if (route.path.toLowerCase().includes("/logout")) am.Logout();
  // vorhandenes Token?
  if (await am.CheckLocalTokenValid()) router.push("/");
