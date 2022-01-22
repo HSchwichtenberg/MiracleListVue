@@ -34,12 +34,11 @@
        v-model="Password"
        autocomplete="current-password"
        placeholder="Your Password - Choose a new password the first time you log in"
-
        class="form-control" />
      </div>
     </div>
 
-    <button @click="Login" class="btn btn-primary" id="Login" title="Login using the MiracleList Backend" name="Login">Login</button>
+    <button @click="Login" type="submit" class="btn btn-primary" id="Login" title="Login using the MiracleList Backend" name="Login">Login</button>
     &nbsp;
     <span id="errorMsg" class="text-danger">{{ Message }}</span>
    </form>
