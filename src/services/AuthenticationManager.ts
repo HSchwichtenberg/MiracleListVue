@@ -7,10 +7,6 @@ export class AuthenticationManager {
     console.log("AuthenticationManager.CTOR");
   }
 
-  public async LoginDebug(): Promise<string> {
-    return await this.Login(process.env.VUE_APP_ENV_DebugUser, process.env.VUE_APP_ENV_DebugPassword);
-  }
-
   STORAGE_KEY = 'Token';
 
   public async Login(username: string, password: string): Promise<string> {
@@ -45,13 +41,13 @@ export class AuthenticationManager {
     return result;
   }
 
-  // Neu in Teil 4
+  // Neu in Sprint 4
   public Logout() {
     AppState.CurrentLoginInfo.value = null;
     localStorage.removeItem(this.STORAGE_KEY);
   }
 
-  // Neu in Teil 4
+  // Neu in Sprint 4
   public async CheckLocalTokenValid(): Promise<boolean> {
     let result = false;
     const token: string | null = localStorage.getItem(this.STORAGE_KEY);

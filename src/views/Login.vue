@@ -71,7 +71,7 @@ onMounted(async () => {
   Password.value = process.env.VUE_APP_ENV_DebugPassword;
  }
  // logout?
- if (route && route.path.includes("/Logout")) am.Logout();
+ if (route.path.toLowerCase().includes("/logout")) am.Logout();
  // vorhandenes Token?
  if (await am.CheckLocalTokenValid()) router.push("/");
 });
