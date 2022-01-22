@@ -24,7 +24,7 @@ console.log("Backend",process.env.VUE_APP_ENV_Backend,process.env.VUE_APP_ENV_Cl
 // Vue App erzeugen
 const app = createApp(App)
 
-// DI (Sprint 4)
+// Dependency Injection (Sprint 4)
 app.provide('MiracleListProxy', new MiracleListProxy(process.env.VUE_APP_ENV_Backend))
 app.provide('AuthenticationManager', new AuthenticationManager())
 
