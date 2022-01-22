@@ -26,6 +26,7 @@
     class="form-control"
     v-model="data.newCategoryName"
     @change="CreateCategory"
+    title="Hit ENTER to add new category"
     placeholder="new Category..." />
    <!-- ---------- Kategorieliste ausgeben-->
    <ol class="list-group scroll" id="categoryList">
@@ -64,6 +65,7 @@
    :disabled="data.category == null"
    v-model="data.newTaskTitle"
    @change="CreateTask"
+   title="Hit ENTER to add new task"
    placeholder="new Task..." />
 
   <!-- ---------- Aufgabenliste ausgeben-->
@@ -77,7 +79,7 @@
      draggable="true"
      @dragstart="DragTask($event, t)"
      class="list-group-item"
-     :title="'Task #' + t.taskID + ' Created: ' + t.created"
+     :title="'Task #' + t.taskID + '- created: ' + moment(t.created).toLocaleString()"
      :class="{ MLselected: data.task && t.taskID == data.task?.taskID }">
      <input
       type="checkbox"
@@ -102,7 +104,7 @@
        'text-warning': IsToday(t.due),
        'text-success': IsFuture(t.due),
       }"
-      :title="'due ' + moment(t.due.toString()).toLocaleString()">
+      :title="'Task due: ' + moment(t.due).toLocaleString()">
       due {{ IsToday(t.due) ? "today" : moment(t.due).fromNow() }}
      </div>
     </li>
@@ -180,7 +182,7 @@ let HubConnected = computed(() => HubConnection.value?.state == HubConnectionSta
 // Überwachung der Zustandsänderungen der HubConnection
 watchEffect(async () => {
  AppState.HubConnectionInfo.value =
-  "SignalR: <span style='color:" + (HubConnected.value ? "green" : "red") + "'>" + HubConnection.value!.state + "<span>";
+  "SignalR: <span style='color:" + (HubConnected.value ? "green" : "red") + "'>" + HubConnection.value?.state + "<span>";
 });
 
 onMounted(async () => {

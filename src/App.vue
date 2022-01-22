@@ -87,7 +87,7 @@
 
 <script setup lang="ts">
 import moment from "moment";
-import { onMounted, readonly } from "vue";
+import { onMounted } from "vue";
 import { useRoute } from "vue-router";
 import router from "./router";
 import { version as vueVersion } from "vue";
@@ -101,7 +101,7 @@ function ShowAbout() {
  else router.replace("/About");
 }
 
-let backend = readonly(process.env.VUE_APP_ENV_Backend);
+let backend = process.env.VUE_APP_ENV_Backend;
 
 onMounted(() => {
  console.log("App.vue:OnMounted");
