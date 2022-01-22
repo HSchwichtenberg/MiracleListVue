@@ -124,35 +124,19 @@
 import { ref, reactive, onMounted, inject, computed, onUnmounted, watchEffect } from "vue";
 import { MiracleListProxy, Category, Task, Importance } from "@/services/MiracleListProxyV2";
 // import { AuthenticationManager } from '@/services/AuthenticationManager' // Sprint 4
+// Libraries 
 import moment from "moment";
-import ConfirmDialog from "@/components/ConfirmDialog.vue";
-import TaskEdit from "@/components/TaskEdit.vue";
-import { AppState } from "@/services/AppState";
 import draggable from "vuedraggable";
 import * as signalR from "@microsoft/signalr"; // Sprint 5
 import { HubConnectionState } from "@microsoft/signalr"; // Sprint 5
 import { useToast } from "vue-toastification"; // Sprint 5
+// Unterkomponenten
+import ConfirmDialog from "@/components/ConfirmDialog.vue";
+import TaskEdit from "@/components/TaskEdit.vue";
+// Sonstige Klassen
+import { AppState } from "@/services/AppState"; // Sprint 4
+
 const toast = useToast();
-
-async function ChangeTaskOrder(evt, originalEvent) {
- let orderedTaskIDSet: Array<number> = [];
- // Liste der Aufgaben in der nun gewünschten Reihenfolge
- data.taskSet!.forEach(async (t) => {
-  orderedTaskIDSet.push(t.taskID as number);
- });
- // Aufruf des Backeneds
- let erfolgreiche = await proxy.changeTaskOrder(data.category?.categoryID, AppState.Token, orderedTaskIDSet);
- console.log(`ChangeTaskOrder Done: ${erfolgreiche} of ${data.taskSet?.length}!`);
-
- // Ungünstige Möglichkeit
- // let i = 0;
- // data.taskSet!.forEach(   async t => {
- //     console.log("vorher",t.order,t.taskID);
- //     t.order = ++i;
- //     await proxy.changeTask(AppState.Token, t);
- //     console.log("nachher",t.order,t.taskID);
- //   });
-}
 
 //#region ------ Properties zur Datenbindung im reaktivem Objekt
 const data = reactive({
@@ -281,7 +265,7 @@ async function RemoveCategor_Alt(c: Category) {
  if (!confirm(text)) return;
  await proxy.deleteCategory(c.categoryID as number, AppState.Token);
  await ShowCategorySet();
- data.category = null;
+data.category = data.categorySet!.length > 0 ? (data.categorySet![0] as Category) : null;
 }
 
 async function RemoveTask(t: Task) {
@@ -356,6 +340,26 @@ async function TaskEditDone(changed: boolean) {
  } else await ShowTaskSet(data.category); // Bei Cancel: Neuladen als Undo!
  // Nun keine aktuelle Aufgabe mehr!
  data.task = null;
+}
+
+async function ChangeTaskOrder(evt, originalEvent) {
+ let orderedTaskIDSet: Array<number> = [];
+ // Liste der Aufgaben in der nun gewünschten Reihenfolge
+ data.taskSet!.forEach(async (t) => {
+  orderedTaskIDSet.push(t.taskID as number);
+ });
+ // Aufruf des Backeneds
+ let erfolgreiche = await proxy.changeTaskOrder(data.category?.categoryID, AppState.Token, orderedTaskIDSet);
+ console.log(`ChangeTaskOrder Done: ${erfolgreiche} of ${data.taskSet?.length}!`);
+
+ // Ungünstige Möglichkeit
+ // let i = 0;
+ // data.taskSet!.forEach(   async t => {
+ //     console.log("vorher",t.order,t.taskID);
+ //     t.order = ++i;
+ //     await proxy.changeTask(AppState.Token, t);
+ //     console.log("nachher",t.order,t.taskID);
+ //   });
 }
 
 async function SendCategoryListUpdate() {
