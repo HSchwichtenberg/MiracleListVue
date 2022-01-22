@@ -6,9 +6,9 @@ import { AppState } from '@/services/AppState';
 
 const routes: Array<RouteRecordRaw> = [
  { // Sprint4
-  path: '/Login',
+  path: '/login',
   name: 'Login',
-  alias: ['/Register', '/Logout'], // statt zweiter Route zur gleichen Komponente: Dann geht Routing nicht mehr.
+  alias: ['/register', '/logout'], // statt zweiter Route zur gleichen Komponente: Dann geht Routing nicht mehr.
   component: Login,
  },
  {
@@ -18,7 +18,7 @@ const routes: Array<RouteRecordRaw> = [
   component: () => import(
                    /* webpackChunkName: "home" */ 
                   '@/views/Home.vue'),
-                  alias: ['/Home'],
+                  alias: ['/home'],
   meta: { requiresAuth: true } // Sprint4
  },
  {
