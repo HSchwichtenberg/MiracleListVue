@@ -1,5 +1,9 @@
 <template>
- <h2>MiracleList mit Vue.js</h2>
+<a href="https://vuejs.org/">
+<img align="right" width="100" src="/img/vuelogo.png">
+</a>
+
+<h2>MiracleList mit Vue.js</h2>
  Autor: Dr. Holger Schwichtenberg, <a href="http://www.IT-Visions.de/">www.IT-Visions.de</a>
  <div class="abstand">
   <h3>Client</h3>
