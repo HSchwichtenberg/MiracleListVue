@@ -4,7 +4,7 @@ import { AppState } from './AppState';
 export class AuthenticationManager {
 
   constructor() {
-    console.info("AuthenticationManager.CTOR");
+    console.log("AuthenticationManager.CTOR");
   }
 
   public async LoginDebug(): Promise<string> {
@@ -21,7 +21,7 @@ export class AuthenticationManager {
     l.username = username;
     l.password = password;
 
-    console.info("AuthenticationManager: Login...", l)
+    console.log("AuthenticationManager: Login...", l)
     const c = new MiracleListProxy(process.env.VUE_APP_ENV_Backend);
     // TODO: inject("proxy"); // geht hier nicht :-(
     await c.login(l)
@@ -29,7 +29,7 @@ export class AuthenticationManager {
         if (!r.message) {
           AppState.CurrentLoginInfo.value = r;
           localStorage.setItem(this.STORAGE_KEY, r.token!.toString());
-          console.info("AuthenticationManager: Login OK!", r)
+          console.log("AuthenticationManager: Login OK!", r)
           result = "";
         }
         else {
@@ -57,7 +57,7 @@ export class AuthenticationManager {
     const token: string | null = localStorage.getItem(this.STORAGE_KEY);
     if (token) {
       // Es gibt ein Token im Local Storage. Nachfrage beim Server, ob noch gültig.
-      console.info(`AuthenticationManager: Checking local token ${token}...`);
+      console.log(`AuthenticationManager: Checking local token ${token}...`);
       const l = new LoginInfo()
       l.token = token;
       l.clientID = process.env.VUE_APP_ENV_ClientID;
@@ -68,12 +68,12 @@ export class AuthenticationManager {
         AppState.CurrentLoginInfo.value = null;
       }
       else { // Token gültig!
-        console.info(`AuthenticationManager: Found valid Token: ${AppState.CurrentLoginInfo.value.token} for User: ${AppState.CurrentLoginInfo.value.username}`);
+        console.log(`AuthenticationManager: Found valid Token: ${AppState.CurrentLoginInfo.value.token} for User: ${AppState.CurrentLoginInfo.value.username}`);
         result = true;
       }
     }
     else {
-      console.info(`AuthenticationManager: No local token!`);
+      console.log(`AuthenticationManager: No local token!`);
     }
     return result;
   }

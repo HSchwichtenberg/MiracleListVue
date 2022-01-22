@@ -109,7 +109,7 @@ const taskDue = computed({
 //#region Sprint 5 Validation
 
 // Custom Validator
-const future = (value: Date) => value >= moment().startOf('day').toDate();
+const future = (value: Date) => value >= moment(new Date()).startOf('day').toDate();
 
 // Regeln
 const rules = {

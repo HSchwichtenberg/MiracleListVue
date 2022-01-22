@@ -5,14 +5,7 @@
 }
 
 .MLselected {
- background-color: #E0EEFA !important;
-}
-.fade-enter-active,
-.fade-leave-active {
- transition: opacity 0.5s;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
- opacity: 0;
+ background-color: #e0eefa !important;
 }
 </style>
 
@@ -44,7 +37,7 @@
      @dragover.prevent
      @drop="DropTaskToCategory($event, c)"
      :title="'Task Category #' + c.categoryID"
-     :class="{ 'MLselected' : data.category && c.categoryID == data.category?.categoryID }">
+     :class="{ MLselected: data.category && c.categoryID == data.category?.categoryID }">
      {{ c.name }}
      <span id="remove" style="float: right" class="close" :title="`Remove Category #${c.categoryID}`" @click.stop="RemoveCategory(c)">&times;</span>
     </li>
@@ -53,7 +46,6 @@
  </div>
 
  <!-- ##################################### Spalte 2: Aufgaben-->
-
  <div
   id="col2"
   v-if="data.category && data.taskSet"
@@ -86,7 +78,7 @@
      @dragstart="DragTask($event, t)"
      class="list-group-item"
      :title="'Task #' + t.taskID + ' Created: ' + t.created"
-     :class="{ 'MLselected' : data.task && t.taskID == data.task?.taskID }">
+     :class="{ MLselected: data.task && t.taskID == data.task?.taskID }">
      <input
       type="checkbox"
       :name="'done' + t.taskID"
@@ -119,16 +111,15 @@
   <!-- </ol> -->
  </div>
 
- <!-- <transition name="fade"> -->
  <!-- ### Spalte 3: Aufgabendetails-->
  <div id="col3" v-if="data.task" class="MLpanel col-xs-12 col-sm-6 col-md-4 col-lg-4">
   <TaskEdit v-model:task="data.task" @TaskEditDone="TaskEditDone"></TaskEdit>
  </div>
- <!-- </transition> -->
+
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted, inject, computed, onUnmounted, callWithAsyncErrorHandling, watch, watchEffect } from "vue";
+import { ref, reactive, onMounted, inject, computed, onUnmounted, watchEffect } from "vue";
 import { MiracleListProxy, Category, Task, Importance } from "@/services/MiracleListProxyV2";
 // import { AuthenticationManager } from '@/services/AuthenticationManager' // Sprint 4
 import moment from "moment";
@@ -139,7 +130,6 @@ import draggable from "vuedraggable";
 import * as signalR from "@microsoft/signalr"; // Sprint 5
 import { HubConnectionState } from "@microsoft/signalr"; // Sprint 5
 import { useToast } from "vue-toastification"; // Sprint 5
-
 const toast = useToast();
 
 async function ChangeTaskOrder(evt, originalEvent) {
@@ -150,7 +140,7 @@ async function ChangeTaskOrder(evt, originalEvent) {
  });
  // Aufruf des Backeneds
  let erfolgreiche = await proxy.changeTaskOrder(data.category?.categoryID, AppState.Token, orderedTaskIDSet);
- console.info(`ChangeTaskOrder Done: ${erfolgreiche} of ${data.taskSet?.length}!`);
+ console.log(`ChangeTaskOrder Done: ${erfolgreiche} of ${data.taskSet?.length}!`);
 
  // Ungünstige Möglichkeit
  // let i = 0;
@@ -162,7 +152,7 @@ async function ChangeTaskOrder(evt, originalEvent) {
  //   });
 }
 
-//#region Properties zur Datenbindung inr reaktivem Objekt
+//#region ------ Properties zur Datenbindung im reaktivem Objekt
 const data = reactive({
  categorySet: ref<Array<Category>>(),
  taskSet: ref<Array<Task>>(),
@@ -176,7 +166,8 @@ const data = reactive({
 // Backend
 // let proxy = new MiracleListProxy("https://miraclelistbackend.azurewebsites.net/");
 let proxy: MiracleListProxy = inject("MiracleListProxy") || new MiracleListProxy(""); // Sprint 4
-// Ausgabe-Hilfsfunktionen
+
+// Hilfsfunktionen für Template
 let IsToday = (d: Date) => moment().startOf("day").isSame(moment(d).startOf("day"));
 let IsPast = (d: Date) => moment(d).startOf("day") < moment().startOf("day");
 let IsFuture = (d: Date) => moment(d).startOf("day") > moment().startOf("day");
@@ -200,20 +191,20 @@ onMounted(async () => {
  // token = li.token || null;
  // console.log("Loginfo", li);
  console.log("Token", AppState.Token, AppState.CurrentLoginInfo);
- // if (AppState.Token)
+ // if (AppState.Token) // Sprint 2+3
  await ShowCategorySet();
 
- //#region  SignalR (Spring 5)
+ //#region ------ SignalR (Spring 5)
  console.log("*** SignalR Init HubConnection...");
  // ASP.NET Core SignalR-Verbindung konfigurieren
  HubConnection.value = new signalR.HubConnectionBuilder().withUrl(process.env.VUE_APP_ENV_Backend + "/MLHub").build();
- // --- eingehende Nachricht
+ // -> eingehende Nachricht
  HubConnection.value!.on("SendCategoryListUpdate", async (sender: string, categoryID: number) => {
   console.log(`*** SignalR-CategoryListUpdate von ${sender}: ${categoryID}`);
   toast.info(`Category list has been changed in annother instance.`);
   await ShowCategorySet();
  });
- // --- eingehende Nachricht
+ // -> eingehende Nachricht
  HubConnection.value!.on("SendTaskListUpdate", async (sender: string, categoryID: number) => {
   console.log(`*** SignalR-TaskListUpdate von ${sender}: ${categoryID}`);
   var changedCategory: Category | undefined = data.categorySet?.find((x) => x.categoryID == categoryID);
@@ -227,8 +218,7 @@ onMounted(async () => {
  HubConnection.value!.start()
   .then(() => {
    console.log(`*** SignalR-Connection OK (${HubConnection.value!.state}): ${HubConnection.value!.connectionId} ${AppState.Token}`);
-
-   // Registrieren für Events
+   // Beim Hub registrieren für Ereignisse auf dem Server
    HubConnection.value!.send("Register", AppState.Token);
   })
   .catch((err) => console.error(err));
@@ -242,10 +232,9 @@ onUnmounted(async () => {
 });
 
 async function ShowCategorySet() {
- console.log("API v2CategorySetGet OK!", data.categorySet);
+ console.log("ShowCategorySet", data.categorySet);
  data.categorySet = await proxy.categorySet(AppState.Token);
-
- console.log("API v2CategorySetGet OK!", data.categorySet);
+ console.log("ShowCategorySet", data.categorySet);
  if (data.categorySet.length > 0) {
   ShowTaskSet(data.categorySet[0]);
  }
@@ -264,7 +253,7 @@ async function ShowTaskSet(c: Category | null | undefined) {
 }
 
 function ShowTaskDetail(t: Task) {
- console.info("ShowTaskDetail", t);
+ console.log("ShowTaskDetail", t);
  data.task = t;
 }
 
@@ -368,13 +357,13 @@ async function TaskEditDone(changed: boolean) {
 }
 
 async function SendCategoryListUpdate() {
- console.info("SignalR.SendCategoryListUpdate", HubConnection.value!.state);
+ console.log("SignalR.SendCategoryListUpdate", HubConnection.value!.state);
  if (HubConnected.value) await HubConnection.value!.send("SendCategoryListUpdate", AppState.Token);
  else console.warn("SignalR.connection: not connected!", "");
 }
 
 async function SendTaskListUpdate() {
- console.info("SignalR.SendTaskListUpdate", HubConnection.value!.state);
+ console.log("SignalR.SendTaskListUpdate", HubConnection.value!.state);
  if (HubConnected.value) await HubConnection.value!.send("SendTaskListUpdate", AppState.Token, data.category!.categoryID);
  else console.warn("SignalR.connection: not connected!", "");
 }
@@ -387,7 +376,7 @@ function DragTask(ev, task: Task) {
 // Sprint 5
 async function DropTaskToCategory(ev, category: Category) {
  const task = JSON.parse(ev.dataTransfer.getData("task")) as Task;
- console.info("Drop", task.taskID, task.categoryID, category.categoryID);
+ console.log("Drop", task.taskID, task.categoryID, category.categoryID);
  task.categoryID = category.categoryID;
  await proxy.changeTask(AppState.Token, task);
  await ShowTaskSet(data.category);

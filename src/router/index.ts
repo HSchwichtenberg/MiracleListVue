@@ -40,7 +40,7 @@ const router = createRouter({
 
 // Abfangen aller Abfragen
 router.beforeEach((to, from, next) => {
- console.info("--> router.beforeEach", (AppState.Authenticated ? "Authenticated" : "NOT AUTHENTICATED"), from, to);
+ console.log("--> router.beforeEach", (AppState.Authenticated ? "Authenticated" : "NOT AUTHENTICATED"), from, to);
  if (to.matched.some(record => record.meta.requiresAuth)) {
   if (AppState.Authenticated) {
    next()
