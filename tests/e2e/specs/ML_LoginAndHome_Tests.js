@@ -78,7 +78,7 @@ module.exports = {
   browser.useCss();
   browser.assert.elementCount('#categoryList li', 5) // Custom Assertion
   
-  // create 10 tasks in the new category
+  // Erzeuge 10 Aufgaben in der neuen Kategorie
   for (var i = 1; i <= 10; i++) {
    var newTaskName = "task #" + i;
    browser.setValue("input[name=newTaskTitle]", newTaskName).keys(browser.Keys.ENTER).assert.containsText("#taskCount", i);
