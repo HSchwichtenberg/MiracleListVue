@@ -1,6 +1,6 @@
 {
   "name": "miraclelist-client",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "releaseDate": "22.01.2022",
   "private": true,
   "scripts": {
