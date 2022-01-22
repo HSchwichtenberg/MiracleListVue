@@ -4,7 +4,10 @@
 </a>
 
 <h2>MiracleList mit Vue.js</h2>
- Autor: Dr. Holger Schwichtenberg, <a href="http://www.IT-Visions.de/">www.IT-Visions.de</a>
+ Autor: Dr. Holger Schwichtenberg, <a href="http://www.IT-Visions.de/">www.IT-Visions.de</a><br>
+  Quellcode: <a href="https://github.com/HSchwichtenberg/MiracleListVue">GitHub</a><br>
+ Live in der Cloud: <a href="http://miraclelist-vue.azurewebsites.net/">Microsoft Azure</a>
+
  <div class="abstand">
   <h3>Client</h3>
   URL: <a href="{{ ClientURL }}">{{ ClientURL }}</a>
