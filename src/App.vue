@@ -61,8 +61,8 @@
  </div>
  <div class="row">
   <span class="col-xs-12">
+   <hr />
    <div>
-    <hr />
     MiracleListVue {{ appVersion }} running on Vue.js {{ vueVersion }} - released {{ releaseDate }}
    </div>
    <div>

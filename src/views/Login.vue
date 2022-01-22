@@ -7,7 +7,7 @@
       <div>
         MiracleList is a sample application for a single-page web application (SPA) for task management..
         <br />
-        This implementation of the application version {{ appversion }} is based on Vue.js version {{ vueVersion }}.
+        This implementation of this application version {{ appversion }} is based on Vue.js version {{ vueVersion }}.
       </div>
       
       <br />
