@@ -7,7 +7,7 @@
  Autor: Dr. Holger Schwichtenberg, <a href="http://www.IT-Visions.de/">www.IT-Visions.de</a>
  <div class="abstand">
   <h3>Client</h3>
-  URL: <a href="{{ ClientURL }}">{{ ClientURL }}</a>"
+  URL: <a href="{{ ClientURL }}">{{ ClientURL }}</a>
     <br>
   Application Version {{ appversion }}
   <br />
@@ -15,7 +15,7 @@
  </div>
  <div class="abstand">
   <h3>Server</h3>
-  URL: <a href="{{ ServerURL }}">{{ ServerURL }}</a>"
+  URL: <a href="{{ ServerURL }}">{{ ServerURL }}</a>
   <br />
   {{ ServerAppVersion }}
   <br />
