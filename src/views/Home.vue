@@ -30,6 +30,7 @@
      :title="'Task Category #' + c.categoryID"
      :class="{ MLselected: data.category && c.categoryID == data.category?.categoryID }">
      {{ c.name }}
+      <span id="remove" style="float: right" class="close" :title="`Remove Category #${c.categoryID}`">&times;</span>
     </li>
    </ol>
   </div>
@@ -51,7 +52,6 @@
     v-for="t in data.taskSet"
     :key="t.taskID"
     @click="ShowTaskDetail(t)"
-    draggable="true"
     class="list-group-item"
     :title="'Task #' + t.taskID + '- created: ' + moment(t.created).toLocaleString()"
     :class="{ MLselected: data.task && t.taskID == data.task?.taskID }">
@@ -61,6 +61,7 @@
      <span class="badge badge-important" style="margin-right: 10px" :title="'Importance: ' + Importance[t.importance] + ' (' + t.importance + ')'">{{
       Importance[t.importance]
      }}</span>
+        <span id="remove" :title="`Remove Task #${t.taskID}`" class="close">&times;</span>
     </span>
 
     <div
