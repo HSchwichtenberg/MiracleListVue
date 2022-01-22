@@ -45,7 +45,6 @@
   </h4>
   <!-- ---------- neue Aufgabe eingeben-->
   <!-- TODO in Sprint 3 -->
-
   <!-- ---------- Aufgabenliste ausgeben-->
   <ol id="taskList" class="list-group scroll">
    <li
@@ -58,8 +57,8 @@
     <input type="checkbox" :name="'done' + t.taskID" :id="'done' + t.taskID" :checked="t.done" class="MLcheckbox" />
     {{ t.title }}
     <span style="float: right; margin-right: 10px">
-     <span class="badge badge-important" style="margin-right: 10px" :title="'Importance: ' + Importance[t.importance] + ' (' + t.importance + ')'">{{
-      Importance[t.importance]
+     <span class="badge badge-important" style="margin-right: 10px" :title="'Importance: ' + Importance[t.importance??0] + ' (' + t.importance + ')'">{{
+      Importance[t.importance??0]
      }}</span>
         <span id="remove" :title="`Remove Task #${t.taskID}`" class="close">&times;</span>
     </span>
