@@ -84,8 +84,8 @@
      @change.stop="ChangeTaskDone($event, t)" />
     {{ t.title }}
     <span style="float: right; margin-right: 10px">
-     <span class="badge badge-important" style="margin-right: 10px" :title="'Importance: ' + Importance[t.importance] + ' (' + t.importance + ')'">{{
-      Importance[t.importance]
+     <span class="badge badge-important" style="margin-right: 10px" :title="'Importance: ' + Importance[t.importance??0] + ' (' + t.importance + ')'">{{
+      Importance[t.importance??0]
      }}</span>
      <span id="remove" :title="`Remove Task #${t.taskID}`" class="close" @click.stop="RemoveTask(t)">&times;</span>
     </span>
