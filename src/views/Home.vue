@@ -69,8 +69,8 @@
    placeholder="new Task..." />
 
   <!-- ---------- Aufgabenliste ausgeben-->
-  <!-- <ol class="list-group scroll"> -->
-  <draggable v-model="data.taskSet" item-key="taskID" class="list-group scroll" @end="ChangeTaskOrder" tag="ol">
+  <!-- <ol  id="taskList" class="list-group scroll"> -->
+  <draggable id="taskList" v-model="data.taskSet" item-key="taskID" class="list-group scroll" @end="ChangeTaskOrder" tag="ol">
    <!-- v-for="t in data.taskSet"    
     :key="t.taskID" -->
    <template #item="{ element: t }">

@@ -67,22 +67,24 @@ module.exports = {
   // oder
   // browser.setValue("input[name=newCategoryName]", newCatname);
   // browser.sendKeys("input[name=newCategoryName]", browser.Keys.ENTER);
+  browser.saveScreenshot("t:/nightwatch/CategoryCreated.png");
   browser.assert.containsText("#categoryCount", 5);
   browser.assert.containsText("#categoryCurrentName", newCatname);
   // Option: mit Chai Expect-API
   browser.expect.element("#categoryCurrentName").text.to.equal(newCatname);
   // Option: XPath-Selektor verwenden
   browser.useXpath().assert.containsText('//*[@id="categoryList"]/li[5]', newCatname);
-  browser.saveScreenshot("t:/nightwatch/CategoryCreated.png");
-
   // ab hier wieder CSS-Selektoren
   browser.useCss();
+  browser.assert.elementCount('#categoryList li', 5) // Custom Assertion
+  
   // create 10 tasks in the new category
   for (var i = 1; i <= 10; i++) {
    var newTaskName = "task #" + i;
    browser.setValue("input[name=newTaskTitle]", newTaskName).keys(browser.Keys.ENTER).assert.containsText("#taskCount", i);
   }
   browser.saveScreenshot("t:/nightwatch/TasksCreated.png");
+  browser.assert.elementCount('#taskList li', 10) // Custom Assertion
 
   // Entferne die oben neu angelegte Kategorie
   browser.useXpath().assert.attributeEquals('//*[@id="categoryList"]/li[5]//span[1]', "id", "remove");
