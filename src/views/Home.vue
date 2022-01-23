@@ -187,14 +187,14 @@ onMounted(async () => {
  // -> eingehende Nachricht
  HubConnection.value!.on("CategoryListUpdate", async (sender: string, categoryID: number) => {
   console.log(`*** SignalR-CategoryListUpdate von ${sender}: ${categoryID}`);
-  toast.info(`Category list has been changed in annother instance.`);
+  toast.info(`Category list has been changed in another instance.`);
   await ShowCategorySet();
  });
  // -> eingehende Nachricht
  HubConnection.value!.on("TaskListUpdate", async (sender: string, categoryID: number) => {
   console.log(`*** SignalR-TaskListUpdate von ${sender}: ${categoryID}`);
   var changedCategory: Category | undefined = data.categorySet?.find((x) => x.categoryID == categoryID);
-  if (changedCategory) toast.success(`Task in Category ${categoryID}: ${changedCategory.name} has been changed in annother instance.`);
+  if (changedCategory) toast.success(`Task in Category ${categoryID}: ${changedCategory.name} has been changed in another instance.`);
   if (categoryID == data.category!.categoryID) {
    await ShowTaskSet(data.category);
   }
