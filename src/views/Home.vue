@@ -344,13 +344,13 @@ async function TaskEditDone(changed: boolean) {
 
 async function ChangeTaskOrder(evt, originalEvent) {
  let orderedTaskIDSet: Array<number> = [];
- // Liste der Aufgaben in der nun gewünschten Reihenfolge
+ // Liste der Aufgaben-IDs in die nun gewünschte Reihenfolge bringen
  data.taskSet!.forEach(async (t) => {
   orderedTaskIDSet.push(t.taskID as number);
  });
  // Aufruf des Backeneds
- let erfolgreiche = await proxy.changeTaskOrder(data.category?.categoryID, AppState.Token, orderedTaskIDSet);
- console.log(`ChangeTaskOrder Done: ${erfolgreiche} of ${data.taskSet?.length}!`);
+ let countSuccess = await proxy.changeTaskOrder(data.category?.categoryID, AppState.Token, orderedTaskIDSet);
+ console.log(`ChangeTaskOrder Done: ${countSuccess} of ${data.taskSet?.length}!`);
 
  // Ungünstige Möglichkeit
  // let i = 0;
