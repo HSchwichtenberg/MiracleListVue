@@ -185,13 +185,13 @@ onMounted(async () => {
  // ASP.NET Core SignalR-Verbindung konfigurieren
  HubConnection.value = new signalR.HubConnectionBuilder().withUrl(process.env.VUE_APP_ENV_Backend + "/MLHub").build();
  // -> eingehende Nachricht
- HubConnection.value!.on("SendCategoryListUpdate", async (sender: string, categoryID: number) => {
+ HubConnection.value!.on("CategoryListUpdate", async (sender: string, categoryID: number) => {
   console.log(`*** SignalR-CategoryListUpdate von ${sender}: ${categoryID}`);
   toast.info(`Category list has been changed in annother instance.`);
   await ShowCategorySet();
  });
  // -> eingehende Nachricht
- HubConnection.value!.on("SendTaskListUpdate", async (sender: string, categoryID: number) => {
+ HubConnection.value!.on("TaskListUpdate", async (sender: string, categoryID: number) => {
   console.log(`*** SignalR-TaskListUpdate von ${sender}: ${categoryID}`);
   var changedCategory: Category | undefined = data.categorySet?.find((x) => x.categoryID == categoryID);
   if (changedCategory) toast.success(`Task in Category ${categoryID}: ${changedCategory.name} has been changed in annother instance.`);
@@ -364,13 +364,13 @@ async function ChangeTaskOrder(evt, originalEvent) {
 
 async function SendCategoryListUpdate() {
  console.log("SignalR.SendCategoryListUpdate", HubConnection.value!.state);
- if (HubConnected.value) await HubConnection.value!.send("SendCategoryListUpdate", AppState.Token);
+ if (HubConnected.value) await HubConnection.value!.send("CategoryListUpdate", AppState.Token);
  else console.warn("SignalR.connection: not connected!", "");
 }
 
 async function SendTaskListUpdate() {
  console.log("SignalR.SendTaskListUpdate", HubConnection.value!.state);
- if (HubConnected.value) await HubConnection.value!.send("SendTaskListUpdate", AppState.Token, data.category!.categoryID);
+ if (HubConnected.value) await HubConnection.value!.send("TaskListUpdate", AppState.Token, data.category!.categoryID);
  else console.warn("SignalR.connection: not connected!", "");
 }
 
