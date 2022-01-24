@@ -9,7 +9,7 @@
   </span>
   <!--  Anzeige dieses Blocks oben nur auf großen Displays -->
   <span class="col-xs-6 col-lg-9 col-sm-7 col-md-8 hidden-xs" style="vertical-align: middle; margin-top: 25px">
-   <UserStatus :Username="AppState.Username.value"></UserStatus>
+   <UserStatus :username="AppState.Username.value"></UserStatus>
   </span>
 
   <span class="col-xs-1">
@@ -79,7 +79,7 @@
 
    <!-- Alternative Anzeige dieses Blocks unten auf kleinen Displays -->
    <span class="hidden-sm hidden-md hidden-lg">
-    <UserStatus :Username="AppState.Username.value"></UserStatus>
+    <UserStatus :username="AppState.Username.value"></UserStatus>
    </span>
   </span>
  </div>
