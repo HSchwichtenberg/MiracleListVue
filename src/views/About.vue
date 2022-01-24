@@ -4,13 +4,13 @@
 </a>
 
 <h2>MiracleList mit Vue.js</h2>
- Autor: Dr. Holger Schwichtenberg, <a href="http://www.IT-Visions.de/">www.IT-Visions.de</a><br>
-  Quellcode: <a href="https://github.com/HSchwichtenberg/MiracleListVue">GitHub</a><br>
+ Autor: Dr. Holger Schwichtenberg, <a href="https://www.IT-Visions.de/">www.IT-Visions.de</a><br>
+ Quellcode: <a href="https://github.com/HSchwichtenberg/MiracleListVue">GitHub</a><br>
  Live in der Cloud: <a href="http://miraclelist-vue.azurewebsites.net/">Microsoft Azure</a>
 
  <div class="abstand">
   <h3>Client</h3>
-  URL: <a href="{{ ClientURL }}">{{ ClientURL }}</a>
+  URL: <a :href="clientURL">{{ clientURL }}</a>
     <br>
   Application Version {{ appversion }}
   <br />
@@ -18,11 +18,11 @@
  </div>
  <div class="abstand">
   <h3>Server</h3>
-  URL: <a href="{{ ServerURL }}">{{ ServerURL }}</a>
+  URL: <a :href="serverURL">{{ serverURL }}</a>
   <br />
-  {{ ServerAppVersion }}
+  {{ serverAppVersion }}
   <br />
-  {{ ServerFramework }}
+  {{ serverFramework }}
  </div>
 </template>
 
@@ -37,10 +37,10 @@ import { version as vueVersion } from "vue";
 import { version as appversion } from "../../package.json";
 
 let result = ref("");
-let ServerAppVersion = ref("");
-let ServerFramework = ref("");
-let ServerURL = process.env.VUE_APP_ENV_Backend;
-let ClientURL = window.location.origin;
+let serverAppVersion = ref("");
+let serverFramework = ref("");
+let serverURL = process.env.VUE_APP_ENV_Backend;
+let clientURL = window.location.origin;
 
 async function About() {
  let proxy: MiracleListProxy = inject("MiracleListProxy") || new MiracleListProxy(""); // Sprint 4
@@ -48,8 +48,8 @@ async function About() {
  let r = await proxy.about();
  result.value = "Ergebnis:" + r;
  console.log("About:Antwort vom Server!", r);
- ServerAppVersion.value = r[6];
- ServerFramework.value = r[8];
+ serverAppVersion.value = r[6];
+ serverFramework.value = r[8];
 
  // oder
  // var proxy = new MiracleListProxy(process.env.VUE_APP_ENV_Backend);
@@ -67,6 +67,4 @@ onMounted(() => {
  console.log("About:OnMounted");
  About();
 });
-
-
 </script>
