@@ -1,6 +1,6 @@
 <template>
-  <div v-if="Username">
-    Benutzer: <span id="C_Username">{{Username}}</span>&nbsp; 
+  <div v-if="username">
+    Benutzer: <span id="C_Username">{{username}}</span>&nbsp; 
     <router-link to='/Logout'>Logout</router-link>
    </div>
  <div v-else>
@@ -10,6 +10,6 @@
 
 <script setup lang="ts">
 const props = defineProps({
-  Username: String
+  username: String
 })
 </script>
