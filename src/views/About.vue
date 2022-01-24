@@ -33,7 +33,7 @@
 </style>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, inject } from "vue";
 import { MiracleListProxy } from "@/services/MiracleListProxyV2";
 import { version as vueVersion } from "vue";
 import { version as appversion } from "../../package.json";
@@ -45,7 +45,7 @@ let serverURL = process.env.VUE_APP_ENV_Backend;
 let clientURL = window.location.origin;
 
 async function About() {
- var proxy = new MiracleListProxy(process.env.VUE_APP_ENV_Backend);
+ let proxy: MiracleListProxy = inject("MiracleListProxy") || new MiracleListProxy(""); // Sprint 4
 
  let r = await proxy.about();
  result.value = "Ergebnis:" + r;
