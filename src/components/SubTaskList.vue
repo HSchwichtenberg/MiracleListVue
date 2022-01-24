@@ -7,7 +7,7 @@
       class="form-control"
       name="newSubTaskTitle"
       v-model="newSubTaskTitle"
-      @change="createSubTask()"
+      @change="CreateSubTask()"
       placeholder="new Subtask..."
     />
     <ul class="list-group">
@@ -19,7 +19,7 @@
           style="margin-right:5px;"
         />
         <span :style="{ 'text-decoration': (st.done ? 'line-through' : 'none') }">{{ st.title }}</span>
-        <a @click="removeSubTask(st)" class="close">&times;</a>
+        <a @click="RemoveSubTask(st)" class="close">&times;</a>
       </li>
     </ul>
   </div>
@@ -46,7 +46,7 @@ let subTasks = ref(props.task!.subTaskSet);
 //#endregion
 
 //#region Benutzerinteraktionen
-function createSubTask() {
+function CreateSubTask() {
   let newSubTask = new SubTask({
     subTaskID: 0,
     title: newSubTaskTitle.value,
@@ -59,7 +59,7 @@ function createSubTask() {
   newSubTaskTitle.value = "";
 }
 
-function removeSubTask(st: SubTask) {
+function RemoveSubTask(st: SubTask) {
   console.log("SubTaskList.removeSubTask", st);
   let index = props.task!.subTaskSet!.indexOf(st);
   props.task!.subTaskSet!.splice(index, 1);
