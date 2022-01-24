@@ -43,14 +43,14 @@ module.exports = {
   Login(browser, "nightwatch", "");
   browser.assert.containsText("#errorMsg", "Username and Password required!");
   browser.assert.not.urlContains("/Home");
-  browser.saveScreenshot("t:/nightwatch/LoginInvalid.png");
+  browser.saveScreenshot("tests/e2e/reports/LoginInvalid.png");
   browser.end();
  },
 
  "login, create category with tasks and remove": (browser) => {
   browser.init();
   Login(browser, "nightwatch", "nightwatch+init");
-  browser.saveScreenshot("t:/nightwatch/LoginBefore.png");
+  browser.saveScreenshot("tests/e2e/reports/LoginBefore.png");
 
   // Prüfe angezeigten Benutzernamen
   browser
@@ -58,7 +58,7 @@ module.exports = {
    .assert.urlContains("/Home")
    .assert.elementPresent("#C_Username")
    .assert.containsText("#C_Username", "nightwatch")
-   .saveScreenshot("t:/nightwatch/LoginAfter.png");
+   .saveScreenshot("tests/e2e/reports/LoginAfter.png");
 
   // Erzeuge neue Aufgabenkategorie
   browser.assert.containsText("#categoryCount", 4);
@@ -67,7 +67,7 @@ module.exports = {
   // oder
   // browser.setValue("input[name=newCategoryName]", newCatname);
   // browser.sendKeys("input[name=newCategoryName]", browser.Keys.ENTER);
-  browser.saveScreenshot("t:/nightwatch/CategoryCreated.png");
+  browser.saveScreenshot("tests/e2e/reports/CategoryCreated.png");
   browser.assert.containsText("#categoryCount", 5);
   browser.assert.containsText("#categoryCurrentName", newCatname);
   // Option: mit Chai Expect-API
@@ -83,20 +83,20 @@ module.exports = {
    var newTaskName = "task #" + i;
    browser.setValue("input[name=newTaskTitle]", newTaskName).keys(browser.Keys.ENTER).assert.containsText("#taskCount", i);
   }
-  browser.saveScreenshot("t:/nightwatch/TasksCreated.png");
+  browser.saveScreenshot("tests/e2e/reports/TasksCreated.png");
   browser.assert.elementCount('#taskList li', 10) // Custom Assertion
 
   // Entferne die oben neu angelegte Kategorie
   browser.useXpath().assert.attributeEquals('//*[@id="categoryList"]/li[5]//span[1]', "id", "remove");
   browser.useXpath().click('//*[@id="categoryList"]/li[5]/span[@id="remove"]');
-  browser.saveScreenshot("t:/nightwatch/RemoveDialog.png");
+  browser.saveScreenshot("tests/e2e/reports/RemoveDialog.png");
 
   // Yes im Confirmdialog
   browser.useXpath().click('//button[text()="Yes"]');
   // warten, dass Kategorie verschwindet
   browser.waitForElementNotPresent('//*[@id="categoryList"]/li[5]', 1000);
   browser.useCss().assert.containsText("#categoryCount", 4);
-  browser.saveScreenshot("t:/nightwatch/RemoveDialogClicked.png");
+  browser.saveScreenshot("tests/e2e/reports/RemoveDialogClicked.png");
 
   browser.end();
   return;
