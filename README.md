@@ -1,8 +1,16 @@
 # MiracleListVue: Vue.js Web Client für das MiracleList Backend
 Autor: Dr. Holger Schwichtenberg, <a href="http://www.IT-Visions.de">www.IT-Visions.de</a></div>
-Diese Webanwendung läuft zu Test- und Schulungszwecken live hier: <a href="http://miraclelist-vue.azurewebsites.net">http://miraclelist-vue.azurewebsites.net</a>
+Diese Webanwendung läuft zu Test- und Schulungszwecken live in der Cloud: <a href="http://miraclelist-vue.azurewebsites.net">http://miraclelist-vue.azurewebsites.net</a>
 
-Eingesetzte Techniken: Vue.js 3, Vue CLI, TypeScript, Moment.js
+Eingesetzte Techniken im Client: Vue.js 3, Vue CLI, TypeScript, Bootstrap, Moment.js, Vuelidate, SignalR, vue.draggable, Vue-Toastification, Jest, Vue Test Utils, Nightwatch
+
+# Branches
+- <a href="https://github.com/HSchwichtenberg/MiracleListVue/tree/Sprint1">Sprint 1</a>: Ausgangszustand
+- <a href="https://github.com/HSchwichtenberg/MiracleListVue/tree/Sprint2">Sprint 2</a>: REST-Dienste nutzen, Rendern von Daten mit Templates, Benutzerereignisse
+- <a href="https://github.com/HSchwichtenberg/MiracleListVue/tree/Sprint3">Sprint 3</a>: Formulare, Zwei-Wege-Datenbindung, modalen Dialoge, Komponentenbildung
+- <a href="https://github.com/HSchwichtenberg/MiracleListVue/tree/Sprint4">Sprint 4</a>: Authentifizierung, Anwendungszustand, Browserspeicher, Deployment und Lazy Loading
+- <a href="https://github.com/HSchwichtenberg/MiracleListVue/tree/Sprint5">Sprint 5</a>: Design, User Experience und automatisierte Tests (Unit Tests und E2E-Tests)
+- <a href="https://github.com/HSchwichtenberg/MiracleListVue/tree/Main">Main</a>: Aktueller Entwicklungsstand, der ggf. über Sprint 5 hinausgeht
 
 # Was ist MiracleList?
 <img align="right" src="/public/img/MiracleListLogo.jpg">
@@ -26,6 +34,18 @@ Eingesetzte Techniken: Vue.js 3, Vue CLI, TypeScript, Moment.js
                 <li>Web-Frontend C#/Blazor: <a href="http://leanpub.com/BlazorBuch">http://leanpub.com/BlazorBuch (in den Downloads zu diesem Buch)</a></li>
             </ul>
 </ul>
+
+# Namensrichtlinien in diesem Vue.js-Projekt
+
+lowerCamelCasing
+- Lokale Variablen 
+- Private Variablen auf Komponentenebene
+
+UpperCamelCasing (Pascal Casing)
+- Komponentennamen
+- Klassennamen
+- Methoden/Funktionen auf Komponentenebene
+- Öffenliche Properties
 
 # Kommandozeilenbefehle der Vue CLI
 
