@@ -87,7 +87,7 @@ import { MiracleListProxy, Category, Task, Importance, LoginInfo } from "@/servi
 import { AuthenticationManager } from "@/services/AuthenticationManager";
 import moment from "moment";
 
-//#region ------ Properties zur Datenbindung im reaktivem Objekt
+//#region ------ Properties zur Datenbindung im reaktiven Objekt
 const data = reactive({
  categorySet: ref<Array<Category>>(),
  taskSet: ref<Array<Task>>(),
