@@ -97,7 +97,7 @@ const data = reactive({
 //#endregion
 
 // Backend
-let proxy = new MiracleListProxy("https://miraclelistbackend.azurewebsites.net/");
+let proxy = new MiracleListProxy(process.env.VUE_APP_ENV_Backend);
 // Token merken
 let token: string = "";
 
