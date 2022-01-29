@@ -42,7 +42,8 @@ async function DoLogin(wrapper, username, password) {
  await wrapper.find("button[type=submit]").trigger("click");
 }
 
-describe("Login test", () => {
+describe("Login Test", () => {
+ 
  it("Login Error", async () => {
   const errortext = "Login Error!";
   AuthenticationManagerMock.Login.mockResolvedValueOnce(errortext);
@@ -106,4 +107,5 @@ describe("Login test", () => {
   // Prüfe Ergebnis
   expect(wrapper.get("#errorMsg").text()).toEqual("");
  });
-}); // ende describe()
+
+}); // Ende der Test Suite "Login Test"
