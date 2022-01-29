@@ -10,8 +10,9 @@ Eingesetzte Techniken im Client: Vue.js 3, Vue CLI, TypeScript, Bootstrap, Momen
 - <a href="https://github.com/HSchwichtenberg/MiracleListVue/tree/Sprint2">Sprint 2</a>: REST-Dienste nutzen, Rendern von Daten mit Templates, Benutzerereignisse
 - <a href="https://github.com/HSchwichtenberg/MiracleListVue/tree/Sprint3">Sprint 3</a>: Formulare, Zwei-Wege-Datenbindung, modalen Dialoge, Komponentenbildung
 - <a href="https://github.com/HSchwichtenberg/MiracleListVue/tree/Sprint4">Sprint 4</a>: Authentifizierung, Anwendungszustand, Browserspeicher, Deployment und Lazy Loading
-- <a href="https://github.com/HSchwichtenberg/MiracleListVue/tree/Sprint5">Sprint 5</a>: Design, User Experience und automatisierte Tests (Unit Tests und E2E-Tests)
-- <a href="https://github.com/HSchwichtenberg/MiracleListVue/tree/Main">Main</a>: Aktueller Entwicklungsstand, der ggf. über Sprint 5 hinausgeht
+- <a href="https://github.com/HSchwichtenberg/MiracleListVue/tree/Sprint5">Sprint 5</a>: Design und User Experience 
+- <a href="https://github.com/HSchwichtenberg/MiracleListVue/tree/Sprint6">Sprint 6</a>: Automatisierte Tests (Unit Tests und Ende-zu-Ende-Tests)
+- <a href="https://github.com/HSchwichtenberg/MiracleListVue/tree/Main">Main</a>: Aktueller Entwicklungsstand, der über Sprint 6 hinausgeht
 
 # Was ist MiracleList?
 <img align="right" src="/public/img/MiracleListLogo.jpg">
