@@ -3,5 +3,6 @@ module.exports = {
   transform: {
     '^.+\\.vue$': 'vue-jest'
   },
-  transformIgnorePatterns: ['/node_modules/(?!@babel)']
+  transformIgnorePatterns: ['/node_modules/(?!@babel)'],
+  resetMocks: true
 }
