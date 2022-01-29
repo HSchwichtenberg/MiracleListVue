@@ -95,7 +95,7 @@ import { AppState } from "./services/AppState";
 
 const route = useRoute();
 function ShowAbout() {
- if (route.path.includes("/About")) router.replace("/");
+ if (route.path.toLowerCase().includes("/about")) router.replace("/");
  else router.replace("/About");
 }
 
