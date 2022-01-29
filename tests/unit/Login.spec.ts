@@ -3,7 +3,6 @@
 
 import { flushPromises, shallowMount } from "@vue/test-utils";
 import Login from "@/views/Login.vue";
-import { AuthenticationManager } from "@/services/AuthenticationManager";
 
 // Eigenes Mock-Objekt
 export class AuthenticationManagerMock {
@@ -15,12 +14,6 @@ export class AuthenticationManagerMock {
   return false;
  }
 }
-
-// Klasse via Jest mocken
-// jest.mock('AuthenticationManager', () => ({
-//  login: false ,
-//  CheckLocalTokenValid: false
-// }));
 
 // Modul via Jest mocken
 jest.mock("vue-router", () => ({
