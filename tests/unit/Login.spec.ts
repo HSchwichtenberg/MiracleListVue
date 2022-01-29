@@ -5,15 +5,21 @@ import { flushPromises, shallowMount } from "@vue/test-utils";
 import Login from "@/views/Login.vue";
 
 // Eigenes Mock-Objekt
-export class AuthenticationManagerMock {
- constructor(public loginOK: string = "") {}
- public async Login(username: string, password: string): Promise<string> {
-  return this.loginOK;
- }
- public async CheckLocalTokenValid(): Promise<boolean> {
-  return false;
- }
-}
+// export class AuthenticationManagerMock {
+//  constructor(public loginOK: string = "") {}
+//  public async Login(username: string, password: string): Promise<string> {
+//   return this.loginOK;
+//  }
+//  public async CheckLocalTokenValid(): Promise<boolean> {
+//   return false;
+//  }
+// }
+
+// Jest-basiertes Mock-Objekt
+const AuthenticationManagerMock = {
+ Login: jest.fn(),
+ CheckLocalTokenValid: jest.fn().mockResolvedValue(false),
+};
 
 // Modul via Jest mocken
 jest.mock("vue-router", () => ({
@@ -39,11 +45,13 @@ async function DoLogin(wrapper, username, password) {
 describe("Login test", () => {
  it("Login Error", async () => {
   const errortext = "Login Error!";
+  AuthenticationManagerMock.Login.mockResolvedValueOnce(errortext);
+
   const wrapper = shallowMount(Login, {
    global: {
     provide: {
      // wird immer Fehlertext liefern bei Login
-     AuthenticationManager: new AuthenticationManagerMock(errortext),
+     AuthenticationManager: AuthenticationManagerMock,
     },
    },
   });
@@ -51,16 +59,20 @@ describe("Login test", () => {
   DoLogin(wrapper, "unittest", "falschesKennwort");
   // wichtig, da der Klick auf #login asynchron behandelt wird!
   await flushPromises();
+  // prüfe Aufrufe
+  expect(AuthenticationManagerMock.CheckLocalTokenValid).toHaveBeenCalledTimes(1);
+  expect(AuthenticationManagerMock.Login).toHaveBeenCalledTimes(1);
   // Prüfe Ergebnis
   expect(wrapper.get("#errorMsg").text()).toEqual(errortext);
  });
 
  it("Login leer", async () => {
+  AuthenticationManagerMock.CheckLocalTokenValid;
   const wrapper = shallowMount(Login, {
    global: {
     provide: {
      // wird immer "" ==OK liefern bei Login
-     AuthenticationManager: new AuthenticationManagerMock(""),
+     AuthenticationManager: AuthenticationManagerMock,
     },
    },
   });
@@ -68,6 +80,9 @@ describe("Login test", () => {
   DoLogin(wrapper, "", "");
   // wichtig, da der Klick auf #login asynchron behandelt wird!
   await flushPromises();
+  // prüfe Aufrufe
+  expect(AuthenticationManagerMock.CheckLocalTokenValid).toHaveBeenCalledTimes(1);
+  expect(AuthenticationManagerMock.Login).toHaveBeenCalledTimes(0);
   // Prüfe Ergebnis
   expect(wrapper.get("#errorMsg").text()).toEqual("Username and Password required!");
  });
@@ -77,7 +92,7 @@ describe("Login test", () => {
    global: {
     provide: {
      // wird immer "" == OK liefern bei Login
-     AuthenticationManager: new AuthenticationManagerMock(""),
+     AuthenticationManager: AuthenticationManagerMock,
     },
    },
   });
@@ -85,6 +100,9 @@ describe("Login test", () => {
   DoLogin(wrapper, "Benutzername", "Kennwort");
   // wichtig, da der Klick auf #login asynchron behandelt wird!
   await flushPromises();
+  // prüfe Aufrufe
+  expect(AuthenticationManagerMock.CheckLocalTokenValid).toHaveBeenCalledTimes(1);
+  expect(AuthenticationManagerMock.Login).toHaveBeenCalledTimes(1);
   // Prüfe Ergebnis
   expect(wrapper.get("#errorMsg").text()).toEqual("");
  });
