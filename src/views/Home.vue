@@ -180,7 +180,7 @@ onMounted(async () => {
  // if (AppState.Token) // Sprint 2+3
  await ShowCategorySet();
 
- //#region ------ SignalR (Spring 5)
+ //#region ------ SignalR (Spring 6)
  console.log("*** SignalR Init HubConnection...");
  // ASP.NET Core SignalR-Verbindung konfigurieren
  HubConnection.value = new signalR.HubConnectionBuilder().withUrl(process.env.VUE_APP_ENV_Backend + "/MLHub").build();
