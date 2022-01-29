@@ -1,5 +1,5 @@
 // Jest Unit Tests für MiracleList Login.vue
-// https://nightwatchjs.org/guide
+// https://jestjs.io/
 
 import { flushPromises, shallowMount } from "@vue/test-utils";
 import Login from "@/views/Login.vue";
