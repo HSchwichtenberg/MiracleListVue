@@ -188,7 +188,7 @@ async function RemoveCategory(c: Category) {
 async function RemoveTask(t: Task) {
  // Sprint 2 bis 4
  if (t == null || !t.taskID) return;
- var text = `Do you want to remove Task #${t.taskID} <b>${t.title}</b>?`;
+ var text = `Do you want to remove Task #${t.taskID} "${t.title}"?`;
  if (!confirm(text)) return;
  await proxy.deleteTask(t.taskID, AppState.Token);
  await ShowTaskSet(data.category);
