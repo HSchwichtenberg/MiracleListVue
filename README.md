@@ -6,6 +6,10 @@ Diese Webanwendung läuft zu Test- und Schulungszwecken live in der Cloud: <a hr
 Eingesetzte Techniken im Client: Vue.js 3, Vue CLI, TypeScript, Bootstrap, Moment.js, Vuelidate, SignalR, vue.draggable, Vue-Toastification, Jest, Vue Test Utils, Nightwatch
 
 # Branches
+
+Das Vue.js-Buch zu diesem Code: <a href="https://it-visions.de/vuebuch">Vue.js 3 Crashkurs</a>
+
+# Branches
 - <a href="https://github.com/HSchwichtenberg/MiracleListVue/tree/Sprint1">Sprint 1</a>: Ausgangszustand
 - <a href="https://github.com/HSchwichtenberg/MiracleListVue/tree/Sprint2">Sprint 2</a>: REST-Dienste nutzen, Rendern von Daten mit Templates, Benutzerereignisse
 - <a href="https://github.com/HSchwichtenberg/MiracleListVue/tree/Sprint3">Sprint 3</a>: Formulare, Zwei-Wege-Datenbindung, modalen Dialoge, Komponentenbildung
@@ -79,6 +83,11 @@ npm run test:e2e
 ### Lints and fixes files
 ```
 npm run lint
+```
+
+### Vue CLI Web GUI
+```
+vue ui
 ```
 
 ### Customize configuration
