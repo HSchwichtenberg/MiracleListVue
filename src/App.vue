@@ -1,18 +1,18 @@
 <template>
  <div class="row" style="background: white; margin-bottom: 10px">
-  <span class="col-xs-10 col-sm-4 col-md-3 col-lg-2">
+ <div class="col-xs-10 col-sm-4 col-md-3 col-lg-2">
    <img @click="ShowAbout" src="/img/MiracleListLogo.jpg" />
 
    <!-- <router-link to="/About">About>
       <img  src="/img/MiracleListLogo.jpg" />
       </router-link>-->
-  </span>
+  </div>
   <!--  Anzeige dieses Blocks oben nur auf großen Displays -->
-  <span class="col-xs-6 col-lg-9 col-sm-7 col-md-8 hidden-xs" style="vertical-align: middle; margin-top: 25px">
+  <div class="col-xs-6 col-lg-9 col-sm-7 col-md-8 hidden-xs" style="vertical-align: middle; margin-top: 25px">
    <UserStatus :username="AppState.Username.value"></UserStatus>
-  </span>
+  </div>
 
-  <span class="col-xs-1">
+  <div class="col-xs-1">
    <ul class="nav navbar-nav navbar-right">
     <li class="dropdown">
      <a class="dropdown-toggle" data-toggle="dropdown">
@@ -51,16 +51,16 @@
      </ul>
     </li>
    </ul>
-  </span>
+  </div>
  </div>
 
  <div class="row">
-  <span class="col-xs-12">
+  <div class="col-xs-12">
    <router-view />
-  </span>
+  </div>
  </div>
  <div class="row">
-  <span class="col-xs-12">
+  <div class="col-xs-12">
    <hr />
    <div>
     MiracleListVue {{ appVersion }} running on Vue.js {{ vueVersion }} - released {{ releaseDate }}
@@ -81,7 +81,7 @@
    <span class="hidden-sm hidden-md hidden-lg">
     <UserStatus :username="AppState.Username.value"></UserStatus>
    </span>
-  </span>
+  </div>
  </div>
 </template>
 

@@ -20,7 +20,7 @@
     </div>
     <div class="row">
      <!--Wichtigkeit-->
-     <span class="col-xs-3" style="padding-right: 2px">
+     <div class="col-xs-3" style="padding-right: 2px">
       <div class="form-group">
        <label for="taskimportance" class="control-label">Importance</label>
        <select id="taskimportance" name="taskimportance" v-model="t.importance" class="form-control">
@@ -34,20 +34,20 @@
         </option>
        </select>
       </div>
-     </span>
+     </div>
      <!--Aufwand-->
-     <span class="col-xs-3" style="padding-left: 2px; padding-right: 2px">
+     <div class="col-xs-3" style="padding-left: 2px; padding-right: 2px">
       <label for="taskeffort" class="control-label" >Effort</label>
       <input id="taskeffort" type="number" name="taskeffort" v-model="t.effort" class="form-control" />
-     </span>
+     </div>
      <!--Fälligkeit-->
-     <span class="col-xs-6" style="padding-left: 2px">
+     <div class="col-xs-6" style="padding-left: 2px">
       <div class="form-group" :class="{'has-error': v$.due.$error}">
        <label for="taskDue" class="control-label" :title="t.due">Due</label> <span style="color: red" v-if="v$.due.$error">*</span>
        <input id="taskdue" name="taskdue" type="date" v-model="taskDue" class="form-control" />
       </div>
     
-     </span>
+     </div>
     </div>
     <!--Ende row-->
     <!--Unteraufgaben-->
