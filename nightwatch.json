@@ -1,4 +1,5 @@
 {
+ "page_objects_path" : "",
  "test_settings": {
    "chrome": {
      "desiredCapabilities": {

@@ -381,10 +381,10 @@ function DragTask(ev, task: Task) {
 
 // Sprint 5
 async function DropTaskToCategory(ev, category: Category) {
- const task = JSON.parse(ev.dataTransfer.getData("task")) as Task;
+ const task = JSON.parse(ev.dataTransfer.getData("task")) as Task; // Hole fallengelassenes Task-Objekt
  console.log("Drop", task.taskID, task.categoryID, category.categoryID);
- task.categoryID = category.categoryID;
- await proxy.changeTask(AppState.Token, task);
- await ShowTaskSet(data.category);
+ task.categoryID = category.categoryID; // Ändere Kategorie
+ await proxy.changeTask(AppState.Token, task); // Speichern im Backend
+ await ShowTaskSet(data.category); // Refresh der Aufgabenliste vom Backend
 }
 </script>
