@@ -3,7 +3,7 @@ import { LoginInfo } from "./MiracleListProxyV2";
 
 /**
  * Globaler Anwendungszustand mit statischen Mitgliedern
- * Alternative Flux via Vuex4 für Vue.js 3.x https://next.vuex.vuejs.org/
+ * Alternative Flux via Vuex4 für Vue.js 3.x https://next.vuex.vuejs.org/ oder Pinia https://pinia.vuejs.org/
  */
 export class AppState {
 
