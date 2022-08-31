@@ -3,7 +3,6 @@
  padding-right: 2px;
  padding-left: 2px;
 }
-
 .MLselected {
  background-color: #e0eefa !important;
 }
