@@ -143,8 +143,8 @@ const data = reactive({
  taskSet: ref<Array<Task>>(),
  category: ref<Category | null>(),
  task: ref<Task | null>(),
- newCategoryName: ref<string>(),
- newTaskTitle: ref<string>(),
+ newCategoryName: ref<string>(), // oder: newCategoryName : "",
+ newTaskTitle: ref<string>(), // oder: newTaskTitle : "",
 });
 //#endregion
 
