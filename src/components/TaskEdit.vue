@@ -42,7 +42,7 @@
      <!--Fälligkeit-->
      <span class="col-xs-6" style="padding-left: 2px">
       <div class="form-group" >
-       <label for="taskDue" class="control-label" :title="t.due">Due</label> 
+       <label for="taskDue" class="control-label" :title="t.due?.toString()">Due</label> 
        <input id="taskdue" name="taskdue" type="date" v-model="taskDue" class="form-control" />
       </div>
      </span>
