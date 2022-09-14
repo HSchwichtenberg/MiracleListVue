@@ -1266,7 +1266,7 @@
     /* config.plugin('define') */
     new DefinePlugin(
       {
-        'process.env': {
+        'import.meta.env': {
           NODE_ENV: '"production"',
           BASE_URL: '"/"',
           VERSION: '"0.4.0"',

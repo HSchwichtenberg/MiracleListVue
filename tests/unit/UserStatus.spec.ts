@@ -1,11 +1,11 @@
-import { shallowMount } from '@vue/test-utils'
+import { shallowMount, mount } from '@vue/test-utils'
 import UserStatus from '@/components/UserStatus.vue'
-
+import { vi,describe, it, expect, afterEach } from "vitest";
 describe('UserStatus not logged in', () => {
   it("UserStatus shows You're not signed in", () => {
     const name = 'max mustermann'
 
-    const wrapper = shallowMount(UserStatus, {
+    const wrapper = mount(UserStatus, {
      Username: { name }
     })
 

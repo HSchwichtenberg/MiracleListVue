@@ -16,7 +16,6 @@ const routes: Array<RouteRecordRaw> = [
   name: 'Home',
   //component: Home,
   component: () => import(
-                   /* webpackChunkName: "home" */ 
                   '@/views/Home.vue'),
                   alias: ['/home'],
   meta: { requiresAuth: true } // Sprint4
@@ -26,7 +25,6 @@ const routes: Array<RouteRecordRaw> = [
   name: 'About',
   //component: About
   component: () => import(
-                   /* webpackChunkName: "about" */    
                    '@/views/About.vue')
  }
 ]
@@ -34,7 +32,7 @@ const routes: Array<RouteRecordRaw> = [
 console.log("ROUTER INIT"); // Router wird vor main.ts ausgeführt!
 
 const router = createRouter({
- history: createWebHistory(process.env.BASE_URL),
+ history: createWebHistory(import.meta.env.BASE_URL),
  routes
 })
 

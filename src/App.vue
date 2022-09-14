@@ -104,7 +104,7 @@ function ShowAbout() {
  else router.replace("/About");
 }
 
-const backend = process.env.VUE_APP_ENV_Backend;
+const backend = import.meta.env.VITE_ENV_Backend;
 
 onMounted(() => {
  console.log("App.vue:OnMounted");

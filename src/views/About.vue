@@ -39,7 +39,7 @@ import { version as appversion } from "../../package.json";
 let result = ref("");
 let serverAppVersion = ref("");
 let serverFramework = ref("");
-let serverURL = process.env.VUE_APP_ENV_Backend;
+let serverURL = import.meta.env.VITE_ENV_Backend;
 let clientURL = window.location.origin;
 
 async function About() {
@@ -52,7 +52,7 @@ async function About() {
  serverFramework.value = r[8];
 
  // oder
- // var proxy = new MiracleListProxy(process.env.VUE_APP_ENV_Backend);
+ // var proxy = new MiracleListProxy(import.meta.env.VITE_ENV_Backend);
  // proxy.about()
  // .then(r => {  result.value = "Ergebnis:" + r;
  // console.log("About:Antwort vom Server!", r)

@@ -17,15 +17,15 @@ import Toast, { PluginOptions, POSITION } from "vue-toastification";
 import "vue-toastification/dist/index.css";
 
 // Ausgabe der Versionsnummer an Konsole und im Browsertitel
-console.log(`main.ts: Starting Vue.js ${vueVersion} App ${process.env.VERSION}, released ${process.env.RELEASEDATE}`);
-document.title = "MiracleListVue " + process.env.VERSION;
-console.log("Backend",process.env.VUE_APP_ENV_Backend,process.env.VUE_APP_ENV_ClientID )
+console.log(`main.ts: Starting Vue.js ${vueVersion} App ${import.meta.env.VERSION}, released ${import.meta.env.RELEASEDATE}`);
+document.title = "MiracleListVue " + import.meta.env.VERSION;
+console.log("Backend",import.meta.env.VITE_ENV_Backend,import.meta.env.VITE_ENV_ClientID )
 
 // Vue App erzeugen
 const app = createApp(App)
 
 // Dependency Injection (Sprint 4)
-app.provide('MiracleListProxy', new MiracleListProxy(process.env.VUE_APP_ENV_Backend))
+app.provide('MiracleListProxy', new MiracleListProxy(import.meta.env.VITE_ENV_Backend))
 app.provide('AuthenticationManager', new AuthenticationManager())
 
 // Plugin für Vue-Toastification (Sprint 5)

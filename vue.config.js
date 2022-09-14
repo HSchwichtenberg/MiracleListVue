@@ -11,10 +11,10 @@ module.exports = {
      config
           .plugin('define')
           .tap(args => {
-             // Daten aus package.json' für main.ts in process.env speichern
+             // Daten aus package.json' für main.ts in import.meta.env speichern
              let pj = require('./package.json'); 
-             args[0]['process.env']['VERSION'] = JSON.stringify(pj.version)
-             args[0]['process.env']['RELEASEDATE'] = JSON.stringify(pj.releaseDate)
+             args[0]['import.meta.env']['VERSION'] = JSON.stringify(pj.version)
+             args[0]['import.meta.env']['RELEASEDATE'] = JSON.stringify(pj.releaseDate)
              return args
           })
   }

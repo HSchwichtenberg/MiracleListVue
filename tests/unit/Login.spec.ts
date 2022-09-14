@@ -1,30 +1,26 @@
-// Jest Unit Tests für MiracleList Login.vue
-// https://jestjs.io/
+// Vitest Unit Tests für MiracleList Login.vue
+// https://vitest.dev/
 
-import { flushPromises, shallowMount } from "@vue/test-utils";
 import Login from "@/views/Login.vue";
+import { vi} from "vitest";
+import { describe, it, expect, afterEach } from "vitest";
+import { flushPromises, shallowMount, mount } from "@vue/test-utils";
 
-// Eigenes Mock-Objekt
-// export class AuthenticationManagerMock {
-//  constructor(public loginOK: string = "") {}
-//  public async Login(username: string, password: string): Promise<string> {
-//   return this.loginOK;
-//  }
-//  public async CheckLocalTokenValid(): Promise<boolean> {
-//   return false;
-//  }
-// }
+// erfüllt die Aufgabe wie "resetMocks: true" in Jest
+afterEach(() => {
+ vi.clearAllMocks();
+});
 
-// Jest-basiertes Mock-Objekt
+// Mock-Objekt für AuthenticationManager
 const AuthenticationManagerMock = {
- Login: jest.fn(),
- CheckLocalTokenValid: jest.fn().mockResolvedValue(false),
+ Login: vi.fn(),
+ CheckLocalTokenValid: vi.fn().mockResolvedValue(false),
 };
 
-// Modul via Jest mocken
-jest.mock("vue-router", () => ({
+// Router-Modul mocken
+vi.mock("vue-router", () => ({
  useRouter: () => ({
-  push: jest.fn(),
+  push: vi.fn(),
  }),
  useRoute: () => ({
   path: "/",
@@ -43,12 +39,11 @@ async function DoLogin(wrapper, username, password) {
 }
 
 describe("Login Test", () => {
- 
  it("Login Error", async () => {
-  const errortext = "Login Error!";
+  const errortext = "Login Error";
   AuthenticationManagerMock.Login.mockResolvedValueOnce(errortext);
 
-  const wrapper = shallowMount(Login, {
+  const wrapper = mount(Login, {
    global: {
     provide: {
      // wird immer Fehlertext liefern bei Login
@@ -64,12 +59,12 @@ describe("Login Test", () => {
   expect(AuthenticationManagerMock.CheckLocalTokenValid).toHaveBeenCalledTimes(1);
   expect(AuthenticationManagerMock.Login).toHaveBeenCalledTimes(1);
   // Prüfe Ergebnis
-  expect(wrapper.get("#errorMsg").text()).toEqual(errortext);
+   expect(wrapper.get("#errorMsg").text()).toEqual(errortext);
  });
 
  it("Login leer", async () => {
   AuthenticationManagerMock.CheckLocalTokenValid;
-  const wrapper = shallowMount(Login, {
+  const wrapper = mount(Login, {
    global: {
     provide: {
      // wird immer "" ==OK liefern bei Login
@@ -89,7 +84,7 @@ describe("Login Test", () => {
  });
 
  it("Login OK", async () => {
-  const wrapper = shallowMount(Login, {
+  const wrapper = mount(Login, {
    global: {
     provide: {
      // wird immer "" == OK liefern bei Login

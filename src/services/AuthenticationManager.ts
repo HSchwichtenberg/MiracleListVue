@@ -13,12 +13,12 @@ export class AuthenticationManager {
     let result = "Unknown Login Error";
 
     const l = new LoginInfo();
-    l.clientID = process.env.VUE_APP_ENV_ClientID;
+    l.clientID = import.meta.env.VITE_ENV_ClientID;
     l.username = username;
     l.password = password;
 
     console.log("AuthenticationManager: Login...", l)
-    const c = new MiracleListProxy(process.env.VUE_APP_ENV_Backend);
+    const c = new MiracleListProxy(import.meta.env.VITE_ENV_Backend);
     // TODO: inject("proxy"); // geht hier nicht :-(
     await c.login(l)
       .then(r => {
@@ -56,8 +56,8 @@ export class AuthenticationManager {
       console.log(`AuthenticationManager: Checking local token ${token}...`);
       const l = new LoginInfo()
       l.token = token;
-      l.clientID = process.env.VUE_APP_ENV_ClientID;
-      AppState.CurrentLoginInfo.value = await new MiracleListProxy(process.env.VUE_APP_ENV_Backend).login(l);
+      l.clientID = import.meta.env.VITE_ENV_ClientID;
+      AppState.CurrentLoginInfo.value = await new MiracleListProxy(import.meta.env.VITE_ENV_Backend).login(l);
       if (AppState.CurrentLoginInfo == null || !AppState.CurrentLoginInfo.value.token) { // Token ungültig!
         console.warn(`AuthenticationManager: Token not valid: ${AppState.CurrentLoginInfo.value.message}!`);
         localStorage.removeItem(this.STORAGE_KEY);

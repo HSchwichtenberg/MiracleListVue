@@ -1,7 +1,7 @@
-import { shallowMount, flushPromises } from "@vue/test-utils";
+import { shallowMount, mount, flushPromises } from "@vue/test-utils";
 import TaskEdit from "@/components/TaskEdit.vue";
 import { Task } from "@/services/MiracleListProxyV2";
-
+import { vi,describe, it, expect, afterEach } from "vitest";
 /**
  * Hilfsroutine für TaskEdit-Tests
  * Instanziert Komponente und prüft Daten
@@ -19,7 +19,7 @@ function InitTaskEdit(valid: boolean) {
  }
 
  // Komponente zum Test instanzieren
- const wrapper = shallowMount(TaskEdit, {
+ const wrapper = mount(TaskEdit, {
   props: { task: t },
  });
 

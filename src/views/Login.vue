@@ -60,12 +60,12 @@ let message = ref("");
 
 onMounted(async () => {
  console.log("Login:OnMounted");
- if (process.env.NODE_ENV === "development") {
-  username.value = process.env.VUE_APP_ENV_DebugUser;
-  password.value = process.env.VUE_APP_ENV_DebugPassword;
+ if (import.meta.env.NODE_ENV === "development") {
+  username.value = import.meta.env.VITE_ENV_DebugUser;
+  password.value = import.meta.env.VITE_ENV_DebugPassword;
  }
  // Abmeldewunsch?
- if (route.path.toLowerCase().includes("/logout")) am.Logout();
+ if (route && route.path.toLowerCase().includes("/logout")) am.Logout();
  // vorhandenes Token?
  if (await am.CheckLocalTokenValid()) router.push("/");
 });
@@ -77,7 +77,7 @@ async function Login() {
   return;
  }
  let r = await am.Login(username.value, password.value);
- if (!r) router.push("Home");
+ if (!r && router) router.push("Home");
  else message.value = r;
 }
 </script>
