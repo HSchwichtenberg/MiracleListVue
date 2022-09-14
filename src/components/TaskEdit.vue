@@ -43,7 +43,7 @@
      <!--Fälligkeit-->
      <span class="col-xs-6" style="padding-left: 2px">
       <div class="form-group" :class="{'has-error': v$.due.$error}">
-       <label for="taskDue" class="control-label" :title="t.due">Due</label> <span style="color: red" v-if="v$.due.$error">*</span>
+       <label for="taskDue" class="control-label" :title="t.due?.toString()">Due</label> <span style="color: red" v-if="v$.due.$error">*</span>
        <input id="taskdue" name="taskdue" type="date" v-model="taskDue" class="form-control" />
       </div>
     
@@ -123,7 +123,7 @@ const rules = {
  }
 };
 
-const v$ = useVuelidate(rules, props.task!, { $autoDirty: true });
+const v$ = useVuelidate(rules, props.task as any, { $autoDirty: true });
 //#endregion
 
 //#region Benutzeraktionen
