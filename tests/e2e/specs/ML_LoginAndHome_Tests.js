@@ -81,7 +81,8 @@ module.exports = {
   // Erzeuge 10 Aufgaben in der neuen Kategorie
   for (var i = 1; i <= 10; i++) {
    var newTaskName = "task #" + i;
-   browser.setValue("input[name=newTaskTitle]", newTaskName).keys(browser.Keys.ENTER).assert.containsText("#taskCount", i);
+   browser.setValue("input[name=newTaskTitle]", newTaskName).sendKeys("input[name=newTaskTitle]", browser.Keys.ENTER).assert.containsText("#taskCount", i); 
+   // browser.keys(browser.Keys.ENTER); // funktioniert nicht mehr in Nightwatch 2.3.5 :-(
   }
   browser.saveScreenshot("tests/e2e/reports/TasksCreated.png");
   browser.assert.elementCount('#taskList li', 10) // Custom Assertion
