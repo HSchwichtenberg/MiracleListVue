@@ -80,6 +80,16 @@ npm run test:unit
 npm run test:e2e
 ```
 
+### Run specific tests headless
+```
+npm run test:e2e -- --headless  
+```
+
+### Run specific end-to-end tests in specific browser
+```
+npm run test:e2e -- ./tests/e2e/specs/ML_LoginAndHome_Tests.js  --testcase "login, create category with tasks and remove" --env chrome
+```
+
 ### Lints and fixes files
 ```
 npm run lint
