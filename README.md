@@ -3,7 +3,7 @@ Autor: Dr. Holger Schwichtenberg, <a href="http://www.IT-Visions.de">www.IT-Visi
 
 Diese Webanwendung läuft zu Test- und Schulungszwecken live in der Cloud: <a href="http://miraclelist-vue.azurewebsites.net">http://miraclelist-vue.azurewebsites.net</a>
 
-Eingesetzte Techniken im Client: Vue.js 3, Vue CLI, TypeScript, Bootstrap, Moment.js, Vuelidate, SignalR, vue.draggable, Vue-Toastification, Jest, Vue Test Utils, Nightwatch
+Eingesetzte Techniken im Client: Vue.js 3, ~~Vue CLI~~ **Vite**, TypeScript, Bootstrap, Moment.js, Vuelidate, SignalR, vue.draggable, Vue-Toastification, ~~Jest~~ **Vitest**, Vue Test Utils, Nightwatch
 
 # Fachbuch
 
@@ -17,6 +17,7 @@ Das Vue.js-Buch zu diesem Code: <a href="https://it-visions.de/vuebuch">Vue.js 3
 - <a href="https://github.com/HSchwichtenberg/MiracleListVue/tree/Sprint5">Sprint 5</a>: Design und User Experience 
 - <a href="https://github.com/HSchwichtenberg/MiracleListVue/tree/Sprint6">Sprint 6</a>: Automatisierte Tests (Unit Tests und Ende-zu-Ende-Tests)
 - <a href="https://github.com/HSchwichtenberg/MiracleListVue/tree/Main">Main</a>: Aktueller Entwicklungsstand, der über Sprint 6 hinausgeht
+- <a href="https://github.com/HSchwichtenberg/MiracleListVue/tree/Vite">Vite</a>: Migration von Vue CLI mit Jest und Nightwatch nach Vite mit Vitest und Nightwatch
 
 # Was ist MiracleList?
 <img align="right" src="/public/img/MiracleListLogo.jpg">
@@ -53,42 +54,29 @@ UpperCamelCasing (Pascal Casing)
 - Methoden/Funktionen auf Komponentenebene
 - Öffenliche Properties
 
-# Kommandozeilenbefehle der Vue CLI
+# Wichtige Kommandozeilenbefehle für Vite
 
-## Project setup
+## Paket installieren
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Entwicklungswebserver mit Hot Reload
 ```
-npm run serve
+npm run dev
 ```
 
-### Compiles and minifies for production
+### Produktionsbuild
 ```
 npm run build
 ```
 
-### Run your unit tests
+### Unit Tests mit Vitest
 ```
 npm run test:unit
 ```
 
-### Run your end-to-end tests
+### Unit Tests mit Nightwatch
 ```
 npm run test:e2e
 ```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Vue CLI Web GUI
-```
-vue ui
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
