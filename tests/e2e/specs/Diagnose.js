@@ -1,22 +1,24 @@
 // For authoring Nightwatch tests, see
 // https://nightwatchjs.org/guide
 
-// require("chai").expect;
+require("chai").expect;
 
-// module.exports = {
-//  diagnose: (browser) => {
-//   browser.init();
+module.exports = {
+ diagnose: (browser) => {
+  browser.init();
 
-//   browser.url(function (result) {
-//    // print the current url
-//    console.log(result);
-//   });
+  console.log("+++ Nightwatch Diagnose Test +++");
 
-//   // classic Nightwatch Assertion
-//   browser.assert.urlContains("/");
-//   // Assertion with Chai
-//   browser.expect.element('body').to.be.present;
+  console.log("Launch URL", browser.launchUrl);
+  browser.url(function (result) {
+   // print the current url
+   console.log("Launch URL", result);
+  });
 
-//   browser.end();
-//  },
-// };
+  // Classic Nightwatch Assertion
+  browser.assert.urlContains("/");
+  // Assertion with Chai
+  browser.expect.element('body').to.be.present;
+  browser.end();
+ },
+};

@@ -22,26 +22,26 @@ module.exports = {
  output_folder: './tests/e2e/reports',
 
   // // See https://nightwatchjs.org/guide/concepts/page-object-model.html
-  // page_objects_path: ['node_modules/nightwatch/examples/pages/'],
+  page_objects_path: ['./tests/e2e/page-objects/'],
 
   // // See https://nightwatchjs.org/guide/extending-nightwatch/adding-custom-commands.html
-  // custom_commands_path: ['node_modules/nightwatch/examples/custom-commands/'],
+  custom_commands_path: ['./tests/e2e/custom-commands/'],
 
   // See https://nightwatchjs.org/guide/extending-nightwatch/adding-custom-assertions.html
-  custom_assertions_path: 'tests/e2e/custom-assertions/',
+  custom_assertions_path: './tests/e2e/custom-assertions/',
 
   // See https://nightwatchjs.org/guide/extending-nightwatch/adding-plugins.html
   plugins: ["vite-plugin-nightwatch"],
   
   // See https://nightwatchjs.org/guide/concepts/test-globals.html#external-test-globals
-  globals_path : '',
+  globals_path : './tests/e2e/globals.js',
 
   webdriver: {},
 
   test_settings: {
     default: {
       disable_error_log: false,
-      launch_url: 'http://localhost:4173',
+      launch_url: 'http://localhost:5173',
 
       screenshots: {
         enabled: true,
@@ -109,28 +109,27 @@ module.exports = {
      }
    },
 
-    // edge: {
-    //   desiredCapabilities : {
-    //     browserName : 'MicrosoftEdge',
-    //     'ms:edgeOptions' : {
-    //       w3c: true,
-    //       // More info on EdgeDriver: https://docs.microsoft.com/en-us/microsoft-edge/webdriver-chromium/capabilities-edge-options
-    //       args: [
-    //         //'--headless'
-    //       ]
-    //     }
-    //   },
+    edge: {
+      desiredCapabilities : {
+        browserName : 'MicrosoftEdge',
+        'ms:edgeOptions' : {
+          w3c: true,
+          // More info on EdgeDriver: https://docs.microsoft.com/en-us/microsoft-edge/webdriver-chromium/capabilities-edge-options
+          args: [
+            //'--headless'
+          ]
+        }
+      },
 
-    //   webdriver: {
-    //     start_process: true,
-    //     // Download msedgedriver from https://docs.microsoft.com/en-us/microsoft-edge/webdriver-chromium/
-    //     //  and set the location below:
-    //     server_path: '',
-    //     cli_args: [
-    //       // --verbose
-    //     ]
-    //   }
-    // },
-   
+      webdriver: {
+        start_process: true,
+        // Download msedgedriver from https://docs.microsoft.com/en-us/microsoft-edge/webdriver-chromium/
+        //  and set the location below:
+        server_path: '.\\tests\\e2e\\msedgedriver.exe',
+        cli_args: [
+           '-verbose'
+        ]
+      }
+    },  
   }
  }
