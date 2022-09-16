@@ -56,7 +56,7 @@ UpperCamelCasing (Pascal Casing)
 
 # Wichtige Kommandozeilenbefehle für Vite
 
-## Paket installieren
+## Pakete installieren
 ```
 npm install
 ```
@@ -76,7 +76,7 @@ npm run build
 npm run test:unit
 ```
 
-### Unit Tests mit Nightwatch
+### End-to-End Tests (Browser-UI-Tests) mit Nightwatch
 ```
 npm run test:e2e
 ```
