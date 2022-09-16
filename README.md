@@ -17,6 +17,7 @@ Das Vue.js-Buch zu diesem Code: <a href="https://it-visions.de/vuebuch">Vue.js 3
 - <a href="https://github.com/HSchwichtenberg/MiracleListVue/tree/Sprint5">Sprint 5</a>: Design und User Experience 
 - <a href="https://github.com/HSchwichtenberg/MiracleListVue/tree/Sprint6">Sprint 6</a>: Automatisierte Tests (Unit Tests und Ende-zu-Ende-Tests)
 - <a href="https://github.com/HSchwichtenberg/MiracleListVue/tree/Main">Main</a>: Aktueller Entwicklungsstand, der über Sprint 6 hinausgeht
+- <a href="https://github.com/HSchwichtenberg/MiracleListVue/tree/Vite">Vite</a>: Migration von Vue CLI mit Jest und Nightwatch nach Vite mit Vitest und Nightwatch
 
 # Was ist MiracleList?
 <img align="right" src="/public/img/MiracleListLogo.jpg">
@@ -55,42 +56,42 @@ UpperCamelCasing (Pascal Casing)
 
 # Kommandozeilenbefehle der Vue CLI
 
-## Project setup
+## Pakete installieren
 ```
 npm install
 ```
 
-### Compiles and hot-reloads for development
+### Entwicklungswebserver mit Hot Reload
 ```
 npm run serve
 ```
 
-### Compiles and minifies for production
+### Produktionsbuild
 ```
 npm run build
 ```
 
-### Run your unit tests
+### Unit Tests mit Jest
 ```
 npm run test:unit
 ```
 
-### Run your end-to-end tests
+### End-to-End Tests (Browser-UI-Tests) mit Nightwatch
 ```
 npm run test:e2e
 ```
 
-### Run specific tests headless
+### End-to-End Tests ohne Browserfenster
 ```
 npm run test:e2e -- --headless  
 ```
 
-### Run specific end-to-end tests in specific browser
+### Einzelner End-to-End Test in bestimmtem Browser
 ```
 npm run test:e2e -- ./tests/e2e/specs/ML_LoginAndHome_Tests.js  --testcase "login, create category with tasks and remove" --env chrome
 ```
 
-### Lints and fixes files
+### Linting
 ```
 npm run lint
 ```
@@ -100,5 +101,5 @@ npm run lint
 vue ui
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Konfigiuration anpassen
+Configuration Reference](https://cli.vuejs.org/config/).
