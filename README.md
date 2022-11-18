@@ -18,6 +18,9 @@ Das Vue.js-Buch zu diesem Code: <a href="https://it-visions.de/vuebuch">Vue.js 3
 - <a href="https://github.com/HSchwichtenberg/MiracleListVue/tree/Sprint6">Sprint 6</a>: Automatisierte Tests (Unit Tests und Ende-zu-Ende-Tests)
 - <a href="https://github.com/HSchwichtenberg/MiracleListVue/tree/Main">Main</a>: Aktueller Entwicklungsstand, der über Sprint 6 hinausgeht
 
+# Wichtig: Notwendige Client-ID für die Nutzung des Backends
+MiracleList basiert auf einem in der öffentlich Cloud zugänglichen <a href="https://miraclelistbackend.azurewebsites.net">Backend</a>. Sie benötigen eine Client-ID, die Sie unter https://miraclelistbackend.azurewebsites.net/clientid beantragen müssen. Die Client-ID muss dann in VUE_APP_ENV_ClientID=TODO in der Datei .env im Code erfasst werden. Ohne die Client-ID ist eine erfolgreiche Anmeldung am Backend nicht möglich.
+
 # Was ist MiracleList?
 <img align="right" src="/public/img/MiracleListLogo.jpg">
  <h4>Die Aufgabenverwaltung "MiracleList" ist ein praxisnahes Fallbeispiel für eine Cross-Platform-Anwendung auf Basis einer Single-Page-Webapplication (SPA). MiracleList dient Test- und Weiterbildungszwecken, d.h. MiracleList wird sowohl in den <a href="https://www.IT-Visons.de/Schulungen">Schulungen</a> als auch in den <a href="https://www.IT-Visons.de/Verlag">Fachbüchern</a> von <a href="https://www.IT-Visons.de">www.IT-Visions.de</a> behandelt. 
