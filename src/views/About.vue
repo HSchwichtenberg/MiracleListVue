@@ -16,14 +16,14 @@
   <br />
   Vue.js Version {{ vueVersion }}
  </div>
- <div class="abstand">
+ <!-- <div class="abstand">
   <h3>Server</h3>
   URL: <a :href="serverURL">{{ serverURL }}</a>
   <br />
   {{ serverAppVersion }}
   <br />
   {{ serverFramework }}
- </div>
+ </div> -->
 </template>
 
 <style>
