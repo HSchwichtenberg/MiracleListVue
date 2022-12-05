@@ -10,20 +10,17 @@
 
  <div class="abstand">
   <h3>Client</h3>
-  URL: <a :href="clientURL">{{ clientURL }}</a>
-    <br>
-  Application Version {{ appversion }}
-  <br />
-  Vue.js Version {{ vueVersion }}
+  URL: <a :href="clientURL">{{ clientURL }}</a> <br>
+  Application Version: {{ appversion }} <br>
+  Vue.js Version: {{ vueVersion }}
  </div>
- <!-- <div class="abstand">
-  <h3>Server</h3>
-  URL: <a :href="serverURL">{{ serverURL }}</a>
-  <br />
-  {{ serverAppVersion }}
-  <br />
+ 
+ <div class="abstand">
+  <h3>Backend</h3>
+  URL: <a :href="serverURL">{{ serverURL }}</a><br />
+  {{ serverAppVersion }}<br />
   {{ serverFramework }}
- </div> -->
+  </div>
 </template>
 
 <style>
