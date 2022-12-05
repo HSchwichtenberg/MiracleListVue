@@ -16,8 +16,12 @@ moment.locale(window.navigator.language); // oder z.B. moment.locale("de-de");
 import Toast, { PluginOptions, POSITION } from "vue-toastification";
 import "vue-toastification/dist/index.css";
 
+// Infos aus package.json
+import { version } from '../package.json'
+import { releaseDate } from '../package.json'
+
 // Ausgabe der Versionsnummer an Konsole und im Browsertitel
-console.log(`main.ts: Starting Vue.js ${vueVersion} App ${import.meta.env.VERSION}, released ${import.meta.env.RELEASEDATE}`);
+console.log(`main.ts: Starting Vue.js ${vueVersion} App ${version}, released ${releaseDate}`);
 document.title = "MiracleListVue " + import.meta.env.VERSION;
 console.log("Backend",import.meta.env.VITE_ENV_Backend,import.meta.env.VITE_ENV_ClientID )
 
