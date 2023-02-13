@@ -78,6 +78,7 @@ npm run test:unit
 ```
 
 ### End-to-End Tests (Browser-UI-Tests) mit Nightwatch
+Achten Sie darauf, dass der ChromeDriver in package.json der installierten Version von Chrome entspricht!
 ```
 npm run test:e2e
 ```
