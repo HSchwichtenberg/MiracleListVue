@@ -43,7 +43,7 @@
     "@vue/eslint-config-typescript": "^11.0.0",
     "@vue/test-utils": "^2.0.0-rc.18",
     "@vue/tsconfig": "^0.1.3",
-    "chromedriver": "^105.0.0",
+    "chromedriver": "^110.0.0",
     "cypress": "^10.7.0",
     "eslint": "^8.22.0",
     "eslint-plugin-cypress": "^2.12.1",
