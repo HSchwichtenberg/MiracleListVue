@@ -10,9 +10,11 @@
 
 <template>
  <ConfirmDialog ref="confirmDialog"></ConfirmDialog>
+ 
  <div id="col1">
   <!-- ##################################### Spalte 1: Kategorien-->
-  <div v-if="data.categorySet" class="MLpanel" :class="data.task ? 'hidden-xs hidden-sm col-md-3 col-lg-2' : 'col-xs-4 col-sm-4 col-md-3 col-lg-2'">
+  <div v-if="data.categorySet" class="MLpanel" 
+       :class="data.task ? 'hidden-xs hidden-sm col-md-3 col-lg-2' : 'col-xs-4 col-sm-4 col-md-3 col-lg-2'">
    <!-- ---------- Überschrift Spalte 1-->
    <h4>
     <span style="margin-right: 5px" id="categoryCount">{{ data.categorySet.length }}</span>
@@ -39,7 +41,8 @@
      :title="'Task Category #' + c.categoryID"
      :class="{ MLselected: data.category && c.categoryID == data.category?.categoryID }">
      {{ c.name }}
-     <span id="remove" style="float: right" class="close" :title="`Remove Category #${c.categoryID}`" @click.stop="RemoveCategory(c)">&times;</span>
+     <span id="remove" style="float: right" class="close" :title="`Remove Category #${c.categoryID}`" 
+           @click.stop="RemoveCategory(c)">&times;</span>
     </li>
    </ol>
   </div>
@@ -122,8 +125,7 @@
 <script setup lang="ts">
 import { ref, reactive, onMounted, inject, computed, onUnmounted, watchEffect } from "vue";
 import { MiracleListProxy, Category, Task, Importance } from "@/services/MiracleListProxyV2";
-// import { AuthenticationManager } from '@/services/AuthenticationManager' // Sprint 4
-// Libraries 
+// Zusatzbibliotheken
 import moment from "moment";
 import draggable from "vuedraggable";
 import * as signalR from "@microsoft/signalr"; // Sprint 5
@@ -132,7 +134,7 @@ import { useToast } from "vue-toastification"; // Sprint 5
 // Unterkomponenten
 import ConfirmDialog from "@/components/ConfirmDialog.vue";
 import TaskEdit from "@/components/TaskEdit.vue";
-// Sonstige Klassen
+// Sonstige Klassen: Anwendungszustand
 import { AppState } from "@/services/AppState"; // Sprint 4
 
 const toast = useToast();
@@ -227,12 +229,15 @@ async function ShowCategorySet() {
 
 async function ShowTaskSet(c: Category | null | undefined) {
  console.log("ShowTaskSet", c);
+ // aktuelle Kategorie festlegen
  data.category = c;
  if (c && c.categoryID) {
+  // Lade Aufgaben in dieser Kategorie
   data.taskSet = await proxy.taskSet(c.categoryID, AppState.Token);
   // Sortierreihenfolge beachten!
   data.taskSet = data.taskSet.sort((x, y) => (x.order as number) - (y.order as number));
   console.log("ShowTaskSet", data.taskSet);
+  // Es gibt keine gewählte Aufgabe in dieser Kategorie
   data.task = null;
  }
 }
@@ -257,15 +262,15 @@ async function RemoveCategory(c: Category) {
  }
 }
 
-async function RemoveCategor_Alt(c: Category) {
- // Sprint 2 bis 4
- if (c == null || !c.categoryID) return;
- var text = `Do you want to remove category #${c.categoryID} ${c.name} and all related tasks?`;
- if (!confirm(text)) return;
- await proxy.deleteCategory(c.categoryID as number, AppState.Token);
- await ShowCategorySet();
-data.category = data.categorySet!.length > 0 ? (data.categorySet![0] as Category) : null;
-}
+// async function RemoveCategor_Alt(c: Category) {
+//  // Sprint 2 bis 4
+//  if (c == null || !c.categoryID) return;
+//  var text = `Do you want to remove category #${c.categoryID} ${c.name} and all related tasks?`;
+//  if (!confirm(text)) return;
+//  await proxy.deleteCategory(c.categoryID as number, AppState.Token);
+//  await ShowCategorySet();
+// data.category = data.categorySet!.length > 0 ? (data.categorySet![0] as Category) : null;
+// }
 
 async function RemoveTask(t: Task) {
  // ab Sprint 5
@@ -282,15 +287,15 @@ async function RemoveTask(t: Task) {
  }
 }
 
-async function RemoveTask_alt(t: Task) {
- // Sprint 2 bis 4
- if (t == null || !t.taskID) return;
- var text = `Do you want to remove Task #${t.taskID} <b>${t.title}</b>?`;
- if (!confirm(text)) return;
- await proxy.deleteTask(t.taskID, AppState.Token);
- await ShowTaskSet(data.category);
- data.task = null;
-}
+// async function RemoveTask_alt(t: Task) {
+//  // Sprint 2 bis 4
+//  if (t == null || !t.taskID) return;
+//  var text = `Do you want to remove Task #${t.taskID} <b>${t.title}</b>?`;
+//  if (!confirm(text)) return;
+//  await proxy.deleteTask(t.taskID, AppState.Token);
+//  await ShowTaskSet(data.category);
+//  data.task = null;
+// }
 
 async function CreateCategory() {
  if (!data.newCategoryName) return;
@@ -373,13 +378,13 @@ async function SendTaskListUpdate() {
  else console.warn("SignalR.connection: not connected!", "");
 }
 
-// Sprint 5
-function DragTask(ev, task: Task) {
+// Sprint 5: Drag&Drop
+function DragTask(ev: DragEvent, task: Task) {
  ev.dataTransfer.setData("task", JSON.stringify(task));
 }
 
-// Sprint 5
-async function DropTaskToCategory(ev, category: Category) {
+// Sprint 5: Drag&Drop
+async function DropTaskToCategory(ev: DragEvent, category: Category) {
  const task = JSON.parse(ev.dataTransfer.getData("task")) as Task; // Hole fallengelassenes Task-Objekt
  console.log("Drop", task.taskID, task.categoryID, category.categoryID);
  task.categoryID = category.categoryID; // Ändere Kategorie
