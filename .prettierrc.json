@@ -1,9 +1,9 @@
 {
-	"useTabs": false,
-    "tabWidth": 1,
-	"singleQuote": true,
-	"bracketSameLine": true,
-    "proseWrap": "never",
-	"trailingComma": "none",
-	"printWidth": 150
+ "useTabs": false,
+ "tabWidth": 1,
+ "singleQuote": true,
+ "bracketSameLine": true,
+ "proseWrap": "never",
+ "trailingComma": "none",
+ "printWidth": 150
 }
