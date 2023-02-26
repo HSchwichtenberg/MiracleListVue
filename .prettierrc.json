@@ -1,6 +1,9 @@
 {
- "tabWidth": 1,
- "bracketSameLine": true,
- "proseWrap": "never",
- "printWidth": 150
+	"useTabs": true,
+    "tabWidth": 1,
+	"singleQuote": true,
+	"bracketSameLine": true,
+    "proseWrap": "never",
+	"trailingComma": "none",
+	"printWidth": 150
 }
