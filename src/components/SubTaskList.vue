@@ -19,7 +19,7 @@
           style="margin-right:5px;"
         />
         <span :style="{ 'text-decoration': (st.done ? 'line-through' : 'none') }">{{ st.title }}</span>
-        <a @click="RemoveSubTask(st)" class="close">&times;</a>
+        <a @click="RemoveSubTask(st)" title="Remove Subtask (will be done without confirmation)" class="close">&times;</a>
       </li>
     </ul>
   </div>
