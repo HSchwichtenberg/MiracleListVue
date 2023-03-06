@@ -162,12 +162,13 @@ let IsFuture = (d: Date) => moment(d).startOf("day") > moment().startOf("day");
 const confirmDialog = ref<typeof ConfirmDialog>();
 
 // Sprint 5: SignalR
+let HubURL = import.meta.env.VITE_ENV_Backend + "/MLHub";
 let HubConnection = ref<signalR.HubConnection>();
 let HubConnected = computed(() => HubConnection.value?.state == HubConnectionState.Connected);
 // Überwachung der Zustandsänderungen der HubConnection
 watchEffect(async () => {
  AppState.HubConnectionInfo.value =
-  "SignalR: <span style='color:" + (HubConnected.value ? "green" : "red") + "'>" + HubConnection.value?.state + "<span>";
+  "SignalR: <span style='color:" + (HubConnected.value ? "green" : "red") + "'  title='" + HubURL + " Connection-ID: " + HubConnection.value?.connectionId + "'>" + HubConnection.value?.state + "<span>";
 });
 
 onMounted(async () => {
@@ -184,7 +185,7 @@ onMounted(async () => {
  //#region ------ SignalR (Spring 6)
  console.log("*** SignalR Init HubConnection...");
  // ASP.NET Core SignalR-Verbindung konfigurieren
- HubConnection.value = new signalR.HubConnectionBuilder().withUrl(import.meta.env.VITE_ENV_Backend + "/MLHub").build();
+ HubConnection.value = new signalR.HubConnectionBuilder().withUrl(HubURL).build();
  // -> eingehende Nachricht
  HubConnection.value!.on("CategoryListUpdate", async (sender: string, categoryID: number) => {
   console.log(`*** SignalR-CategoryListUpdate von ${sender}: ${categoryID}`);
