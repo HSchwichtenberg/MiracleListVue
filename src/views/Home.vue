@@ -55,7 +55,7 @@
   class="MLpanel"
   :class="data.task ? 'hidden-xs col-sm-6 col-md-5 col-lg-6' : 'col-xs-8 col-sm-8 col-md-9 col-lg-10'">
   <!-- ---------- Überschrift Spalte 1-->
-  <h4>
+  <h4 id="TaskHeadline">
    <span id="taskCount" style="margin-right: 5px"> {{ data.taskSet.length }}</span>
    <span>Tasks in</span> <span id="categoryCurrentName" style="font-weight: 600"> {{ data.category.name }}</span>
   </h4>
