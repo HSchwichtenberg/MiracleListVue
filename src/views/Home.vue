@@ -184,18 +184,18 @@ onMounted(async () => {
  await ShowCategorySet();
 
  //#region ------ SignalR (Sprint 6)
- console.log("*** SignalR Init HubConnection...");
+ console.log(`SignalR.Connecting to ${HubURL}`);
  // ASP.NET Core SignalR-Verbindung konfigurieren
  HubConnection.value = new signalR.HubConnectionBuilder().withAutomaticReconnect().withUrl(HubURL).build();
  // -> eingehende Nachricht
  HubConnection.value!.on("CategoryListUpdate", async (sender: string, categoryID: number) => {
-  console.log(`*** SignalR-CategoryListUpdate from ${sender}: ${categoryID}`);
-  toast.info(`Category List has been changed in another instance.`);
+  console.log(`SignalR.CategoryListUpdate from ${sender}: ${categoryID}`);
+  toast.log(`Category List has been changed in another instance.`);
   await ShowCategorySet();
  });
  // -> eingehende Nachricht
  HubConnection.value!.on("TaskListUpdate", async (sender: string, categoryID: number) => {
-  console.log(`*** SignalR-TaskListUpdate from ${sender}: ${categoryID}`);
+  console.log(`SignalR.TaskListUpdate from ${sender}: ${categoryID}`);
   var changedCategory: Category | undefined = data.categorySet?.find((x) => x.categoryID == categoryID);
   if (changedCategory) toast.success(`Tasks in Category ${categoryID}: ${changedCategory.name} have been changed in another instance.`);
   if (categoryID == data.category!.categoryID) {
@@ -206,7 +206,7 @@ onMounted(async () => {
  // Verbindung zum SignalR-Hub starten
  HubConnection.value!.start()
   .then(() => {
-   console.log(`*** SignalR-Connection OK (${HubConnection.value!.state}): ${HubConnection.value!.connectionId} ${AppState.Token}`);
+   console.log(`SignalR.Connection started: (${HubConnection.value!.state}): ${HubConnection.value!.connectionId} ${AppState.Token}!`);
    // Beim Hub registrieren für Ereignisse auf dem Server
    HubConnection.value!.send("Register", AppState.Token);
   })
@@ -368,6 +368,7 @@ async function ChangeTaskOrder(evt, originalEvent) {
  //   });
 }
 
+//#region SignalR-Nachrichten senden (Sprint 5)
 async function SendCategoryListUpdate() {
  console.log("SignalR.SendCategoryListUpdate", HubConnection.value!.state);
  if (HubConnected.value) await HubConnection.value!.send("CategoryListUpdate", AppState.Token);
@@ -379,6 +380,7 @@ async function SendTaskListUpdate() {
  if (HubConnected.value) await HubConnection.value!.send("TaskListUpdate", AppState.Token, data.category!.categoryID);
  else console.warn("SignalR.connection: not connected!", "");
 }
+//#endregion
 
 // Sprint 5: Drag&Drop
 function DragTask(ev: DragEvent, task: Task) {
