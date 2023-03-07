@@ -165,6 +165,7 @@ const confirmDialog = ref<typeof ConfirmDialog>();
 let HubURL = import.meta.env.VITE_ENV_Backend + "/MLHub";
 let HubConnection = ref<signalR.HubConnection>();
 let HubConnected = computed(() => HubConnection.value?.state == HubConnectionState.Connected);
+
 // Überwachung der Zustandsänderungen der HubConnection
 watchEffect(async () => {
  AppState.HubConnectionInfo.value =
