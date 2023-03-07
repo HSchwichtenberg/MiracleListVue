@@ -185,7 +185,7 @@ onMounted(async () => {
  //#region ------ SignalR (Spring 6)
  console.log("*** SignalR Init HubConnection...");
  // ASP.NET Core SignalR-Verbindung konfigurieren
- HubConnection.value = new signalR.HubConnectionBuilder().withUrl(HubURL).build();
+ HubConnection.value = new signalR.HubConnectionBuilder().withAutomaticReconnect().withUrl(HubURL).build();
  // -> eingehende Nachricht
  HubConnection.value!.on("CategoryListUpdate", async (sender: string, categoryID: number) => {
   console.log(`*** SignalR-CategoryListUpdate von ${sender}: ${categoryID}`);
