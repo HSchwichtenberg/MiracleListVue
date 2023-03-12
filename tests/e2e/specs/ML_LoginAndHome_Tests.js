@@ -56,8 +56,8 @@ module.exports = {
   browser
    .waitForElementVisible("#col1")
    .assert.urlContains("/Home")
-   .assert.elementPresent("#C_Username")
-   .assert.textContains("#C_Username", "nightwatch")
+   .assert.elementPresent("#LoggedInUser")
+   .assert.textContains("#LoggedInUser", "nightwatch")
    .saveScreenshot("tests/e2e/reports/LoginAfter.png");
 
   // Erzeuge neue Aufgabenkategorie

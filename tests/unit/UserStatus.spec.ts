@@ -10,6 +10,6 @@ describe('UserStatus not logged in', () => {
     })
 
     expect(wrapper.text()).toMatch("You're not signed in!")
-    expect(wrapper.get('#C_Username').text()).toBe("You're not signed in!")
+    expect(wrapper.get('#LoggedInUser').text()).toBe("You're not signed in!")
   })
 })
