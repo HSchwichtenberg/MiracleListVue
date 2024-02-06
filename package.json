@@ -1,7 +1,7 @@
 {
   "name": "miraclelist-client",
-  "version": "0.7.0",
-  "releaseDate": "05.12.2022",
+  "version": "0.7.1",
+  "releaseDate": "06.02.2024",
   "private": true,
   "scripts": {
     "dev": "vite",
