@@ -85,7 +85,9 @@ const props = defineProps({
  task: Task
 });
 // ===  Events
-const emit = defineEmits(["TaskEditDone"]);
+const emit = defineEmits<{
+    TaskEditDone: [changed: Boolean]
+}>();
 //#endregion
 
 // Wrapper für Parameter t, weil Zwei-Wege-Bindung direkt an Parameter nicht möglich
